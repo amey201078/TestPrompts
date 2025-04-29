@@ -1,0 +1,101 @@
+Functional Design Document: Lead Creation and Conversion to Accounts
+Version: 1.0
+Date: [Insert Date]
+Author: [Your Name]
+Stakeholders: Sales Team, CRM Admins, IT Team
+
+1. Introduction
+1.1 Purpose
+This document outlines the end-to-end process for creating Leads in the system and converting them into Accounts, Contacts, and Opportunities. It defines functional requirements, data flow, validation rules, and scenarios.
+1.2 Scope
+* Lead creation from multiple sources (web forms, APIs, imports, etc.).
+* Lead qualification and assignment.
+* Conversion of Leads to Accounts, Contacts, and Opportunities.
+* Handling duplicates, errors, and edge cases.
+
+2. Functional Requirements
+2.1 Lead Creation
+2.1.1 Data Input Sources
+* Web Forms: Capture leads via website forms (e.g., "Contact Us").
+* API Integration: Sync leads from third-party tools (e.g., marketing automation platforms).
+* Manual Entry: Sales reps manually input leads.
+* Bulk Import: CSV/Excel uploads for batch lead creation.
+2.1.2 Mandatory Fields
+* First Name, Last Name
+* Email Address
+* Company Name
+* Lead Source (e.g., Web, Event, Referral)
+2.1.3 Validation Rules
+* Email Format: Validate name@domain.com.
+* Duplicate Check: Prevent duplicates using email/company name.
+* Phone Number: Validate format (e.g., +1-XXX-XXX-XXXX).
+2.1.4 Lead Assignment
+* Assign leads to sales reps based on:
+o Round-robin distribution.
+o Territory (e.g., geographic location).
+o Lead score (e.g., high-priority leads to senior reps).
+
+2.2 Lead Conversion
+2.2.1 Conversion Trigger
+* Manual Conversion: Sales rep initiates conversion after qualifying the lead.
+* Automatic Conversion: Triggered when lead meets criteria (e.g., lead score > 80).
+2.2.2 Data Mapping
+Lead FieldMapped ToRulesCompany NameAccount NameAuto-populate; allow edit during conversion.EmailContact EmailMandatory.PhoneAccount PhoneCopy to Account and Contact.Lead SourceAccount SourceRetain original value.2.2.3 Objects Created on Conversion
+1. Account: Company record.
+2. Contact: Primary point of contact.
+3. Opportunity (Optional): If lead is sales-qualified.
+2.2.4 Scenarios
+* Scenario 1: New Account Creation
+o Lead’s company does not exist in the system.
+o Create new Account, Contact, and Opportunity (if applicable).
+* Scenario 2: Existing Account Detected
+o System detects duplicate Account (by name/domain).
+o Merge Lead into existing Account and create new Contact.
+* Scenario 3: Partial Conversion
+o Missing critical data (e.g., email).
+o Block conversion until data is added.
+* Scenario 4: Error Handling
+o System failure during conversion ? Rollback and notify user.
+
+3. Data Model
+3.1 Lead Object Fields
+* Lead Owner, Status (New, Qualified, Disqualified), Company, Email, Phone, Lead Source.
+3.2 Account/Contact Relationships
+* One Account ? Multiple Contacts.
+* Opportunity linked to Account.
+
+4. User Roles and Permissions
+RolePermissionsSales RepCreate/edit Leads; convert to Accounts.CRM AdminConfigure validation rules; manage duplicates.ManagerView all Leads; audit conversions.
+5. Workflow Diagrams
+5.1 Lead Creation Workflow
+plaintext
+Copy
+Download
+[Web Form] ? [Validation] ? [Duplicate Check] ? [Lead Created] ? [Assignment]  
+5.2 Lead Conversion Workflow
+plaintext
+Copy
+Download
+[Qualify Lead] ? [Check for Existing Account] ? [Create Account/Contact] ? [Create Opportunity (Optional)]  
+
+6. Scenarios and Edge Cases
+6.1 Duplicate Handling
+* System Action: Flag duplicates using fuzzy matching (e.g., "Intel Corp" vs. "Intel Corporation").
+* User Action: Choose to merge or ignore.
+6.2 Data Loss Prevention
+* Preserve Lead data post-conversion (archive).
+6.3 Internationalization
+* Support phone/address formats for multiple countries.
+6.4 Bulk Conversion
+* Allow conversion of 50+ Leads in batch (async processing).
+
+7. Reporting and Analytics
+* Metrics:
+o Lead-to-Account conversion rate.
+o Time to convert (avg. days).
+o Lead source effectiveness.
+
+8. Security and Compliance
+* GDPR: Allow Leads to request data deletion.
+* Audit Trail: Log conversion history (who, when, changes).
+
