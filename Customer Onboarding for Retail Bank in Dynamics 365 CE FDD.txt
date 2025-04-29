@@ -1,0 +1,155 @@
+
+
+
+
+Customer Onboarding for Retail Bank in Dynamics 365 CE
+Functional Design Document
+
+
+
+Document Information
+Authors
+History
+VersionDateModified byChanges
+Document Review and Sign-off
+NameRoleActionDate Reviewed
+Document References
+ReferenceDocument Link/Path
+
+
+
+Table of Contents
+1. Introduction ------------------------------------------------------------------------------------------------------------
+1.1	Purpose --------------------------------------------------------------------------------------------------------
+1.2	Scope ------------------------------------------------------------------------------------------------------------
+2. Requirements ----------------------------------------------------------------------------------------------------------
+2.1 Business Requirements ----------------------------------------------------------------------------------------
+2.2 Functional Requirements--------------------------------------------------------------------------------------
+3. Onboarding Process--------------------------------------------------------------------------------------------------
+3.1 Step-by-Step Process --------------------------------------------------------------------------------------------
+3.2 Workflow Diagram ----------------------------------------------------------------------------------------------
+4 Entities Used ------------------------------------------------------------------------------------------------------------
+4.1 Standard Entities -------------------------------------------------------------------------------------------------
+  4.2 Custom Entities----------------------------------------------------------------------------------------------------
+5. System Configuration -----------------------------------------------------------------------------------------------
+5.1 Security Settings -------------------------------------------------------------------------------------------------
+    5.2 Email Configuration----------------------------------------------------------------------------------------------
+    5.3 Mobile Configuration--------------------------------------------------------------------------------------------
+     5.4Customization-----------------------------------------------------------------------------------------------------
+
+6 Customizations Required  -----------------------------------------------------------------------------------------
+6.1 Entity Customizations ----------------------------------------------------------------------------------------
+6.2 Workflow Customizations -----------------------------------------------------------------------------------
+6.3 Form Customizations -----------------------------------------------------------------------------------------
+7. Data Management---------------------------------------------------------------------------------------------------
+    7.1 Data Security------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+1. Introduction
+1.1 Purpose
+This document outlines the functional design for the customer onboarding process in Dynamics 365 Customer Engagement (CE) for a retail bank. It aims to provide a comprehensive guide to ensure a smooth and efficient onboarding experience for new banking customers.
+1.2 Scope
+The scope of this document includes the steps, requirements, configurations, entities, and customizations necessary to onboard customers into Dynamics 365 CE for a retail bank.
+2. Requirements
+2.1 Business Requirements
+* Efficient onboarding process to minimize customer wait times.
+* Integration with existing banking systems.
+* Customizable onboarding workflows to cater to different customer segments.
+* Secure handling of customer data.
+* Compliance with regulatory requirements (KYC, AML).
+2.2 Functional Requirements
+* User creation and role assignment.
+* Email setup and synchronization.
+* Mobile app integration.
+* System customization.
+* Data import (contacts, accounts, leads).
+* Identity verification and document management.
+3. Onboarding Process
+3.1 Step-by-Step Process
+Step 1: Add Users
+* Create user accounts.
+* Assign appropriate security roles.
+Step 2: Set Up Email
+* Integrate email systems for synchronization.
+* Configure email settings.
+Step 3: Mobile App Integration
+* Install Dynamics 365 mobile apps.
+* Configure mobile access for users.
+Step 4: Customize System
+* Customize fields, forms, and views.
+* Set up business rules and workflows.
+Step 5: Data Import
+* Import customer data (contacts, accounts, leads).
+* Validate and clean imported data.
+Step 6: Identity Verification
+* Implement KYC and AML checks.
+* Verify customer identity using secure methods.
+3.2 Workflow Diagram
+!Onboarding Workflow
+4. Entities Used
+4.1 Standard Entities
+* Contact: Stores information about individual customers.
+* Account: Stores information about customer organizations.
+* Lead: Stores information about potential customers.
+* Opportunity: Tracks potential sales.
+* Case: Manages customer service issues.
+* Activity: Tracks interactions such as emails, phone calls, and appointments.
+4.2 Custom Entities
+* Onboarding Task: Tracks specific tasks related to customer onboarding.
+* Onboarding Checklist: Stores checklists for the onboarding process.
+* Customer Feedback: Collects feedback from customers during onboarding.
+* Identity Verification: Manages KYC and AML checks.
+* Document Management: Stores and manages customer documents.
+5. System Configuration
+5.1 Security Settings
+* Define security roles and permissions.
+* Configure data access levels.
+5.2 Email Configuration
+* Set up email server integration.
+* Configure email templates and signatures.
+5.3 Mobile Configuration
+* Enable mobile access.
+* Configure mobile app settings.
+5.4 Customization
+* Customize entities, fields, and forms.
+* Set up automated workflows and business rules.
+6. Customizations Required
+6.1 Entity Customizations
+* Contact: Add custom fields for additional customer information.
+* Account: Customize forms to include banking-specific fields.
+* Lead: Create custom views to filter leads based on criteria.
+* Opportunity: Set up business rules to automate opportunity stages.
+* Case: Customize case resolution process with specific steps.
+* Activity: Add custom activity types for onboarding interactions.
+* Identity Verification: Implement fields for KYC and AML checks.
+* Document Management: Customize document storage and retrieval processes.
+6.2 Workflow Customizations
+* Create workflows for automated email notifications during onboarding.
+* Set up approval workflows for onboarding tasks.
+* Automate data validation and cleaning processes.
+* Implement workflows for identity verification and document management.
+6.3 Form Customizations
+* Customize forms to include onboarding-specific fields.
+* Create dashboards to monitor onboarding progress.
+* Set up interactive forms for customer feedback collection.
+7. Data Management
+7.1 Data Security
+* Ensure data encryption and secure storage.
+* Implement data access controls.
+
+
+
+
+                                      ©2020 Avanade Inc. All Rights Reserved. <Confidential>                     2
+
+
+
+
+                                                             ©2020 Avanade Inc. All Rights Reserved. <Confidential>             2
+
+
