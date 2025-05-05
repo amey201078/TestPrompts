@@ -1,0 +1,102 @@
+** AI generated document may be incorrect ** 
+Technical Specifications for Extended Table (Entity) Objects
+Customer Onboarding for Retail Bank in Dynamics 365 CE 
+This document provides comprehensive technical specifications for all identified CRM table (entity) objects, based on the provided Functional Design Document (FDD). The specifications cover table details, attributes, security, forms, automation, business logic, and integration recommendations, supporting accurate and efficient implementation in Dynamics 365 CE for a retail banking onboarding solution. 
+1. Entity (Table) Details
+1.1 Onboarding Task
+AttributeDetailsEntity NameOnboarding TaskEntity DescriptionTracks specific tasks related to customer onboarding processPrimary KeyonboardingtaskidAuditingEnabledEnable for MobileYesAttributes
+Display NameSchema NameTypeLengthRequired?Audit Enabled?Task NameonboardingtasknameSingle Line of Text100YesYesDescriptiondescriptionMultiple Lines of Text500NoYesAssigned ToowneridLookup (User/Team)-YesYesDue DateduedateDateTime-NoYesStatusstatuscodeOption Set (Pending, In Progress, Completed)-YesYesRelationships
+TypeRelated EntityRelationship NameDescriptionN:1ContactOnboardingTask_ContactEach Task is associated with a ContactN:1Onboarding ChecklistOnboardingTask_ChecklistEach Task is linked to a Checklist2. Security Roles Matrix
+RoleReadWriteCreateDeleteAppendAppend ToAssignShareOnboarding ManagerYesYesYesYesYesYesYesYesOnboarding AgentYesYesYesNoYesYesNoNoCompliance OfficerYesNoNoNoYesYesNoNo3. Forms
+* Main Form (Information): For onboarding task management (shows all required fields, related tasks, status, and timeline).
+* Quick Create Form: For rapid onboarding task creation with minimum required fields.
+* Quick View Form: For viewing onboarding task info from related entities such as Onboarding Checklist or Contact.
+4. Views
+* Active Onboarding Tasks (default view)
+* All Onboarding Tasks
+* My Onboarding Tasks
+* Completed Onboarding Tasks
+* Pending Approval Tasks
+5. Dashboards
+* Onboarding Overview Dashboard: Charts for tasks by status, overdue tasks, tasks by agent, and timeline for completion.
+* Compliance Dashboard: Insights on KYC/AML checks, pending verifications, and escalations.
+6. JavaScript Business Logic
+Objective: To enforce business required field validation and implement dynamic logic on forms.
+Sample Implementation: 
+ function validateOnboardingTaskRequiredFields(executionContext) { var formContext = executionContext.getFormContext(); var requiredFields = ["onboardingtaskname", "ownerid", "statuscode"]; var missingFields = []; requiredFields.forEach(function(field) { var value = formContext.getAttribute(field).getValue(); if (!value || (typeof value === "string" && value.trim() === "")) { missingFields.push(field); } }); if (missingFields.length > 0) { var missingLabels = missingFields.join(", "); formContext.ui.setFormNotification("Please fill required fields: " + missingLabels, "ERROR", "required_fields"); executionContext.getEventArgs().preventDefault(); } } 
+Usage: Attach this JS function to OnSave event for the Onboarding Task Main form.
+7. Workflow Details
+* Email Notification Workflow: Out-of-box recommended.
+* Approval Workflow for Onboarding Task: Custom workflow recommended for multi-level approvals.
+Sample Workflow Steps: 
+1. On record creation, check if assigned user is available
+2. If status is set to "Completed", trigger email notification to manager
+3. For approval workflow, route task for approval and update status post-approval
+8. Plugin Details
+* Onboarding Task Status Automation Plugin (C#): Ensures status cannot be set as "Completed" unless all related checklist items are marked "Done".
+Sample Plugin Implementation (C#): 
+ public class OnboardingTaskStatusPlugin : IPlugin { public void Execute(IServiceProvider serviceProvider) { IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext)); IOrganizationServiceFactory serviceFactory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory)); IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId);
+Code
+    if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity entity)
+    {
+        if (entity.LogicalName != "onboardingtask") return;
+        var status = entity.GetAttributeValue("statuscode")?.Value;
+        if (status == 3) // Completed
+        {
+            var checklistId = entity.GetAttributeValue("onboardingchecklistid")?.Id;
+            if (checklistId != null)
+            {
+                var checklist = service.Retrieve("onboardingchecklist", checklistId.Value, new ColumnSet("allitemscompleted"));
+                if (!checklist.GetAttributeValue("allitemscompleted"))
+                {
+                    throw new InvalidPluginExecutionException("All checklist items must be completed before marking task as Completed.");
+                }
+            }
+        }
+    }
+}
+} 
+9. Azure Function Details
+* Integration: For KYC/AML identity verification, integrate with external services via Azure Function (HTTP trigger).
+Sample Azure Function (C#): 
+ [FunctionName("KycVerificationFunction")] public static async Task Run( [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log) { string requestBody = await new StreamReader(req.Body).ReadToEndAsync(); var data = JsonConvert.DeserializeObject(requestBody); // Call external KYC API var result = await KycApiClient.VerifyIdentityAsync(data); return new OkObjectResult(result); } 
+Sample Azure Function (Python): 
+ import azure.functions as func import json
+def main(req: func.HttpRequest) -> func.HttpResponse: req_body = req.get_json() # Call external KYC API here result = {"verified": True, "details": "KYC Passed"} return func.HttpResponse(json.dumps(result), mimetype="application/json") 
+10. Business Rules
+* Required Field Rule: Mark “Task Name”, “Assigned To”, “Status” as required if task is active.
+* Due Date Validation: Show error if Due Date is earlier than today.
+Business Rule Logic: 
+* If Status = "Active" and Task Name is empty → Show error “Task Name is required”.
+* If Due Date < Today → Show error “Due Date cannot be in the past”.
+11. Business Process Flow
+Suggested BPF Stages: 
+1. Task Creation
+2. Assignment
+3. In Progress
+4. Verification
+5. Completion
+12. Actions
+* Custom Actions: Not needed for Onboarding Task entity.
+13. Ribbon Workbench Customizations
+* Enable Rule: Show “Mark as Completed” button only if all checklist items are complete.
+Display Rule: Hide the button for completed tasks.
+JavaScript Reference: Use function areChecklistItemsComplete() to enable/disable ribbon button. 
+14. Power BI Reports
+* Onboarding funnel analysis
+* Time-to-completion by agent
+* KYC/AML verification failure rates
+15. Power Automate Workflows
+* Type: Automated cloud flow
+* Design Steps: 
+1. Trigger: When a new onboarding task is created
+2. Condition: If status = “Pending Approval”, send approval request to manager
+3. Action: On approval, update task status to “In Progress”
+4. Action: On rejection, notify creator
+16. Integration Recommendations
+* Integrate with core banking system via Azure Function/Logic Apps for KYC/AML checks.
+* Email server integration for automated notifications.
+* Mobile app integration for agent task management.
+* Document management integration via SharePoint for secure customer document storage.
+©2025 AI-Generated Dynamics 365 CE Technical Specification
+Generated for reference only. Validate before implementation.
