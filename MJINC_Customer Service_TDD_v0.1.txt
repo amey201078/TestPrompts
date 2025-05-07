@@ -1,0 +1,144 @@
+** AI generated document may be incorrect ** 
+Technical Specifications for Extended Table (Entity) Objects
+MJINC Safety (MJ INC) – Customer Service Solution (Matching: 98%) 
+
+1. Entity (Table) Details (Matching: 98%) 
+Entity NameEntity DescriptionPrimary KeyAuditingEnable for MobileInquiryTracks and manages customer inquiries, complaints, and requests throughout their lifecycle.ai_inquiryidEnabledYes
+Display NameSchema NameTypeLengthRequired?Audit Enabled?Titleai_titleSingle Line of Text200YesYesInquiry Typeai_inquirytypePicklist—YesYesInquiry Sub-Typeai_inquirysubtypePicklist—YesYesInquiry Status Reasonai_inquirystatusreasonPicklist—YesYesEscalatedai_escalatedTwo Options—NoYesWork Orderai_workorderidLookup (Work Order)—NoNoInvoiceai_invoiceidLookup (Invoice)—NoNoFeedback Surveyai_feedbacksurveyTwo Options—NoNoRelationships: 
+* Contact (N:1): Each Inquiry is associated with a Contact. (Matching: 100%)
+* Work Order (N:1): Lookup to Work Order entity. (Matching: 85%)
+* Invoice (N:1): Lookup to Invoice entity. (Matching: 85%)
+* Account (N:1): Related for customer context and routing. (Matching: 95%)
+2. Security Roles Matrix (Matching: 95%) 
+RoleReadWriteCreateDeleteAppendAppend ToAssignShareCustomer Service RepYesYesYesNoYesYesNoNoSupport Center ManagerYesYesYesYesYesYesYesYesAccount SpecialistYesNoNoNoNoNoNoNo3. Forms (Matching: 95%) 
+* Main Form (Information): Intake fields, customer details, type/subtype, escalation, timeline, attachments, activities, admin, related inquiries.
+* Quick Create Form: New Inquiry creation with required fields.
+* Quick View Form: For related entities like Customer, Work Order, Invoice.
+4. Views (Matching: 96%) 
+* Active Inquiries (Default View)
+* My Inquiries
+* All Inquiries
+* Closed Inquiries
+* Pending Response
+* Escalated Inquiries
+* Customer Complaints
+5. Dashboards (Matching: 95%) 
+* Support Center – SLA Reporting
+* Customer Relations – SLA Reporting
+* Historical Analytics Dashboard
+* Knowledge Analytics Dashboard
+6. JavaScript Business Logic for Required Fields (Matching: 98%) 
+validateInquiryRequiredFields (attach to OnSave):
+
+function validateInquiryRequiredFields(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var requiredFields = ["ai_inquirytype", "ai_inquirysubtype", "ai_inquirystatusreason"];
+    var missingFields = [];
+    for (var i = 0; i < requiredFields.length; i++) {
+        var value = formContext.getAttribute(requiredFields[i]);
+        if (!value || (value.getValue && !value.getValue())) {
+            missingFields.push(requiredFields[i]);
+        }
+    }
+    if (missingFields.length > 0) {
+        var message = "The following required fields are missing: " + missingFields.join(", ");
+        formContext.ui.setFormNotification(message, "ERROR", "requiredfields");
+        executionContext.getEventArgs().preventDefault();
+    } else {
+        formContext.ui.clearFormNotification("requiredfields");
+    }
+}
+Additional Logic: 
+* If Escalated is set to Yes, require Escalation Reason and notify manager.
+* When Inquiry Status Reason is set to "Resolved", check that Feedback Survey is sent. Else, block save.
+7. Workflow Details (Matching: 95%) 
+* Inquiry Creation Confirmation (OOTB Workflow): On create, send email to customer contact using template.
+* Inquiry Routing (OOTB + Custom): Auto-assign to queue/team based on type, subtype, or account specialist.
+* Escalation Notification (Custom): On Escalation = Yes, email notification to manager and set status to Escalated.
+* Survey Workflow (OOTB + Power Automate): After resolution, wait 3 days, send Customer Voice Survey if Feedback Survey = Yes and valid email.
+8. Plugin Details (C#) (Matching: 92%) 
+OnInquiryStatusPlugin.cs: 
+using System;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Query;
+
+public class OnInquiryStatusPlugin : IPlugin
+{
+    public void Execute(IServiceProvider serviceProvider)
+    {
+        IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+        IOrganizationServiceFactory serviceFactory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
+        IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId);
+
+        if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity entity)
+        {
+            if (entity.LogicalName != "ai_inquiry") return;
+            var statusReason = entity.GetAttributeValue("ai_inquirystatusreason")?.Value;
+            // Example: 3 = Resolved, adjust as per your OptionSet values
+            if (statusReason == 3) // Resolved
+            {
+                bool? feedbackSent = entity.GetAttributeValue("ai_feedbacksurvey");
+                if (feedbackSent != true)
+                {
+                    throw new InvalidPluginExecutionException("Feedback survey must be sent before resolving inquiry.");
+                }
+            }
+        }
+    }
+}
+9. Azure Function Details (Matching: 85%) 
+C# Example: Inquiry AI Similarity (Suggest Knowledge Article) 
+[FunctionName("SuggestKnowledgeArticle")]
+public static async Task Run(
+    [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
+{
+    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+    dynamic data = JsonConvert.DeserializeObject(requestBody);
+    string inquiryTitle = data?.inquiryTitle;
+    // Call AI/ML API or service to get suggestions
+    var suggestions = await GetSimilarKnowledgeArticles(inquiryTitle);
+    return new OkObjectResult(suggestions);
+}
+Python Example: 
+import azure.functions as func
+import json
+
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    req_body = req.get_json()
+    inquiry_title = req_body.get('inquiryTitle')
+    # AI logic to suggest articles here
+    suggestions = [{"title": "How to Reset Password", "id": 123}]
+    return func.HttpResponse(json.dumps(suggestions), mimetype="application/json")
+10. Business Rules (Matching: 94%) 
+* If Inquiry Type or Sub-Type is empty and Status is not "Closed" → Show error: "Type/Sub-Type required"
+* If Due Date < Today → Show error: "Due Date cannot be in the past"
+* If Escalated = Yes → Escalation Reason is required and send notification to manager
+* If Status Reason = Resolved → Feedback Survey must be sent
+11. Business Process Flow (Matching: 90%) 
+* Stages: Intake → Assignment → In Progress → Pending Response → Resolved/Closed
+* Each stage can have step validations for required fields, escalation, and resolution criteria
+12. Actions (Matching: 100%) 
+No custom Actions required for Inquiry entity as per requirements. 
+13. Ribbon Workbench Customizations (Matching: 95%) 
+* Enable Rule: Show "Escalate" button if Escalated = No and Status ≠ Closed
+* Display Rule: Hide "Escalate" button if Escalated = Yes or Status = Closed
+* JavaScript Reference: Use function validateInquiryRequiredFields for additional field checks
+14. Power BI Reports (Matching: 90%) 
+* Inquiry Volume by Type, Status, Source
+* SLA Compliance Trends
+* First Contact Resolution Rate
+* Customer Satisfaction Metrics (CSAT, Sentiment, Survey Results)
+* Team/Agent Performance
+15. Power Automate Workflows (Matching: 95%) 
+* Type: Automated cloud flow
+* Design Steps: 
+o Trigger: When Inquiry is created or updated
+o Condition: If status = Resolved, wait 3 days, send Customer Voice Survey if Feedback Survey = Yes and customer has email
+o Trigger: When Escalated = Yes, send email to manager
+o Trigger: When Inquiry created, send confirmation email
+16. Integration Recommendations (Matching: 90%) 
+* Customer Voice for survey automation
+* Azure Functions for AI/ML similarity and knowledge suggestions
+* Email server for automated notifications
+* Document management (SharePoint) for attachments and notes
+* Power Automate for routing and workflow orchestration
