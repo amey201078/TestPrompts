@@ -1,0 +1,91 @@
+﻿Functional Design Document (FDD) for Dynamics 365 Customer Engagement (CE) Implementation
+
+Project Name: MJINC Safety (MJ INC) Customer Service Solution
+Version: 1.0
+Date: [Insert Date]
+Authors: [Insert Names]
+Status: Draft
+
+1. Introduction
+1.1 Document Purpose
+This Functional Design Document (FDD) outlines the functional design of the Dynamics 365 Customer Service solution for MJINC Safety. It aligns with approved business requirements and provides a detailed blueprint for implementation, including configurations, customizations, and integrations.
+1.2 Project Background
+MJINC Safety has engaged Accenture to implement a Dynamics 365 Customer Service solution to enhance inquiry management, knowledge management, and service level agreements (SLAs). The solution will include:
+• Inquiry intake and routing.
+• Customer self-service via portals.
+• Performance tracking via dashboards and reports.
+• Automated workflows for efficiency.
+1.3 Intended Audience
+• Functional Teams: Business analysts, process owners.
+• Technical Teams: Developers, system integrators.
+• Test Teams: QA/UAT testers.
+• Customer Stakeholders: Product owners, end-users.
+
+2. Scope of the Solution
+2.1 In-Scope Functionalities
+ModuleFeaturesInquiry ManagementIntake (Email/Portal/Phone), Routing, Escalation, ResolutionCustomer ManagementAccount/Contact updates, SLAs, Customer Voice surveysKnowledge ManagementArticle creation, search, linking to inquiriesPerformance Mgmt.Dashboards, SLA tracking, Customer feedbackSecurity & RolesRole-based access, field-level security2.2 Out-of-Scope Items
+• Legacy system decommissioning (if applicable).
+• Custom mobile app development.
+• Advanced AI beyond OOTB similarity rules.
+
+3. Business Requirements & Process Mapping
+3.1 Business Requirements
+Requirement IDDescriptionD365 CE MappingBR-CS-001Automate inquiry creation from emailsAutomatic Record Creation (ARC) rulesBR-CS-002SLA enforcement for response timesSLA KPI configurationsBR-CS-003Customer self-service portalPortals + Knowledge Articles3.2 Process Flow Diagrams
+Inquiry Intake Process
+
+SLA Management
+• Support Center: 30-minute response for emails.
+• Customer Relations: Tiered SLAs (3hr–72hr based on subtype).
+
+4. Solution Design
+4.1 Entity Model
+Key Entities
+EntityTypePurposeincident (Case)OOTBInquiry trackingknowledgearticleOOTBKnowledge basemjinc_inquirytypeCustomInquiry classificationCustom Fields
+• Inquiry Sub-Type (Choice field: Complaint, New Customer, etc.).
+• Escalated Reason (Text, mandatory if escalated).
+4.2 User Interface
+Forms & Views
+• Inquiry Form:
+o Detail Tab: Customer info, inquiry type, timeline.
+o Related Tab: Linked work orders/invoices.
+• Knowledge Article Form:
+o General Tab: Title, keywords.
+o Summary Tab: Content, categories.
+Dashboards
+• Support Center SLA Dashboard: Real-time breach tracking.
+• Customer Relations Dashboard: Case volume by subtype.
+4.3 Automation
+Workflows & Power Automate
+ProcessAutomationEmail-to-CaseARC Rules + Power AutomateSurvey DistributionCustomer Voice + FlowPlugins/Custom Code
+• Inquiry Merge Logic: Custom plugin to handle merged cases.
+4.4 Security
+• Roles:
+o Support Center Rep: Read/write access to cases.
+o Knowledge Manager: Publish/edit articles.
+• Field-Level Security: Billing Instructions (Customer Relations only).
+
+5. Data Migration Plan
+Data TypeSourceTarget EntityTransformation RulesCustomer AccountsLegacy CRMaccountMap region to BUHistorical CasesSQL DatabaseincidentStatus mappingValidation:
+• Pre-migration mock loads.
+• Post-migration reconciliation reports.
+
+6. Assumptions & Constraints
+6.1 Assumptions
+• All customer-facing inquiries will have a contact record.
+• Holidays are predefined in the business calendar.
+
+6.2 Constraints
+• Portal customization limited to OOTB capabilities.
+• No real-time integration with ERP (batch sync only).
+
+9. Future Enhancements
+• AI-driven case classification.
+• Chatbot integration for portal.
+
+Appendices
+A. Key Decisions
+• Use OOTB SLA controls vs. custom plugins.
+• Portal vs. Power Apps for self-service.
+
+Approval Signatures
+RoleNameDateProject ManagerFunctional LeadTechnical Lead
