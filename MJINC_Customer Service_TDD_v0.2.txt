@@ -1,0 +1,155 @@
+Technical Design Document (TDD)
+Dynamics 365 Customer Engagement (CE) – MJINC Safety Customer Service Solution
+
+Project Name: MJINC Safety (MJ INC) Customer Service Solution
+Version: 1.0
+Date: [Insert Date]
+Authors: [Insert Names]
+Status: Draft
+
+Table of Contents
+1. Introduction
+2. Comprehensive Coverage of FDD
+3. Customization Analysis
+o Entities & Attributes
+o Customizations Matrix
+o Role & Privilege Matrix
+o Code Snippets
+4. Integration Strategy
+5. Data Migration
+6. PCF Component Evaluation
+7. Detailed Code and Pseudocode
+8. Security Considerations
+9. Appendices
+
+1. Introduction
+This Technical Design Document (TDD) translates the Functional Design Document (FDD) into precise technical specifications for the MJINC Safety Dynamics 365 Customer Service solution. It covers all configuration, customization, integration, migration, security, and extensibility requirements to ensure a robust, scalable, and maintainable implementation.
+
+2. Comprehensive Coverage of FDD
+2.1 Functional Aspects and Technical Solutions Mapping
+Functional AreaTechnical Solution(s)Visual Representation (Summary)Inquiry IntakeARC Rules, Power Automate for Email/Portal/Phone IntakeRouting/EscalationWorkflow, Routing Rules, Custom Plugin for Escalation, SLA TimersKnowledge ManagementOOTB KnowledgeArticle Entity, Custom Views/Forms, Approval ProcessCustomer Voice SurveyPower Automate Integration with Customer VoiceSLA EnforcementD365 SLA KPI Configuration, Custom DashboardsSecuritySecurity Roles, Field-Level Security, Team AssignmentData MigrationDataflows, SSIS, Azure Data Factory, Data Validation Reports
+3. Customization Analysis
+3.1 Entities List
+Entity Logical NameDisplay NameTypePurposeincidentCase/InquiriesOut of BoxInquiry trackingknowledgearticleKnowledge ArticleOut of BoxKnowledge baseaccountAccountOut of BoxCustomer accountscontactContactOut of BoxCustomer contactsmjinc_inquirytypeInquiry TypeCustomInquiry classification
+3.2 Attributes List (by Entity)
+incident (Case/Inquiries)
+Attribute Logical NameDisplay NameTypeDescriptiontitleTitleTextInquiry subjectcustomeridCustomerLookupLinked account/contactmjinc_inquirytypeInquiry TypeLookupCustom entitymjinc_inquirysubtypeInquiry Sub-TypeChoiceComplaint, New Customer, etc.mjinc_escalatedEscalatedBooleanEscalation flagmjinc_escalatedreasonEscalated ReasonTextReason for escalation (mandatory if escalated)statuscodeStatusOptionSetInquiry statuscreatedonCreated OnDateTimeCreation date............knowledgearticle
+Attribute Logical NameDisplay NameTypeDescriptiontitleTitleTextArticle titlekeywordsKeywordsTextSearch keywordscontentContentMultilineArticle contentcategoryCategoryLookupArticle category............mjinc_inquirytype
+Attribute Logical NameDisplay NameTypeDescriptionmjinc_nameNameTextInquiry Type namemjinc_parentinquirytypeParent TypeLookupParent-child hierarchymjinc_iscustomerportalIs Customer PortalBooleanPortal visibilitymjinc_isfeedbacksurveyIs Feedback SurveyBooleanTriggers survey
+3.3 Customizations Matrix
+CustomizationDescriptionConfiguration StepsARC RulesAutomatic Record Creation for email-to-caseSettings > Service Mgmt > Automatic Record Creation > Create new ruleCustom FieldsInquiry Sub-Type, Escalated ReasonAdd fields in Solution > Case entityBusiness RuleEscalated Reason mandatory if Escalated=TrueSolution > Case > Business Rule > If Escalated=Yes, make Escalated Reason requiredPower AutomateSurvey distribution after resolutionFlow: When case resolved, wait 3 days, send survey using Customer Voice connectorPluginMerge duplicate cases, close and relate under primaryDevelop in Visual Studio, register on Case entity Merge eventJavaScriptLock fields on Account form if ApprovedAdd JS web resource to Account form, bind to OnLoad and Status ChangeField SecurityBilling Instructions editable by Customer Relations onlyField Security Profile > Assign to roleSLA KPISLA configuration for various subtypesService Mgmt > SLA > New SLA > Define KPI (duration, warning, failure actions)Views/DashboardsCustom dashboards for SLA and case volumesSolution > Dashboards > New Dashboard; Add charts, lists, filters
+3.4 Role and Privileges Matrix
+RoleEntity AccessPrivileges (CRUD)Field SecurityNotesSupport Center RepCase, AccountCreate, Read, Update, AssignCannot edit Billing InstructionsStandard inquiry processingKnowledge ManagerKnowledgeArticleCreate, Read, Update, PublishN/AManage KAsCustomer RelationsCase, AccountFull (inc. Delete)Can edit Billing InstructionsSLA managementAdminAllAllAll fieldsSolution adminRead-Only UserAllReadN/AReporting
+3.5 Code Snippets
+Business Rule (Pseudocode)
+IF Escalated == Yes THEN
+    Escalated Reason is REQUIRED
+ENDIF
+JavaScript: Lock Account Fields
+function lockAccountFields(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var isApproved = formContext.getAttribute("statuscode").getValue() == APPROVED_STATUS_CODE;
+    var fieldsToLock = ["field1", "field2", "field3"];
+    fieldsToLock.forEach(function(field) {
+        var control = formContext.getControl(field);
+        if (control) control.setDisabled(isApproved);
+    });
+}
+C# Plugin: Case Merge
+public void Execute(IServiceProvider serviceProvider)
+{
+    // Get context, target, and related cases
+    // For each duplicate case:
+    //   Set state to closed (status: Duplicate)
+    //   Create connection/relationship to primary
+}
+
+4. Integration Strategy
+Integration PointSystems InvolvedData Flow & MappingMethodSecurity/Performance/Error HandlingEmail-to-CaseMail Server, D365 CEEmail ? ARC Rule ? Case (fields: sender, subject, etc)ARC Rule, APIOAuth, error queue for failuresSurvey DistributionD365 CE, Customer VoiceCase/contact info ? Survey ? Results ? TimelinePower AutomateSecure connector, retries, error loggingPortal Self-ServiceD365 Portal, D365 CEPortal forms ? Case/Inquiry entitiesOOTB PortalAzure AD B2C, field-level securityBatch ERP SyncERP, D365 CE (batch, 1-way)ERP ? D365 CE (Accounts, Invoices, etc.)Data ImportEncryption, error notification, batch performance
+5. Data Migration
+Data TypeSource SystemTarget EntityTransformation RulesMigration Tool/MethodValidation ProceduresAccountsLegacy CRMaccountRegion ? Business Unit, dedupeDataflows, SSISMock loads, post-migration reportsContactsLegacy CRMcontactStandardize phone/email, dedupeDataflows, SSISSample checks, UAT signoffCasesSQL DatabaseincidentStatus mapping, link to accountAzure Data FactoryReconcile counts, sample checksKnowledge ArticlesLegacy systemknowledgearticleHTML cleanup, category mappingCustom ScriptsSpot checks, field validationMigration Steps:
+1. Data extraction and cleansing from sources.
+2. Field mapping and transformation.
+3. Load into staging, validate, and correct errors.
+4. Final cutover: freeze, backup, migrate, validate.
+5. Post-migration: reconciliation and user acceptance.
+
+6. PCF Component Evaluation
+Use CasePCF Component PurposeInputs/OutputsExample/ReferenceEnhanced SLA DashboardVisualize SLAs, breaches, and warnings with color-coded chartsInput: SLA records; Output: ChartPCF Chart SamplesInquiry Merge UIUser-friendly interface for merging related inquiriesInput: Case list; Output: MergePCF Merge ControlKnowledge Article PreviewInline preview in grids/listsInput: Article contentPCF Rich Text Control
+7. Detailed Code and Pseudo-Code
+7.1 JavaScript Example: Lock Account Fields
+function lockAccountFields(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var approved = formContext.getAttribute("statuscode").getValue() === 100000001; // Approved
+    var fields = ["mjinc_billinginstructions", "mjinc_generalinstructions"];
+    fields.forEach(function(field) {
+        var ctrl = formContext.getControl(field);
+        if (ctrl) ctrl.setDisabled(approved);
+    });
+}
+7.2 C# Plugin: Case Merge
+public class CaseMergePlugin : IPlugin
+{
+    public void Execute(IServiceProvider serviceProvider)
+    {
+        IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+        Entity primaryCase = (Entity)context.InputParameters["Target"];
+        EntityCollection relatedCases = (EntityCollection)context.InputParameters["RelatedCases"];
+        // Close all related cases as Duplicate
+        foreach (var duplicate in relatedCases.Entities)
+        {
+            duplicate["statuscode"] = new OptionSetValue(2); // Duplicate
+            // update logic here
+        }
+        // Link all duplicates to the primary
+    }
+}
+7.3 Azure Function (C#): Integration Handler
+public static class CaseSyncFunction
+{
+    [FunctionName("CaseSyncFunction")]
+    public static async Task<IActionResult> Run(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req)
+    {
+        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+        // Parse, validate and map data
+        // Call D365 CE Web API to create/update case
+        return new OkObjectResult("Success");
+    }
+}
+7.4 Azure Function (Python): Data Cleanse Example
+import logging
+import azure.functions as func
+
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    data = req.get_json()
+    # Cleanse: remove duplicates, standardize phone
+    cleaned = cleanse_data(data)
+    return func.HttpResponse(f"Processed: {len(cleaned)} records")
+
+8. Security Considerations
+8.1 Customizations
+* All custom fields must use field-level security profiles for sensitive data.
+* Business rules and plugins must enforce backend validation (not just UI).
+8.2 Integrations
+* Use OAuth or Azure AD service principals for all API integrations.
+* Log all errors centrally; retry transient failures.
+* Encrypt data in transit (TLS/SSL) and at rest.
+8.3 Data Migration
+* Use staging environments for test loads.
+* Mask sensitive data in all non-prod environments.
+* Audit trail for all migration steps.
+8.4 PCF Controls
+* Never expose sensitive information in PCF input/output.
+* Perform all critical validations server-side; do not rely on client-side controls alone.
+
+9. Appendices
+Appendix A: Visual Diagrams
+(Insert ARC Flow, Routing Diagram, Knowledge Process, SLA Dashboard, Security Model, Migration Flow, etc.)
+Appendix B: References
+* Microsoft Docs – PCF
+* PCF Gallery
+* Customer Voice Integration
+
+End of Document
+
