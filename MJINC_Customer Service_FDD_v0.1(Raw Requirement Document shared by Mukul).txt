@@ -1,0 +1,711 @@
+MJINC Safety – (MJ INC)
+Functional Design Document – Customer Service
+
+
+
+
+
+
+Document Information
+AuthorsStatusDraftLocationMJINC Safety_Customer Service_FDD_v0.1.docx
+History
+VersionDateModified byChanges1.01/22/2025John DoeInitial Draft for Review1.12/25/2025John Doe 2Made some additions and corrections as part of UAT process
+Document Review and Sign-off
+NameRoleActionDate ReviewedACN- Project ManagerACN- Functional LeadACN- Technical LeadClient Product OwnerClient Solution ArchitectDocument References
+ReferenceDocument Link/PathSP/ExcelCustomer Service BR (Approved)Customer Service BR.xlsxSP/ExcelData DictionaryMJINC_DataDictionary_v1.xlsxSP/ExcelCE ERDMJINC - ERD - Release 1 - Final.vsdxADOCustomer Service – Operational ModelMJINC - Customer Service Operational ModelSP/WordCustomer Service PersonaMJINC - Customer Service Persona Draft v1.docxSP/ExcelCustomer Service Inquiry Type DataMJINC - Customer Service Inquiry Types - DataSP/ExcelCustomer Service FDD Tech SummaryMJINC D365 CE - CS Functional Technical SummarySP/ExcelMJINC Deployment PlaybookMJINC Deployment PlaybookSp/WordMJINC D365 CE TDDMJINC - Next Gen CE TDDTable of Contents
+1	Introduction	5
+1.1	Document Purpose	5
+1.2	Intended Audience	5
+1.3	Project Background	5
+1.4	Document Organization	6
+2	Functional System Process Design	6
+2.1	Customer Service Context Diagram	6
+2.2	High-Level System Process	7
+2.2.1	D365 Customer Service Solution Operational Model	7
+2.2.2	Customer Service End to End Process	8
+2.2.3	D365 CS: Inquiry Intake: Diagram	9
+2.3	Detailed System Processes	10
+2.3.1	Inquiry Management	10
+2.3.2	Customer Management	21
+2.3.3	Knowledge Management (KA)	23
+2.3.4	Performance Management	24
+2.3.5	Administration	29
+3	User Personas	41
+4	User Interface Design	42
+4.1	Forms Wireframes	42
+4.1.1	Inquiry Form	42
+4.1.2	Inquiry: New Customer: Lead Quick Create	43
+4.1.3	Knowledge Articles	43
+4.2	Views	45
+4.2.1	System Views	45
+5	Reports and Dashboards	45
+6	Application Security	46
+6.1	Security Design Approach	47
+6.2	Business Unit	49
+6.3	Security Roles	49
+6.3.1	Application Security Roles	49
+6.3.2	Security Role Matrix	50
+6.4	Teams	51
+6.5	Field Based Security	51
+7	Entity Model	52
+7.1	Logical Entity Relationship Diagram (ERD)	52
+7.2	Entities	52
+7.2.1	Data Dictionary	53
+8	Customer Service: Solution Reference Data	53
+8.1	Customer Service: Master Data	53
+8.1.1	Inquiry Types and Sub Types	53
+8.1.2	Account Placeholders	54
+8.1.3	Category and Subject	55
+9	Functional Requirements Mapping	56
+10	Customer Service: Technical Summary	57
+11	Appendix A – Key Decisions	58
+12	Appendix C – Review Log	58
+13	Functional Knowledge Transfer	58
+
+
+
+
+1 Introduction
+1.1 Document Purpose
+
+The purpose of this document is to provide a functional description of processes and configuration that was required to achieve functionality based on the requirements for MJINC Safety (MJ INC) process to be implemented in D365 Customer Service Solution.
+The functional design information identifies the entities that have been leveraged, related user interface configuration including data fields created, options sets, formatting and labeling of tabs, sections and fields, business rules, workflows, business process flows. From a functional perspective, the design details cover Administrative Setup for security role configurations.
+Objectives of this document are:
+* To show how a given role (User) would use the system.
+* To provide specific information about single use of the system for performing a specific task
+* To aid the preparation of the Test Scenarios and Training for the new system
+* To aid in the User Acceptance Testing
+* To Align to and support “Dev Ops” Operational Model, Business Requirements, and PBI
+
+Note: Technical components can be found in the technical Design Document ("TDD")
+1.2 Intended Audience
+
+Intended audience for this document is the functional and technical team, test team and the customer’s functional team for review and sign-off.
+1.3 Project Background
+
+MJINC Safety (MJ INC) has engaged Accenture to deliver a Microsoft Dynamics 365 Customer Service solution aimed at enhancing their Customer Service processes. This project will involve implementing customer service management functions, including inquiry management, knowledge management, and service level agreements (SLAs). Additionally, it will incorporate reporting components such as dashboards and views, as well as workflows for various stages of the customer service lifecycle, service management, performance management, and customer management within MJINC Safety's operations.
+
+
+1.4 Document Organization
+
+This document is structured to help you easily find the information you need. It is divided into sections that group related features and design components together. Here's an overview:
+	
+Introduction for the Customer Service Solution
+Overview of the solution's goals and scope.
+Functional System Process Designs
+Details on the system's processes and workflows.
+User Persona Definitions
+Descriptions of different user roles and their functions.
+Functional Categories/User Interface/Business Rules
+Information on user interface settings and business rules.
+Dashboards and Reports
+Reporting tools like dashboards and views.
+Application Security
+Security settings, including roles and permissions.
+Entity Model
+Description of the entity model used in the system.
+Application Settings and Administration
+Administrative settings and configurations.
+
+This structure allows you to skip to the sections relevant to your needs and understand the design and implementation of the Customer Service Solution.
+2 Functional System Process Design
+2.1 Customer Service Context Diagram
+
+2.2 High-Level System Process
+2.2.1 D365 Customer Service Solution Operational Model
+The D365 CE Customer Service Solution Operational Model is designed to streamline and enhance the entire customer service lifecycle. This model encompasses key components such as Inquiry Management, Customer Management, Knowledge Management, Performance Management, and Administration. Each element plays a crucial role in ensuring efficient and effective customer service operations, from handling initial inquiries to managing customer relationships, leveraging knowledge resources, monitoring performance, and overseeing administrative tasks.
+
+
+Customer Service Lifecycle (Operational Model: Summary):
+
+Customer Service Lifecycle (Operational Model: Inquiry Management and Customer Management):
+
+Customer Service Lifecycle (Operational Model: Inquiry Management and Customer Management):
+
+2.2.2 Customer Service End to End Process
+
+Figure 1 D365 Customer Service Solution: End to End Process
+
+Reference: Document: Process  MJINC - D365 CE - Customer Service Process - End to End.pdf
+
+
+
+
+
+
+
+
+2.2.3 D365 CS: Inquiry Intake: Diagram
+Figure: D365 CS: Inquiry Intake by Source Diagram
+
+
+Figure: D365 CS: Inquiry Intake Email: Diagram
+
+
+
+
+
+Figure: D365 CS: Inquiry Intake: Customer Relations: Routing Rule: Account Specialist Assignment:
+
+Reference: Document: Process  MJINC - Customer Service - Inquiry - Intake Diagram.pdf
+
+2.3 Detailed System Processes
+2.3.1 Inquiry Management
+* Inquiry Type/Sub Types
+
+The Inquiry Type within the Inquiry entity serves as a classification to define the nature of the case. It helps categorize and prioritize different types of cases based on their characteristics. By specifying the issue or area of concern, the Inquiry Type enables more efficient case management. In the MJINC Solution, we have two Inquiry Types: Support Center and Customer Relations. 
+
+The Inquiry Sub-type provides an additional level of classification beneath the Inquiry Type field. While Inquiry Type is used to broadly categorize inquiries (e.g., "Support Center" ,"Customer Relations"), the Inquiry Sub-type adds more detail to further refine the categorization. Essentially, the Inquiry Sub-type adds specificity to the Inquiry Type, allowing businesses to better manage different issues and ensuring more efficient resolution of cases.
+
+* Inquiry Statuses
+The Inquiry Status Reason field gives more detail and clarity about the current state of an inquiry. It helps customer support teams track the specific reasons or events that cause a change in the inquiry’s status, offering a better understanding of where the inquiry is in its process. Below are the Inquiry Status in the MJINC Solution 
+Inquiry Status ReasonLogicNewWhen an Inquiry is being CreatedIn ProgressWhen an Inquiry is created and being Worked UponEscalatedWhen more attention is required, the case status will be updated to Escalated by the CS Rep Pending Response: CustomerWhen the CS Rep Requires input from Customer, the status will be updated to Pending Response: Customer Pending Response: Internal TeamWhen the CS Rep Requires input from Internal Team, the status will be updated to Pending Response:  Internal Team Response ReceivedWhen the CS Rep receives Response from Customer or Internal Team the status will be updated to Response Received
+2.3.1.1    Inquiry Generation
+Inquiry Intake
+Inquiry Management: Intake
+Source: Email, Portal, Phone, SMS, Website
+Intakes: Support Center, Customer Relations, LEO, Credit <ME: Double check this>
+Inquiry management is the process of efficiently tracking and resolving customer inquiries, concerns, and complaints. It involves managing customer interactions, assigning inquiries to the appropriate team members, and monitoring each inquiry until a satisfactory resolution is achieved. By providing timely and effective solutions, inquiry management ensures customer satisfaction and helps build long-term loyalty. A well-executed inquiry management system not only enhances customer retention but also strengthens a company’s reputation for delivering exceptional customer service. Inquiry can be created in three different ways Email, Portal and Phone across the Inquiry type Support Center and Customer Relations.
+Inquiry Management: Create
+Manually: User or Auto: Email, Portal
+An inquiry can be created through three different sources: manually from the Inquiry section in the site map, automatically through a portal request, or by sending emails to the dedicated mailboxes of the Support Center, Customer Relations, Leo, or Credit.
+* Manually Generated Inquiry
+A customer service representative can connect with the customer and manually generate the Inquiry by collecting all the required data.
+* From Portal
+Inquiry creation from the customer portal allows customers to submit inquiries directly through a self-service portal, which then automatically generates a Inquiry in the system. When a customer logs into the Customer Service Portal, they can fill out a form to create a support request. This form typically includes fields like the Inquiry Title, description, Customer Inquiry Type and Customer Inquiry Sub Type. Once submitted, the system automatically creates an Inquiry in D365 CE, linking it to the customer's contact record. The customer then receives a confirmation email with the Inquiry number and can track the status of the Inquiry.
+Case IntakeTeamPower AutomateSolution NamePortal to Case Customer RelationCases | On Create | Apply Routing rules portalMJINC_Portal_SolutionSupport CenterCases | On Create | Apply Routing rules portalMJINC_Portal_SolutionAccount SpecialistCases | On Create | Apply Routing rules portalMJINC_Portal_Solution
+* From Email
+Email to Inquiry refers to a process where customer emails automatically create Inquiry in the system. A customer sends an email to a predefined support email address. The system automatically converts the email into a new Inquiry, linking it to the customer's contact and account information, and stores the email as part of the Inquiry record. Based on predefined rules, the Inquiry can be routed to the appropriate team or queue for resolution.
+Inquiries are routed to various Team based on the Power Automate and the Routing rule as below.
+Case IntakeTeamPower AutomateRouting Rule Solution NameEmail to InquiryCustomer RelationARC: Customer Relations Email to Case Rule Billing Inquiries RoutingMJINC Rule SolutionSupport CenterARC: Convert to CaseBilling Inquiries RoutingMJINC Rule SolutionLEOARC: Leo Queue Email Convert to CaseBilling Inquiries RoutingMJINC Rule SolutionCreditARC: Credit Queue Email Convert to CaseBilling Inquiries RoutingMJINC Rule Solution
+Note: If an Account specialist is associated to an Account for the Customer relation inquiry, then the inquiry will be assigned to the Account specialist
+Inquiry: New Customer Inquiry using New Customer Placeholder
+When an Inquiry must be created for a customer who is not in the system, the CS User Creates a new inquiry with Inquiry type as Support Center and Inquiry Sub Type as New Customer Inquiry then Customer field is auto populated with New Customer (Placeholder) Account, and it should be locked. A New field " Potential New Customer " (Lookup to Lead) will be populated as Mandatory Field in which the user can either create a new lead or select an existing lead to create an inquiry.
+Inquiry: Complaint using No Customer Placeholder
+When a Support Center Complaint does not have an associated customer, an inquiry can be created with the Inquiry type as Support Center and Inquiry Sub Type as Complaint. The customer field will be is auto populated with New Customer (Placeholder) Account
+Inquiry: Complaint Inquiry
+
+When an Inquiry is created with Inquiry type as Support Center and Sub type as Complaint, the customer will be auto set to No-Customer Placeholder Account and the Contact is set to Not required. However if users clear's the No-Customer Account and selects a valid customer then the Contact will be required.
+Automated Inquiry Creation Confirmation Email
+When an Inquiry is created from any source, an email is generated from a template automatically and sent to the customer contact on an Inquiry to notify the customer that an inquiry is created for their complaint/issues. 
+Inquiry Preparation:
+* Queues 
+Queues are used to organize and manage incoming customer service requests, such as Inquiries, activities, or other work items. A queue acts as a holding area where work items can be stored until they are assigned to a customer service representative for resolution. Queues in Customer Service help streamline Inquiry management, ensure work is handled by the right people, and improve service efficiency.
+Below are the List of Queues used in MJINC Solution 
+* Define Business Process Flow
+Business Process Flow offers a clear, step-by-step guide for resolving customer cases. It helps customer service representatives follow a structured approach, minimizing the need for extensive training for new team members. By capturing all relevant data at each stage of the process, it enhances efficiency and boosts customer satisfaction.
+Note:- We are not using Business Process Flow in Customer Workspace App.
+
+* Manage Related Inquiries
+Inquiries can be linked using connections. This feature enables users to associate inquiries with each other. To create a connection, users must navigate to the "Related Inquiries" tab on the case form and generate a connection record.
+
+
+
+
+* Inquiry Similarity Rules
+Based on the Inquiry Title the AI model learns from the summary and details of all resolved and active cases. It then provides knowledge article suggestions to active cases and similar case suggestions to both active cases and ongoing conversations. The model can process up to 1 million most recent cases. The Similar Inquiry will be Suggested based on the Inquiry Title on the Smart Assist Pane upon opening an Inquiry.
+
+The Inquiry Similarity Rule must be turned on from the customer Admin center.  
+
+
+2.3.1.2    Inquiry Routing
+
+Inquiry Management: Basic Routing:
+Routing Rules:
+Inquiry routing ensures that inquiries are directed to the correct queue, user, or team. The customer service representative can either take ownership of the inquiry or it can be automatically assigned for further investigation to resolve the customer's inquiry. Routing rules are configured under the Billing Inquiries Routing for all teams.
+Inquiry will be routed based on the below scenario’s 
+Support Center:
+The Inquiries created from portal routes to the Support Center queue, with the owner being the Support Center. Emails sent to the intake mailbox are also routed to the Support Center queue, with the owner assigned to the Support Center. For phone inquiries, the inquiry is manually created and remains with the original owner, assigned by the user, without any routing.
+Customer Relations:
+If the account has an Account Specialist, inquiries from the portal and email (intake mailbox) will be assigned to the Account Specialist, with the owner listed as the Account Specialist or the user. For phone inquiries, the inquiry is manually created with no routing and remains with the original owner, as assigned by the user. In inquiries where the account does not have an Account Specialist, inquiries from the portal and email will be routed to the queue, with the owner being Customer Relations. Similarly, phone inquiries are manually created, with no routing, and stay with the original owner, as created by the user.
+Credit Team:
+Emails from the intake mailbox(credit) are routed to the Credit Team, with the owner assigned to the Credit Team. Please note that this routing does not involve the Account Specialist, as they are not considered in this process.
+LEO Team:
+Emails from the intake mailbox (LEO) are routed to the LEO Team, with the owner assigned to the LEO Team.
+2.3.1.3    Inquiry Execution
+Manage Inquiries:
+Effective document and communication management is vital for maintaining accurate inquiry records and ensuring clear communication with customers. This feature allows CS Reps to capture relevant documents, record and classify notes, and create and assign tasks related to customer Inquiries. Additionally, it includes basic email templates for consistent communication. By organizing and managing documents and communications efficiently, CS Reps can provide better service and maintain a comprehensive inquiry history.
+
+* Document Management
+* Notes and Communications
+* Task Management
+* Communication Preferences
+
+Inquiry: Customer Communication:
+Email Activity:
+Agent Script: Script / Macro (Create Email Activity)
+Agent Script Name: Inquiry Agent Script
+Agent Macro Name: Open Email Activity (with Template)
+The purpose of this Agent Macro is to streamline the process of creating Email Activities for an inquiry. When a Customer Service Representative wants to create an Email Activity from an inquiry, they can do so efficiently by simply clicking on the Agent Script in the productivity pane and selecting "Open Email Activity (with Template)." Upon selecting the macro, the email will automatically populate with a template, the "From" field will be filled with the appropriate mailbox based on the inquiry type, and the "To" field will be populated with the contact's email address.
+Portal Comments:
+Customer can respond to a clarification raised by a CS Rep through Portal Comments. Customer will have the ability to Add a comment against the inquiry from the portal and the same will reflect in CRM as Portal Comment.
+Pending Inquiry: Response Received:
+When a case is in the Pending Response: Customer or Pending Response: Internal status, an Incoming Portal Comment or an Email associated with the Inquiry is will update the inquiry status reason to Response Received to reflect that a response has been received from the customer or internal team.
+Merge Inquiries
+Merging related inquiries in Customer Service helps combine duplicate or similar inquiries, making it easier to manage cases more efficiently. This is particularly useful for handling duplicate cases or when multiple cases are created for the same issue, helping to streamline case management and avoid confusion.
+ 
+ 
+The merged cases will automatically be closed and linked under Merged Cases in the primary case.
+ 
+Cancel Inquiries
+When an CS Rep cancels an Inquiry, they can choose to set the Inquiry status to either Cancelled or Merged. By default, the status is set to Cancelled, and this should remain unchanged when manually cancelling a Inquiry. In the case of viewing multiple Inquiry, an CS Rep can select two or more Inquiry to merge. In this scenario, the Inquiries that are cancelled during the merge will automatically have their Status Reasons updated to Merged.
+Reassign Inquiries
+Reassigning inquiries refers to the process of changing the owner or the team responsible for handling a specific inquiry. This helps ensure that the right person or team is working on the inquiry based on their expertise, availability, or workload.
+Inquiry: Escalation (ME: Action: Business Rules, Description)
+The CS Rep will have the ability to Escalate Inquiry when more attention is required. CS Rep will update the Escalated field on the inquiry form. Once the Escalated field is updated to Yes, Escalated Reason becomes Mandatory and CS Rep updates the reason. The Escalated by is auto populated and Inquiry status is updated to Escalated and inquiry can be reassigned to correct Rep if required.
+Research Case Inquiry
+Work Order Lookup
+The user will be able to create a new work order or link an existing one using the Work Order lookup. Any work order created for the customer associated with the inquiry will appear in the lookup. By selecting the work order, the user can view its status.
+
+Invoice Lookup
+The user will be able to link to an existing invoice using the Invoice lookup. Invoices created for the customer associated with the inquiry will be shown in the lookup. By selecting the invoice, the user can view its status in the Invoice Related Tab.
+       
+2.3.1.4    Inquiry Closure
+Convert Inquiry to Knowledge Article
+Upon resolving an Inquiry, users should not be able to auto Convert an inquiry to a Knowledge Article.
+Inquiry Resolution
+Inquiry resolution in customer service refers to the process of verifying that a customer's Case or inquiry has been successfully resolved or addressed. This typically involves reviewing the customer's inquiry record or Case to ensure that all necessary actions have been taken and that the customer is satisfied with the resolution. User should only have Resolved resolution status to select. User should not have the Problem Solved and Information Provided as resolution status.
+Automated Case Resolution Confirmation Email
+When an Inquiry is marked as resolved and when the resolution status is updated an email is generated from a template automatically and sent to the customer contact on an Inquiry.
+Close an Inquiry
+Inquiry resolution refers to the process of confirming that a customer’s issue or Inquiry has been effectively addressed. This usually involves reviewing the customer's inquiry record to ensure that all necessary steps have been completed, and that the customer is satisfied with the outcome.
+Send Survey to Customer: (Customer Voice)
+Once an Inquiry is resolved, a survey will be sent to Customer post 3 days of resolving the inquiry. The customer will receive the Survey link through email and the customer will be able to respond to the survey based on their experience.
+Survey will be sent to the customer based on the below criteria 
+* Is Feedback Survey Field in inquiry sub type of the inquiry must be set to Yes
+* A Contact must be present on the Inquiry with a valid Email id
+* Surveys Field under General Preference tab of the contact must be set to Allow
+Reopen a Closed Inquiry
+When an Inquiry is closed and a customer replies to the Inquiry Resolution Email, the system is designed to automatically reopen the inquiry. This functionality ensures that any incoming email activity related to a closed inquiry is promptly recognized, triggering the Inquiry to reopen and update its status to "Response Received.
+2.3.2 Customer Management
+2.3.2.1    Define Customers
+Managing Customers:
+Customer account management ensures that customer information is accurate and up to date. This feature includes the ability to update customer accounts and contact information, manage authorized contractors, and add support and billing instructions to customer accounts. By maintaining detailed and accurate customer records, organizations can provide personalized and efficient service, leading to improved customer relationships and satisfaction.
+1. Customer Account and Contact Updates: 
+a. Ability to update customer accounts and contact information to maintain up-to-date details.
+2. Authorized Contractors: 
+a. Ability to view and manage authorized contractors on customer accounts.
+3. Support and Billing Instructions:
+a. Ability for CS Team Members to add support instructions to a customer's account.
+b. Ability for Billing Team Members to add billing instructions to a customer's account.
+4. Preferences on Contact Form:
+a. Users will have the option to opt out of receiving notifications, ensuring their preferences are respected and communication regulations are followed. They can set their preferences via the Contact Form on the Detail Tab, where they can choose to Allow or Do Not Allow notifications for both Email and Survey fields.
+Note: For more details around Account and Contact Management, please reference: Sales FDD URL: 
+2.3.2.2    Manage Customer Assistance
+
+Service Level Agreements: SLA for Inquiries
+This focuses on improving the efficiency of inquiry management for the Customer Support Center and Customer Relations Teams through well-defined Service Level Agreements (SLAs). 
+SLA: Support Center Team:
+When an email inquiry is logged, the system will automatically trigger a 30-minute SLA timer for the Support Center team to respond, with real-time SLA tracking visible on the inquiry form. 
+       30 Minute Email Only
+SLA: Customer Relations Team:
+SLAs are tailored to specific inquiry types within the Customer Relations Team, such as 3, 24, 48, and 72-hour response times based on the inquiry Subtype. 
+24 Hour: Customer Relations 24 Hour
+* Inquiry Sub Type: Credit Applications/New Customer Account
+* Inquiry Sub Types: Bankruptcy Notice
+48 Hour: Customer Relations 48 Hour
+* Inquiry Sub Type: Customer Job information
+* Inquiry Sub Type: Customer Question
+* Inquiry Sub Type: Facility Requests
+* Inquiry Sub Types: Pricing/Contracts
+* Inquiry Sub Types: Existing Customer Credit Limit Increase/Decrease
+* Inquiry Sub Types: Credit Reference
+* Inquiry Sub Type: Invoice Dispute (First Response)
+72 Hours: Customer Relations 72 Hour
+* Inquiry Sub Type: Invoice Approved Response
+* Inquiry Sub Type: Lien Waivers
+3 Hour: Customer Relations 3 Hour
+* Inquiry Sub Type: Customer Pricing Adjustment
+No SLA:
+* Inquiry Sub Type: Remit/Payment Information
+The system will also generate detailed reports on SLA compliance, tracking trends and areas for improvement. Furthermore, the system will account for business hours and holidays in SLA calculations, with the Support Center operating 24/7 and the Customer Relations Team following 9 am to 5 pm ET hours. Inquiries directed to the Credit and LEO Teams will be routed through dedicated queues, ensuring proper inquiry handling with the relevant SLA applied. These combined improvements aim to enhance responsiveness, customer satisfaction, and performance tracking.
+* Business Calendar
+* Holiday Calendar
+* SLA KPI
+Holiday Calendar:
+Support Center:
+24 x 7 x 365, no hours or holiday calendar needed
+Customer Relations:
+Business hours are 9am - 5pm ET
+The Customer Relations Team in the West would observe the same holidays.   
+• Memorial Day 
+• Labor Day 
+• Independence Day 
+• Thanksgiving Day 
+• Day after Thanksgiving 
+• Christmas Eve 
+• Christmas Day 
+• New Year’s Eve 
+• New Year’s Day 
+
+Customer Self Service (re: Portal FDD)
+2.3.3 Knowledge Management (KA)
+2.3.3.1    Knowledge Article Creation
+Creating knowledge articles requires a deep understanding of the products or services and the common issues or questions customers may encounter. Knowledge articles can be created either manually or from an Inquiry. By leveraging these sources, businesses can equip their customers with the information they need to resolve issues swiftly and effectively, ultimately enhancing the overall customer experience.
+2.3.3.2    Manage Knowledge Articles
+Updating knowledge articles is important to ensure they reflect the most current and accurate information. Following below steps ensures KA are updated in a correct way
+> Edit Content
+> Review and Approval
+> Update Version
+> Publish
+Archiving is important for keeping your knowledge base organized and removing outdated or obsolete articles that are no longer relevant.
+2.3.3.3    Knowledge Article Execution
+The process of reviewing and publishing knowledge articles involves creating, evaluating, and finalizing articles that provide valuable information to customers or support agents. This ensures that knowledge articles are accurate, relevant, and helpful before they are made available in the system.
+2.3.3.4    Knowledge Article Accessibility 
+In Customer Service, Knowledge Articles can be tailored for both internal and external users, ensuring that the right information is available to the right audience.
+Internal Users:
+Internal users are typically your customer service agents, support teams, or employees who need access to detailed and sometimes sensitive information. In D365 Customer Service, knowledge articles for internal users are designed to help them provide accurate, consistent support to customers.
+External Users:
+External users are typically your customers, who access the knowledge base through the self-service portal or a customer-facing website. These articles are designed to provide helpful, easy-to-understand information to help customers resolve issues or find answers to frequently asked questions.
+Linking KA to an Inquiry:
+
+CS Reps will be able to link relevant KAs directly to a specific customer inquiry. This will allow them to quickly reference these articles when resolving inquiries, enhancing both response time and accuracy.
+2.3.4 Performance Management
+2.3.4.1    Track and Monitor
+* Define KPI
+Monitor via Dashboards:
+Dashboard: Support Center – SLA Reporting:
+
+Dashboard: Customer Relations – SLA Reporting:
+
+2.3.4.2    Customer Surveys
+A Customer Voice Survey allows businesses to collect feedback from customers about their experiences, products, services, or specific interactions. Customer Voice platform enables the creation, distribution, and analysis of surveys to gather insights that can help improve customer satisfaction and business processes.
+URL to Access the Customer Voice Survey: - https://customervoice.microsoft.com/Pages/ProjectPage.aspx
+Upon logging into the survey User will have to create Projects which is nothing but a collection of surveys. Users can create custom surveys with various question types, such as multiple choice, rating scales, text responses, and more. The surveys can be designed to match the business's needs and branding.
+Below are the Project and Survey created for Customer Care
+Customer Voice Project Survey NameSatisfaction metricsPower Automate used to send SurveyMJINC Survey MJINC Feedback Survey for Customer RelationsCustom score
+CSAT
+SentimentCase | On Update | Send surveys based on Inquiry type after 3 days of case resolution
+ MJINC Feedback Survey for Support Center
+Below are the screenshots of Customer Voice Survey Project
+<Removed for privacy by MJ>
+
+
+
+
+Once an Inquiry is resolved, a survey will be sent to Customer post 3 days of resolving the inquiry. The customer will receive the Survey link through email and the customer will be able to respond to the survey based on their experience.
+Once the survey is sent, the survey invite will be visible in the Timeline and in the same way, once customer responds to the survey the same will be visible in the inquiry Timeline.
+
+
+Satisfaction Metrics refer to the specific measurements or indicators used to gauge customer satisfaction based on survey responses. These metrics help businesses understand how customers feel about their products, services, or interactions, enabling more informed decisions and improvements and the Satisfaction metrics can be tracked in Customer voice webpage.
+
+
+2.3.4.3    Reporting
+* Dashboards
+
+<See: Reference: Section 5: Reports and Dashboards>
+
+2.3.5 Administration
+2.3.5.1    Privilege Management
+* Security Setup
+
+<See: Reference: Section 6: Application Security>
+2.3.5.2    Service Management
+* Define Service Templates
+Email Templates:
+An email template is a pre-designed email format that contains predefined content, such as subject lines, body text, and placeholders for dynamic data, which can be reused across multiple emails. These templates help streamline communication by ensuring consistency and saving time when sending emails to customers, prospects, or other stakeholders.
+Below are the pre-defined email templates created in Customer Service that are being used for sending automated emails to customers.
+TitlePower AutomateDescriptionMJINC - Inquiry Creation: Auto Generate Email Template {For Contact}Case | On Create | Send email to CustomerWhen an inquiry is created Email will be sent to Customer MJINC - Inquiry Creation: Auto Generate Email Template {For Customer}Case | On Create | Send email to CustomerWhen an inquiry is created Email will be sent to Customer MJINC - Inquiry Resolution: Auto Generate Email Template {For Contacts}Case | On Update | Send emailWhen an inquiry is created Resolved will be sent to Customer MJINC - Inquiry Resolution: Auto Generate Email Template {For Customers}Case | On Update | Send emailWhen an inquiry is created Resolved will be sent to Customer MJINC - Inquiry Update: Portal Customer NotificationIncident | Portal Comment | Notify CustomerWhen portal comment is added in CRMMJINC - Inquiry Owner: Status is Response ReceivedCase | On Update | Send email case owner
+When the Inquiry status is updated to Response ReceivedMJINC - Inquiry Support Center  
+2.3.5.3    Knowledge Management
+Knowledge Management:
+Knowledge management involves organizing, creating, utilizing, and sharing collective knowledge within an organization. Effective knowledge management ensures that information is stored in a way that is easily accessible.
+Creating knowledge articles for customer service requires a deep understanding of the company's products or services, along with the common issues and inquiries customers may encounter. These articles can be created either manually or based on existing inquiries. By leveraging these resources to create knowledge articles, companies can equip customers with the information needed to resolve issues swiftly and effectively, enhancing the overall customer experience.
+* Search Providers
+* KM Configuration
+* Configure Search for KA
+KA Templates
+Knowledge article templates assist knowledge managers in streamlining the creation of knowledge articles. They also help ensure consistency in branding, language, and structure across articles. When an author selects a template to create an article, specific fields within the template are automatically populated with values, enabling the author to focus on writing the core content of the article.
+To Create a Knowledge Article, Click on New from Template Button on Knowledge Article entity. Then select the KA Template from the Choose a Template Lookup
+
+Upon Selecting the template, The KA Form will be prepopulated content of the template
+
+
+User can then modify the KA with required information and save the KA.
+Knowledge Search 
+Knowledge Search refers to the functionality that allows agents and users to search for relevant knowledge articles within the system to find information that can help resolve customer issues. It enables users to quickly locate and retrieve articles, solutions, or guidance stored in the Knowledge Base, making it easier to address customer inquiries and provide accurate, consistent responses.
+Users will be able to use Knowledge search as below
+* Searching with Suggest-as-you-type
+* Search for related articles in Customer Service workspace
+* Search using favorites
+
+2.3.5.4    Business Management
+* Configure Advanced Settings
+Below items have been configured in Customer Service Admin App
+* Routing 
+Routing refers to the process of directing incoming customer service requests or Inquiries to the appropriate queue, agent, or team for resolution. The goal is to ensure that cases are handled by the right person or team based on criteria like skill set, priority, location, or workload. This process helps streamline case management, improve response times, and enhance customer satisfaction.
+Routing is configured in Customer Service Admin App
+
+
+
+* Automatic Record Creation Rule
+ARC used to automatically create or update records, such as cases, when certain conditions are met. These rules help streamline the process of case management and improve response times by automating tasks that would otherwise require manual intervention.
+
+
+* Inquiry Similarity Rules
+Based on the Inquiry Title the AI model learns from the summary and details of all resolved and active cases. It then provides knowledge article suggestions to active cases and similar case suggestions to both active cases and ongoing conversations. The model can process up to 1 million most recent cases. The Similar Inquiry will be Suggested based on the Inquiry Title on the Smart Assist Pane upon opening an Inquiry.
+The Inquiry Similarity Rule must be turned on from the customer Admin center.  
+
+
+
+
+
+* Agent Script
+The purpose of this Agent Macro is to streamline the process of creating Email Activities for an inquiry. When a Customer Service Representative wants to create an Email Activity from an inquiry, they can do so efficiently by simply clicking on the Agent Script in the productivity pane and selecting "Open Email Activity (with Template)."
+
+
+
+* Customer Service historical analytics and Knowledge analytics Dashboard
+Customer Service historical analytics and Knowledge analytics Dashboard have been enabled from Customer Service Admin Centre and these dashboards can be Accessed through Sitemap
+
+
+
+* Knowledge Search 
+Knowledge Search refers to the functionality that allows agents and users to search for relevant knowledge articles within the system to find information that can help resolve customer issues. It enables users to quickly locate and retrieve articles, solutions, or guidance stored in the Knowledge Base, making it easier to address customer inquiries and provide accurate, consistent responses.
+Users will be able to use Knowledge search as below
+* Searching with Suggest-as-you-type
+* Search for related articles in Customer Service workspace
+* Search using favorites
+
+3 User Personas
+User Persona: 
+* General Business User (Read Only) 
+Support Center: 
+* Customer Service Representative 
+* Support Center Manager (Lead) 
+Customer Relations: 
+* Account Specialist 
+* Customer Relations User 
+* Credit Team User 
+* Customer Relations Manager (Lead) 
+Other: 
+* Knowledge Manager User / Marketing Content User 
+Team: 
+* Support Center Team 
+* Customer Relations Team 
+* Credit Team 
+* LEO Team 
+* Grand Canyon – Support Center 
+* Grand Canyon – Customer Relations
+Reference Document: MJINC - Customer Service Persona Draft v1.docx
+4 User Interface Design
+4.1 Forms Wireframes
+4.1.1 Inquiry Form
+Each tab of the Inquiry main form is described in detail below.
+The Detail tab contains all the intake fields needed to create a New Inquiry. It also displays Customer Details, Type/Sub-Types, Escalation information, and the Timeline. The screenshot below is the Summary tab of an example Inquiry:
+
+
+Additional Inquiry Tabs:
+* Attachments
+* Activities
+* Admin
+* Related
+    
+    
+    
+4.1.2 Inquiry: New Customer: Lead Quick Create
+
+4.1.3 Knowledge Articles
+Knowledge Article: All Article (View):
+
+
+
+
+
+
+
+
+
+Knowledge Article: (Form) General Tab:
+
+
+Knowledge Article: (Form) Summary Tab:
+
+
+
+
+
+Knowledge Article: Search: Left Navigation
+
+4.2 Views
+4.2.1 System Views
+For a comprehensive listing of view configurations by table, please refer to the Excel file available at the provided URL. This file serves as a detailed reference, offering insights into the specific configurations and settings for each table within the D365 Customer Service Solution.
+Reference URL: Customer Service Solution Views by Table: 
+MJINC D365 Customer Service View Configurations.xlsx
+ 
+Note: The view excels also describes what Dashboards are associated to the views
+
+5 Reports and Dashboards
+Dashboards and reporting provide valuable insights into the performance of customer service teams. This feature includes various dashboards for Billing Analysts, CS Reps, and team leads, allowing them to monitor key performance indicators (KPIs) and manage their work effectively. By providing real-time data and visualizations, dashboards help teams track progress, identify areas for improvement, and make data-driven decisions to enhance service delivery.
+Dashboards:
+The following table outlines the various dashboards available in Dynamics 365 Customer Engagement (D365 CE) and their respective purposes.
+ 
+Document Reference: MJINC D365 CE - Customer Service - Dashboards.xlsx
+6 Application Security
+Figure 20 MJINC BU Structure
+
+
+
+
+
+
+6.1 Security Design Approach
+The desired approach for D365 Application Security is a Layered Role Approach, as described below.
+
+Folder Location: Security
+Multiple Security Roles
+* Users/Teams can be assigned more than one role.
+* Users/Teams assigned to multiple roles will have a combination of privileges and access levels from all assigned roles.
+* They are granted the least restrictive access level for each record type and privilege.
+
+
+
+Business Unit:
+In Dynamics 365 Customer Engagement (D365 CE), Business Units are fundamental to the role-based security model. Therefore, it's crucial to organize Business Units in a hierarchical structure. As a best practice, we aim to use as few Business Units as possible to simplify management and maintain clarity.
+
+Role-Based Security:
+Role-Based Security focuses on grouping a set of privileges that define the responsibilities or tasks a user can perform.
+Record Based Security: 
+* Create
+* Read
+* Update
+* Delete
+* Assign
+* Share
+Teams: Setting up Teams in CRM is based on the functional requirements, the business unit hierarchy, and the security roles to be configured. If there is a need for a group of users across various business units to collaborate on a record, teams can be created in CRM, and the records can be shared with the team.
+
+Field Level Security: Field level security restricts access to specific fields for designated users and teams.
+
+<Action Item: ME: Add Field Level Security Profile for Customer Service>
+6.2 Business Unit 
+D365 Business Units (BUs) are used to segment data across different groups. For the D365 Customer Service Solution, there is no specific requirement to segment data. In our design, both Customer and Sales teams need access to all Accounts, Contacts, etc. Functionally, we plan to accommodate Customer Service users within a single BU.
+The following is the current Business Unit Structure to Support the Customer Service Solution:
+* Root BU
+o MJINC Safety BU
+* Users are assigned at the MJINC Safety BU
+* Teams are assigned at the MJINC Safety BU
+6.3 Security Roles
+Security: Security Role by Persona Summary:
+
+Reference Document: MJINC - Security Matrix and Roles Updated.xlsx
+Folder Location: Security
+
+6.3.1 Application Security Roles
+D365 CE: Customer Service Solution: Security Roles by Persona
+
+
+6.3.2 Security Role Matrix
+Security: Model Driven Apps:
+
+
+
+
+
+
+Security: Dashboards:
+
+6.4 Teams
+
+6.5 Field Based Security
+The D365 Customer Service Solution includes two column-level security profiles: 
+* Customer Service - Support Center
+* Customer Service - Customer Relations. 
+The Support Center profile grants users the ability to update Account/Work Order Instructions, while the Customer Relations profile allows users to update Billing Instructions. 
+Note this works alongside the Sales Solution Business Rule (Java Script), to lock all Account fields when Account is Approved. 
+7 Entity Model
+7.1 Logical Entity Relationship Diagram (ERD)
+Figure: Logical ERD:
+
+
+       Reference Document Link: MJINC - ERD - Release 1 - Final.pdf
+       Originating Visio Diagram: MJINC - ERD - Release 1 - Final.vsdx
+
+
+7.2 Entities 
+The following tables provide an overview of both Out-of-the-Box (OOTB) and custom tables utilized within the D365 Customer Service Solution.
+For detailed information on table configurations and attribute specifics, please refer to the Data Dictionary in Section 6.2.1 or the ERD in Section 6.1. These documents provide details of the structure and attributes of each table, ensuring a clear understanding of their roles and relationships within the D365 Customer Service Solution.
+
+
+7.2.1 Data Dictionary
+The Data Dictionary includes a definition of each entity and field attribute with the D365 Customer Service Solution. (i.e., Display Name, Schema Name, Field Type, Lookup, Choice List & Values, etc.).
+ 
+	The Data Dictionary file has been attached with this document.
+		Data Dictionary: MJINC_DataDictionary_v1.xlsx
+8 Customer Service: Solution Reference Data
+8.1 Customer Service: Master Data
+8.1.1 Inquiry Types and Sub Types
+Inquiry Types and Sub Types are used to classify inquiries. This section outlines the functional design for managing Inquiry Types and Sub Types. The purpose is to provide a comprehensive guide on how Inquiry Types are structured, stored, and utilized to enhance the efficiency of handling customer and internal inquiries. The design ensures dynamic, data-driven changes to accommodate evolving business needs.
+Inquiries have two sets of Inquiry Types Internal Inquiry Types/Sub Types (MJINC CE Users) and Customer Facing Inquiry Types/Sub Types (Customer Contacts in Portal).
+Key Points:
+* Dynamic Data-Driven Changes: The table allows for dynamic updates as needed to adapt to changing business requirements.
+* Hierarchical Structure: Inquiry Types and Sub Types are organized hierarchically to streamline the inquiry management process.
+* Customer and Internal Differentiation: Separate fields for internal and customer-facing inquiries ensure clarity and appropriate handling.
+* Feedback Integration: The inclusion of feedback surveys helps in gathering customer insights and improving service quality.
+* Ownership and Responsibility: Clearly defined ownership ensures that inquiries are visible to the appropriate teams.
+
+Core Field List for Inquiry Types:
+1. Inquiry Type
+* Defines the primary category of the inquiry.
+2. Parent Inquiry Type
+* Drives the hierarchy of Inquiry Types.
+* Inquiry Types have a blank Parent (Internal Type).
+* Inquiry Sub Types have a Parent Value (Internal Sub Type).
+3. Internal Inquiry Type
+* Maps Internal Inquiry Type Value from Portal Inquiries.
+4. Is Customer Portal
+* Indicates if the items are customer-facing (Yes/No).
+* Customer Inquiry Types and Sub Types work similarly to Internal Types/Sub Types but are customer-friendly and shown in the portal with a 'Yes' in Is Customer Portal.
+Is Feedback Survey
+* Indicates if a Customer Voice Survey is sent for the Inquiry Types.
+Owner
+* A team that determines which Inquiry Types are for Support Center vs. Customer Relations.
+
+Reference Document: MJINC D365 CE - Customer Service Inquiry Types - Data 1-23-2025.xlsx
+8.1.2 Account Placeholders
+Account Placeholders are used in scenario where an actual customers cannot be used. In this solution, we are using two Account Placeholder.
+New Customer Placeholder - It is populated to route a new customer inquiry to the New Customer Onboarding Process, after collecting some basic information from the new potential customer.
+No Customer Placeholder - When a Support Center Complaint does not have an associated customer, an inquiry can be created with the Inquiry type as Support Center and Inquiry Sub Type as Complaint.
+8.1.3 Category and Subject
+* Category
+In Dynamics 365 Customer Service, Categories in Knowledge Articles (KA) are used to organize and classify knowledge content, making it easier for agents and customers to search for relevant information. By assigning categories to knowledge articles, you help ensure that users can quickly find the information they need by filtering or searching through various topics.
+* Subject 
+Dynamics 365 Customer Service includes a subject organizational structure that lets you group knowledge base articles. By using the subject hierarchy, you can classify service cases to quickly provide service to your customer. 
+
+ 
+9 Functional Requirements Mapping
+This project was delivered using Azure Dev Ops, using the Delivery Framework for Business Applications, standard Operational Model, and Business Requirements.  This section includes a
+Reference URL: Customer Service Approved Business Requirements: 
+Customer Service BR.xlsx
+Reference URL: MJINC Next Gen: ADO: Customer Service: https://dev.azure.com/MJINCsafety/Dynamics%20365%20ERP/_queries/query/7825882a-99dc-4811-86e1-174bdc5be786/
+
+
+
+
+
+
+
+10 Customer Service: Technical Summary
+The following summary lists key technical items used in delivering the Customer Service Solution, including technical configurations for Inquiry, Inquiry Resolution, and Activities. For comprehensive details, please refer to the TDD.
+
+For more detailed information, please refer to the Technical Design Document (TDD): 
+Reference Document: MJINC_NextGen_TDD_D365CE_v1.0.docx
+Reference Document: MJINC - D365 CE - Customer Service - FDD - Technical Summary.xlsx
+Note: D365 CE Configurations are in the Solution: MJINC Configuration Solution
+ 
+11 Appendix A – Key Decisions
+All the key decisions related to the Sales stream can be found at the following link, which provides detailed information on each decision made.
+ADO: <Link>
+12 Appendix C – Review Log
+
+MJINC Team, please use the table below to submit any comments or questions on this document, so we can track them effectively.
+Section No.Questions/CommentsAction Taken
+13 Functional Knowledge Transfer
+KT Session: Scheduled 1/30/2024
+
+
+
+21
+
+
+
+
