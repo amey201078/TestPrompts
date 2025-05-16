@@ -1,0 +1,119 @@
+Functional Design Document (FDD)
+Financial Services Enhancements
+Dynamics 365 Customer Engagement (CE)
+1. Introduction
+Purpose: To enhance Dynamics 365 CE for banking and financial services, covering customer onboarding, regulatory compliance, and portfolio management.
+Platform: Leverage Dynamics 365 CE modules (Sales, Customer Service, Marketing) and Financial Services add-ons (e.g., Dynamics 365 Finance Insights).
+Alignment: This solution replaces Salesforce-centric terminology (e.g., "Financial Services Cloud") with Dynamics 365 CE equivalents, ensuring all features are mapped to Microsoft’s best practices and platform capabilities. 
+2. Scope
+Actors & Roles
+RoleMain ResponsibilitiesD365 CE Module/RoleRelationship ManagerManage opportunities, customer data, and allocations.Sales Hub (Sales Manager role)Compliance OfficerOversee and validate KYC (Know Your Customer) processes.Customer Service (Custom Compliance Officer role)Portfolio ManagerMonitor and manage customer portfolios and investments.Finance Insights + Custom Entities (Portfolio Manager role)Functional Areas
+* Opportunity Product Allocation: Use Product Catalog and Opportunity Line Items to allocate and manage financial products for each opportunity.
+* KYC Task Automation: Implement KYC (Know Your Customer) workflows using Business Process Flows and automate with Power Automate.
+* Customer Portfolio Creation: Use custom "Portfolio" entities and leverage Dynamics 365 Finance Insights for portfolio aggregation and analytics.
+3. Technical Solution
+Data Model
+* Entities: 
+o Account (Customer)
+o Contact (Customer Contact)
+o Opportunity (with Product Line Items)
+o Portfolio (Custom entity, 1:N with Account)
+o KYC Document (Custom entity, N:1 with Account)
+o Product (Financial Products)
+* Relationships: 
+o Account 1:N Portfolio
+o Account 1:N KYC Document
+o Opportunity N:1 Account
+o Opportunity 1:N Opportunity Line (Product Allocations)
+Automation
+* Business Rules: 
+o Enforce mandatory KYC completion before opportunity closure.
+o If KYC Status = "Escalated", set Opportunity status to "On Hold".
+* Power Automate Flows: 
+o Automate integration with core banking APIs (e.g. KYC verification, product updates).
+o Trigger notifications for overdue KYC tasks and portfolio updates.
+Security
+* Role-Based Access: 
+o Relationship Manager: Full access to Opportunities, Account, Portfolio.
+o Compliance Officer: Read/write on KYC, limited on Opportunities.
+o Portfolio Manager: Access to Portfolio, read-only on KYC.
+* Field-Level Security: 
+o Restrict sensitive fields such as SSN, Portfolio Value (visible to Compliance/Portfolio Manager only).
+4. User Interface
+Forms & Views
+* Customize Account and Opportunity forms for Financial Services fields (e.g., Risk Profile, Relationship Type).
+* Portfolio entity: Tabbed form showing summary, assets, allocations, and timeline.
+* KYC Document form: Capture doc type, status, expiry, and upload scan/image.
+* Useful Views: "Active Portfolios", "Pending KYC Approvals", "Opportunities by Product Allocation".
+Dashboards
+* Portfolio Overview: Total AUM, allocation by type, performance.
+* KYC Compliance: Overdue KYC Cases, escalated tasks, SLA trends.
+Business Process Flows
+Intake ? KYC Validation ? Approval 
+* Stages for Opportunity: Qualification ? KYC ? Proposal ? Approval ? Close.
+* Each stage has specific required fields and automated checks.
+5. Integration
+* Replace Salesforce Connect with Azure Service Bus or Dual Write for real-time sync with core banking systems.
+* Leverage Common Data Service (CDS) for unified data across Dynamics 365 modules.
+* APIs or Azure Logic Apps for external KYC/AML checks and product catalogue sync.
+6. Testing & Compliance
+* Test Cases: 
+o Validate KYC workflow automation (business rules, escalations).
+o Verify opportunity product allocation logic (proper mapping to D365 CE Product Catalog).
+o Check data integrity for portfolio aggregation.
+* Regulatory Alignment: 
+o GDPR/HIPAA compliance via D365 CE’s audit logs, role-based access, field-level security, and data encryption at rest and in transit.
+
+
+
+
+7. Appendices
+Entity Relationship (ER) Diagram
+Account (Customer)
+accountid
+name
+type
+riskprofile
+relationshipmanagerid
+?1:N 
+Portfolio
+portfolioid
+accountid
+totalvalue
+lastrevieweddate
+?1:N 
+KYC Document
+kycdocumentid
+accountid
+doctype
+status
+expirydate
+
+
+
+
+?N:1 
+Opportunity
+opportunityid
+accountid
+estimatedvalue
+status
+?1:N 
+Opportunity Line
+opportunityproductid
+opportunityid
+productid
+quantity
+allocationpercentage
+?N:1 
+Product
+productid
+name
+type
+riskcategory
+Note: Each rectangle is an entity, underlined attributes are primary keys. Arrows indicate direction and cardinality (e.g., Account 1:N Portfolio; Opportunity 1:N Opportunity Line). 
+
+
+
+Glossary
+TermDescriptionBusiness UnitOrganizational structure in D365 CE for segmenting users/data and applying security boundaries.TeamGroup of users with shared access rights to records, used for collaboration and access control.EntityA table in D365 CE (e.g., Account, Contact, Opportunity).Business Process FlowGuided process in D365 CE to ensure users follow consistent stages for key operations (e.g., KYC).Power AutomateCloud automation service used to orchestrate workflows and integration within D365 CE and with external systems.Field-Level SecurityRestricts access to sensitive data fields for specific roles or users.Dual WriteReal-time integration technology for synchronizing data between D365 CE and D365 Finance & Operations.CDS (Dataverse)Common Data Service, now called Microsoft Dataverse, is a unified data platform for D365 apps.
