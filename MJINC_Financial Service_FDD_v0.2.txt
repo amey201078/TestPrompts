@@ -1,0 +1,243 @@
+Functional Design Document (FDD)
+Financial Services Enhancements for Dynamics 365 CE
+
+
+
+1. Introduction
+This Functional Design Document (FDD) details the enhancements required for Dynamics 365 Customer Engagement (CE) to support customer onboarding, regulatory compliance (including KYC/AML), and portfolio management in a banking and financial services context. The solution leverages Dynamics 365 Sales, Customer Service, Marketing, and Financial Services add-ons, ensuring alignment with Microsoft best practices and replacing Salesforce-centric concepts.
+
+
+2. Scope
+2.1 In-Scope Business Processes
+* Customer Onboarding: End-to-end onboarding of new clients, including capturing data, document collection, and KYC checks.
+* Regulatory Compliance: Automation and tracking of KYC/AML processes, with escalation handling and audit trails.
+* Portfolio Management: Creation and management of customer portfolios, aggregation of financial products, and performance analytics.
+* Opportunity Product Allocation: Allocation and management of financial products to sales opportunities.
+* User and Role Management: Role-based access and field-level security for sensitive data.
+* Dashboards and Reporting: Real-time dashboards for KYC, portfolio performance, and compliance.
+* Integration: Real-time and scheduled integrations with core banking systems and external KYC/AML services.
+2.2 Out-of-Scope (Assumptions)
+* In-depth loan origination and servicing (unless specifically requested).
+* Non-financial products/services.
+* Mobile app customizations beyond standard D365 CE capabilities.
+
+
+
+3. Actors/Roles
+RoleMain ResponsibilitiesD365 CE Module/RoleRelationship ManagerManage opportunities, customer data, and allocationsSales Hub (Sales Manager role)Compliance OfficerOversee and validate KYC (Know Your Customer), AML checksCustom Security RolePortfolio ManagerAggregate and analyze portfolio dataCustom Security RoleCustomerProvide required data and documents (portal, assisted entry)N/A
+
+
+4. Functional Requirements
+
+
+
+
+
+4.1 Customer Onboarding
+Business Rationale:
+Ensure a seamless, compliant onboarding experience for new banking clients.
+Preconditions/Triggers:
+* New customer request received via branch, portal, or referral.
+User Interaction Steps:
+1. RM initiates onboarding from Account or Contact.
+2. System presents onboarding form (risk profile, relationship type, required docs).
+3. User enters details; system validates required fields.
+4. KYC process triggered on save/submit.
+Expected System Behavior:
+* Save record only if required fields are present.
+* Trigger KYC workflow automatically.
+* Assign onboarding task to RM and Compliance Officer.
+Edge Cases/Validation:
+* Show error if required fields missing.
+* Block onboarding if duplicate customer detected.
+
+
+
+
+
+
+
+
+
+4.2 Regulatory Compliance (KYC/AML)
+Business Rationale:
+Automate compliance checks and reduce manual errors.
+Preconditions:
+* Onboarding in progress or periodic review due.
+User Interaction Steps:
+1. Compliance Officer reviews KYC document checklist.
+2. Uploads or verifies documents; system tracks status.
+3. If KYC status escalated, system sets related Opportunities to "On Hold".
+Expected System Behavior:
+* Mandatory completion of KYC before opportunity closure.
+* Audit trail for all changes and approvals.
+Edge Cases/Validation:
+* Notification to RM if KYC delayed or escalated.
+* Deny opportunity closure if KYC incomplete.
+
+
+4.3 Portfolio Management
+Business Rationale:
+Aggregate and monitor customer assets for better service and regulatory reporting.
+Preconditions:
+* Customer onboarded and assigned products.
+User Interaction Steps:
+1. Portfolio Manager views/creates Portfolio from Account.
+2. Adds/updates product allocations.
+3. System aggregates total value, calculates risk, and updates dashboards.
+Expected System Behavior:
+* Accurate calculation and display of portfolio metrics.
+* Restrict access to sensitive fields (e.g., Portfolio Value).
+Edge Cases/Validation:
+* Alert if portfolio review overdue.
+* Block deletion if linked to active opportunities.
+
+
+
+4.4 Opportunity Product Allocation
+Business Rationale:
+Ensure correct allocation of financial products to sales opportunities.
+Preconditions:
+* Opportunity created and linked to Account.
+User Interaction Steps:
+1. RM adds Opportunity Line Items (products) to Opportunity.
+2. Specifies quantity, allocation percentage.
+3. System validates totals, enforces allocation rules.
+Expected System Behavior:
+* Cannot exceed 100% allocation.
+* Only valid financial products selectable.
+Edge Cases/Validation:
+* Warning if allocation percentage not matching expected total.
+
+
+
+
+4.5 User Management & Security
+Business Rationale:
+Protect sensitive information and ensure proper role segregation.
+Preconditions:
+* User assigned to a role.
+User Interaction Steps:
+1. Admin assigns roles to users.
+2. User logs in and sees only permitted data and actions.
+Expected System Behavior:
+* Field-level security for SSN, Portfolio Value.
+* Role-based access for records and actions.
+Edge Cases/Validation:
+* Audit log on access or changes to sensitive data.
+
+
+
+
+
+
+
+
+
+
+
+
+4.6 Dashboards and Reporting
+Business Rationale:
+Provide actionable insights to users and management.
+Preconditions:
+* Data available in system.
+User Interaction Steps:
+1. User opens dashboard (e.g., Portfolio Overview, KYC Compliance).
+2. System displays charts, KPIs, and alerts.
+Expected System Behavior:
+* Real-time update of metrics.
+* Drill-down to underlying records.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5. Non-Functional Requirements
+* Performance: Dashboards and forms must load within 3 seconds for up to 100 concurrent users.
+* Security: All data encrypted at rest and in transit; audit logs enabled.
+* Compliance: GDPR/HIPAA compliance enforced.
+* Availability: 99.9% uptime for critical business hours.
+* Usability: Forms optimized for minimal data entry; tooltips and error messages provided.
+
+
+
+6. User Stories Summary Table
+User Story IDSummary/TitlePrimary ActorGoalAcceptance CriteriaUS-001Onboard new customerRelationship ManagerCapture and validate new customer detailsAll required fields entered, no duplicates, KYC triggered automaticallyUS-002Complete KYC for customerCompliance OfficerUpload and verify KYC documentsAll checklist items complete, system marks KYC as completeUS-003Allocate products to opportunityRelationship ManagerAssign products and set allocation %Total allocation does not exceed 100%, only valid products selectableUS-004Aggregate and review portfolioPortfolio ManagerSee portfolio value and compositionDashboard shows correct metrics, restricted fields protectedUS-005Receive alert on overdue KYCRM, ComplianceBe notified of overdue/escalated KYCNotification triggered when KYC overdueUS-006View real-time compliance dashboardCompliance OfficerMonitor KYC/AML status and trendsDashboard displays real-time data, drill-down supportedUS-007Restrict access to sensitive data fieldsAdminEnforce field-level and role-based securityOnly authorized roles can view/edit sensitive data
+
+
+
+
+
+7. Design Inventory Table
+FeatureUser StoryComponents to be Generated/ExtendedType of ComponentDescriptionCustomer OnboardingUS-001Account Entity, Onboarding Form, WorkflowEntity, Form, PowerAutomateMain entity for customer data, entry form, and onboarding workflowKYC Task AutomationUS-002, US-005KYC Document Entity, BPF, Notification FlowEntity, BPF, FlowEntity for KYC docs, business process flow for KYC, automated alertsPortfolio ManagementUS-004Portfolio Entity, Dashboard, ViewsEntity, Dashboard, ViewCustom entity for portfolios, dashboard for metrics, views for active portfoliosOpportunity Product AllocationUS-003Opportunity Entity, Opportunity Line ItemsEntity, Subgrid, BusinessRuleProduct allocation subgrid, business rule for allocation % validationSecurity ControlsUS-007Field Security Profile, RolesSecurity Profile, RoleField-level and role-based security for sensitive dataCompliance ReportingUS-006Compliance Dashboard, Views, ReportsDashboard, View, ReportCharts and reports for KYC/AML, overdue cases, escalationsIntegration with Core BankingAllAzure Service Bus, Logic Apps, ConnectorsIntegrationReal-time/scheduled integration for KYC, product catalog, portfolio updates
+
+
+8. Integration Points
+* KYC/AML Verification: Integrate with external KYC/AML services using APIs, Azure Logic Apps, or Functions.
+* Product Catalog Sync: Bi-directional sync with core banking product catalog.
+* Portfolio Aggregation: Integration with D365 Finance Insights for analytics.
+* Notification Services: Email/SMS integration for alerts and workflow notifications.
+
+
+
+
+9. Reporting
+* Portfolio Overview Dashboard: Total AUM, allocations, performance.
+* KYC Compliance Dashboard: Overdue KYC, escalations, SLA trends.
+* Opportunity/Product Views: Opportunities by product, pending approvals.
+
+
+
+10. Security
+* Role-Based Access Control: Assign users to roles with defined CRUD permissions.
+* Field-Level Security: Restrict sensitive fields (e.g., SSN, Portfolio Value) to authorized roles.
+* Audit Logging: All changes to sensitive data are logged.
+* Data Encryption: All data encrypted at rest and in transit.
+
+
+
+11. Assumptions & Inferred Requirements
+* All users have access to training and support resources.
+* Opportunity cannot be closed unless KYC is complete (enforced via business rule).
+* Portfolio values updated in real time or via scheduled jobs.
+* All integrations use secure authentication (OAuth2, certificates).
+* System is accessible via standard browsers and mobile devices.
+
+
+
+
+12. Glossary
+TermDescriptionAccountCustomer in D365 CEKYCKnow Your Customer, regulatory compliance requirementPortfolioAggregated set of customer financial productsOpportunitySales opportunity recordBPFBusiness Process FlowPowerAutomateMicrosoft workflow/automation toolField SecurityMechanism to restrict access to sensitive fields
+
+
+
+
+
+
+
+
+
+
+
+
+
+13. Appendix: Entity Relationship Summary
+* Account (1:N) Portfolio
+* Account (1:N) KYC Document
+* Opportunity (N:1) Account
+* Opportunity (1:N) Opportunity Line
+* Opportunity Line (N:1) Product
+
+End of Functional Design Document
+
