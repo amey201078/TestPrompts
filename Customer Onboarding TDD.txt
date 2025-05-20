@@ -1,0 +1,72 @@
+Technical Design Document (TDD)
+Customer Onboarding for Retail Bank in Dynamics 365 CE
+1. Introduction
+This Technical Design Document (TDD) translates the requirements from the Functional Design Document (FDD) for Customer Onboarding in Dynamics 365 CE for Retail Banking. It details technical specifications, customizations, integrations, security, and extensibility for a robust, compliant, and user-friendly onboarding solution. 
+2. Entity Model and Attribute Tables
+2.1 Entity List
+Entity NameDescriptionTypeKey RelationshipsContactInformation about individual customersStandardN:1 AccountAccountCustomer organizationsStandard1:N ContactLeadPotential customersStandardN/AOpportunityPotential salesStandardN:1 AccountCaseCustomer service issuesStandardN:1 Contact/AccountActivityCustomer interactions (emails, calls, appts.)StandardN:1 Contact/AccountOnboarding TaskTracks onboarding tasksCustomN:1 Contact, N:1 Onboarding ChecklistOnboarding ChecklistStores checklist for onboarding processCustom1:N Onboarding TaskCustomer FeedbackFeedback during onboardingCustomN:1 Contact/AccountIdentity VerificationKYC/AML checksCustomN:1 Contact/AccountDocument ManagementStores customer documentsCustomN:1 Contact/Account2.2 Attribute Tables
+Account
+AttributeTypeDescriptionaccountidGUIDPrimary KeynameTextAccount NameindustrycodeOptionSetIndustrycustom_banksegmentOptionSetBank Segment (custom)Contact
+AttributeTypeDescriptioncontactidGUIDPrimary KeyfirstnameTextFirst NamelastnameTextLast Nameemailaddress1EmailEmail Addresscustom_kycstatusOptionSetKYC Status (custom)Onboarding Task
+AttributeTypeDescriptiononboardingtaskidGUIDPrimary KeyonboardingtasknameTextTask NamestatuscodeOptionSetTask StatusowneridLookup(User)Assigned ToonboardingchecklistidLookup(Onboarding Checklist)Related ChecklistduedateDateDue DateOnboarding Checklist
+AttributeTypeDescriptiononboardingchecklistidGUIDPrimary KeynameTextChecklist NameallitemscompletedBooleanFlag if all checklist items are doneIdentity Verification
+AttributeTypeDescriptionidentityverificationidGUIDPrimary KeykycstatusOptionSetKYC StatusamlstatusOptionSetAML StatusverificationdateDateVerification Date3. Customization Analysis
+3.1 Customizations & Configuration Steps
+CustomizationDescriptionConfiguration StepsPseudo-Code/LogicOnboarding Task EntityTracks specific tasks in onboarding. Custom fields for assignment, status, linkage to checklist.1. Create "Onboarding Task" entity.
+2. Add fields: onboardingtaskname, statuscode, ownerid, onboardingchecklistid, duedate.
+3. Enable auditing.
+4. Enable for mobile. Onboarding Checklist EntityStores all checklist items. Used for gating task completion.1. Create "Onboarding Checklist" entity.
+2. Add fields: name, allitemscompleted.
+3. Relationship: 1:N to Onboarding Task. Identity Verification EntityStores KYC/AML status and verification date.1. Create "Identity Verification" entity.
+2. Add: kycstatus, amlstatus, verificationdate.
+3. Relate to Contact/Account. Document Management EntityStores uploaded customer documents.1. Create "Document Management" entity.
+2. Add: documenttype, documenturl, expirydate.
+3. Relate to Contact/Account. Business Rule: Onboarding Task Required FieldsEnsure required fields are filled if task is active.1. Create business rule on Onboarding Task.
+2. Required: onboardingtaskname, ownerid, statuscode if status is 'Active'. If Task Status is Active and any required field is empty, show error "Required field missing". Business Rule: Due Date ValidationEnsure Due Date is not in the past.1. Business rule on Onboarding Task.
+2. If duedate < Today, show error. If Due Date is before today, display "Due Date cannot be in the past". Workflow: Email NotificationSend email when task is created/completed.1. Workflow on Onboarding Task creation/completion.
+2. Trigger email to assigned user/manager. On task create or complete, send email to assigned user or manager. Workflow: Approval for Onboarding TaskCustom workflow for multi-level approvals.1. When status = Pending Approval, trigger approval process.
+2. On approval, set status to In Progress.
+3. On reject, notify creator. If status is Pending Approval, send approval request. On approval, set In Progress. On rejection, notify creator. Plugin: Task Completion GatingPrevent task status "Completed" unless all checklist items are done.1. Register plugin on Onboarding Task 'Update' for status change.
+2. If status set to Completed, check checklist items. On status change to Completed, if checklist not all done, block and show error. JavaScript: Required Field ValidationEnforce required fields dynamically on Onboarding Task form.1. Add JS to Onboarding Task form OnSave event.
+2. Check required fields, show notification if missing. On form Save, if required fields missing, prevent save and alert user. 3.2 Role and Privileges Matrix
+RoleReadWriteCreateDeleteAppendAppend ToAssignShareOnboarding ManagerYesYesYesYesYesYesYesYesOnboarding AgentYesYesYesNoYesYesNoNoCompliance OfficerYesNoNoNoYesYesNoNo4. Integration Strategy
+IntegrationSystems InvolvedData Flow & MappingMethodSecurity & PerformanceEmail SynchronizationD365 CE, Bank Email ServerUser email setup, email templates, signaturesEmail Server Profile, Server-Side SyncOAuth2, encrypted, monitor sync errorsMobile App IntegrationD365 CE Mobile, iOS/AndroidUser access, onboarding tasks, activitiesMobile App, Security ProfilesDevice security, MFA, session timeoutIdentity VerificationD365 CE, Core Banking/KYC/AML APIContact/Account KYC fields, verification resultAPI/Logic Apps/Azure FunctionEncrypted, audit, retries for failuresDocument ManagementD365 CE, SharePointDocument URL, metadataOut-of-box SharePoint integrationAccess controls, DLP, audit logs5. Data Migration
+AspectDetailsSource SystemsLegacy CRM, Bank Data Warehouse, Excel, CSVData CleansingRemove duplicates, validate emails, normalize KYC statusMigration ApproachData Import Wizard, KingswaySoft, Dataflows, SSISValidation & ReconciliationRecord counts, sample checks, audit logs, error reports6. PCF Component Evaluation
+Component Use CaseDescriptionInputsOutputsLinksChecklist Progress BarVisualize onboarding checklist progress on task or customer formChecklist items, completed flagProgress bar UIPCF Gallery: Progress BarKYC Status IndicatorShow KYC/AML verification status visuallyKYC/AML status fieldsStatus badge/iconPCF Gallery: Status BadgeDocument Upload Drag-and-DropUser-friendly file upload for Document ManagementDocument file, metadataUpload control, file linkPCF Gallery: File Upload7. Pseudo-Code for Key Logic
+7.1 Plugin: Prevent Task Completion Without Checklist
+
+When Onboarding Task status is changed to Completed:
+    Retrieve related Onboarding Checklist
+    If not all checklist items are marked as done:
+        Block status change and show an error message to the user: 
+        "All checklist items must be completed before marking task as Completed"
+        
+7.2 JavaScript: Validate Required Fields on Save
+
+On Onboarding Task form Save:
+    For each required field (Task Name, Assigned To, Status):
+        If field is empty:
+            Prevent save and show notification: "Required field missing"
+        
+7.3 Workflow: Approval for Onboarding Task
+
+When Onboarding Task status is set to Pending Approval:
+    Send approval request to manager
+    If approved:
+        Set status to In Progress
+    If rejected:
+        Notify creator and set status to Rejected
+        
+7.4 Azure Function: KYC Integration
+
+On KYC check request:
+    Receive API call with customer info
+    Call core banking/KYC/AML API with provided details
+    Parse result
+    Update Identity Verification entity in D365 CE
+        
+8. Security Considerations
+* Customizations: Field-level security for sensitive fields; audit logging enabled on key entities.
+* Integrations: Use OAuth2, encrypt traffic, log all API interactions, handle errors gracefully.
+* Data Migration: Limit migration access, mask/obfuscate PII in test loads, validate all imported data, maintain audit trail.
+* PCF Controls: Never store sensitive data in browser, sanitize user input, review for vulnerabilities.
