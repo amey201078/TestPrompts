@@ -1,0 +1,117 @@
+Technical Design Document (TDD)
+Financial Services Enhancements for Dynamics 365 CE
+1. Introduction
+This Technical Design Document (TDD) translates the requirements from the Functional Design Document (FDD) for the Financial Services solution on Dynamics 365 CE. It covers technical implementation for customer onboarding, regulatory compliance, KYC/AML, portfolio management, product allocation, security, integration, and reporting. Tables and code samples are provided for all functional and technical aspects. 
+2. Entities and Attribute Definition
+2.1 Entity List
+Entity NameTypeDescriptionKey RelationshipsAccountStandardCustomer: Retail or Institutional1:N Portfolio, 1:N KYC Document, 1:N OpportunityContactStandardCustomer Contact PersonN:1 AccountOpportunityStandardSales OpportunityN:1 Account, 1:N Opportunity LineOpportunity LineStandardFinancial Product Allocation for OpportunityN:1 Opportunity, N:1 ProductProductStandardFinancial Product Catalog1:N Opportunity LinePortfolioCustomCustomer Asset AggregationN:1 AccountKYC DocumentCustomKYC/AML Documentation per CustomerN:1 Account2.2 Attribute List by Entity
+Account
+AttributeTypeRequiredDescriptionaccountidGUIDYes (PK)Primary KeynameTextYesCustomer NametypeOptionSetYesAccount TyperiskprofileOptionSetNoRisk Profile for CustomerrelationshipmanageridLookup(User)NoAssigned Relationship ManagerPortfolio
+AttributeTypeRequiredDescriptionportfolioidGUIDYes (PK)Primary KeyaccountidLookup(Account)Yes (FK)Related AccounttotalvalueCurrencyYesTotal Portfolio ValuelastrevieweddateDateNoLast Review DateKYC Document
+AttributeTypeRequiredDescriptionkycdocumentidGUIDYes (PK)Primary KeyaccountidLookup(Account)Yes (FK)Related AccountdoctypeOptionSetYesDocument TypestatusOptionSetYesKYC StatusexpirydateDateNoExpiry DateOpportunity
+AttributeTypeRequiredDescriptionopportunityidGUIDYes (PK)Primary KeyaccountidLookup(Account)Yes (FK)Parent AccountestimatedvalueCurrencyNoEstimated ValuestatusOptionSetYesOpportunity StatusOpportunity Line
+AttributeTypeRequiredDescriptionopportunityproductidGUIDYes (PK)Primary KeyopportunityidLookup(Opportunity)Yes (FK)Parent OpportunityproductidLookup(Product)Yes (FK)Allocated ProductquantityDecimalYesProduct QuantityallocationpercentageDecimalNoAllocation %Product
+AttributeTypeRequiredDescriptionproductidGUIDYes (PK)Primary KeynameTextYesProduct NametypeOptionSetYesProduct TyperiskcategoryOptionSetNoRisk Category3. Customization Analysis
+3.1 Customization Overview Table
+CustomizationDescriptionConfiguration StepsCustom Entity: PortfolioAggregates customer assets, tracks allocations; 1:N Account1. Create "Portfolio" custom table.
+2. Add totalvalue, lastrevieweddate, accountid fields.
+3. Establish 1:N relationship with Account. Custom Entity: KYC DocumentHolds KYC compliance docs, N:1 Account1. Create "KYC Document" custom table.
+2. Add doctype, status, expirydate, accountid fields.
+3. Establish N:1 relationship with Account. Business Rule: Opportunity Closure BlockPrevent opportunity closure unless all KYC docs are complete1. Create business rule on Opportunity.
+2. Add logic: Block closure if related KYC not complete. Business Rule: KYC EscalationIf KYC status escalated, put Opportunity on Hold1. Create business rule or JavaScript.
+2. On KYC Escalated, update Opportunity Status to On Hold. Business Process FlowStage-gated process for Opportunity (Qualification ? KYC ? Proposal ? Approval ? Close)1. Create BPF on Opportunity.
+2. Define stages, required fields, and automation. Field-Level SecurityRestrict sensitive fields (e.g., SSN, Portfolio Value) to privileged roles1. Create field security profiles.
+2. Apply to sensitive fields and assign to roles. Custom Views & DashboardsActive Portfolios, Pending KYC Approvals, Opportunities by Product Allocation, Compliance Dashboards1. Create filtered views.
+2. Build dashboards with charts and KPIs. 3.2 Role and Privileges Matrix
+RoleAccountPortfolioKYC DocumentOpportunityOpportunity LineProductRelationship ManagerFullFullReadFullFullReadCompliance OfficerReadReadFullRead, Write (KYC fields)ReadReadPortfolio ManagerReadFullReadReadReadRead4. Integration Strategy
+IntegrationSystems InvolvedData Flow & MappingMethodSecurity & PerformanceKYC/AML VerificationD365 CE, External KYC/AML APIAccount/KYC Document ? KYC API (verify) ? Update KYC Status in CEAzure Logic Apps / Azure Functions (REST API)OAuth2, encrypted PII, error logging, retry policyProduct Catalog SyncD365 CE, Core Banking Product APIProduct ? API (name, type, risk category)Dual Write / Scheduled Data SyncField mapping, encryption, failure alertsPortfolio AggregationD365 CE, Finance InsightsPortfolio (total, allocation) ? Finance InsightsDataverse, Azure Service BusBatch processing, field-level security, error logsNotification ServicesD365 CE, Email/SMS GatewayTrigger alerts for KYC, portfolio updates, escalationsPower Automate / Azure Logic AppsSecure endpoints, alert on failure5. Data Migration
+AspectDetailsSource SystemsLegacy CRM, Core Banking, Excel/CSV, External KYC/AMLData CleansingRemove duplicates, validate KYC expiry/status, normalize product codesMigration ToolsData Import Wizard, KingswaySoft, SSIS, Azure Data FactoryTransformationField mapping, default risk category, portfolio value calculationValidation & ReconciliationPost-import record count, spot checks, data integrity scripts6. PCF Component Evaluation
+Component Use CaseDescriptionInputsOutputsLinksPortfolio Allocation ChartVisualize asset allocation as donut/pie in Portfolio formAsset type, allocation %SVG chartPCF Gallery: Chart ControlKYC Expiry AlertInline banner if KYC expiry within 30 daysKYC expiry dateWarning message/iconPCF Gallery: Notification Banner7. Detailed Code and Pseudo-Code
+7.1 Plugin (C#): Prevent Opportunity Closure if KYC Not Complete
+
+public void Execute(IServiceProvider serviceProvider)
+{
+    var context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+    if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity entity)
+    {
+        if (entity.LogicalName != "opportunity") return;
+        var status = entity.GetAttributeValue<OptionSetValue>("status")?.Value;
+        if (status == 3) // Closed
+        {
+            var accountId = entity.GetAttributeValue<EntityReference>("accountid")?.Id;
+            if (accountId != null)
+            {
+                var kycDocs = service.RetrieveMultiple(new QueryExpression("kycdocument")
+                {
+                    ColumnSet = new ColumnSet("status"),
+                    Criteria = new FilterExpression
+                    {
+                        Conditions =
+                        {
+                            new ConditionExpression("accountid", ConditionOperator.Equal, accountId)
+                        }
+                    }
+                });
+                var allComplete = kycDocs.Entities.All(doc => doc.GetAttributeValue<OptionSetValue>("status")?.Value == 2); // 2: Complete
+                if (!allComplete)
+                {
+                    throw new InvalidPluginExecutionException("All KYC documents must be complete before closing opportunity.");
+                }
+            }
+        }
+    }
+}
+    
+7.2 Javascript: Auto-hold Opportunity if KYC Escalated
+
+function checkKycEscalation(executionContext) {
+    var formCtx = executionContext.getFormContext();
+    var kycStatus = formCtx.getAttribute("kycstatus").getValue();
+    if (kycStatus === 3) { // 3 = Escalated
+        formCtx.getAttribute("status").setValue(4); // 4 = On Hold
+        formCtx.ui.setFormNotification("Opportunity is set to On Hold due to KYC escalation.", "WARNING", "kyc_escalate");
+    }
+}
+    
+7.3 Azure Function (C#): KYC Verification
+
+[FunctionName("KycVerificationFunction")]
+public static async Task<IActionResult> Run(
+    [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
+{
+    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+    dynamic data = JsonConvert.DeserializeObject(requestBody);
+    string customerId = data?.customerId;
+
+    // Call external KYC API
+    var httpClient = new HttpClient();
+    var response = await httpClient.GetAsync($"https://externalkyc.api/verify/{customerId}");
+    if (!response.IsSuccessStatusCode)
+        return new BadRequestObjectResult("KYC verification failed");
+
+    var kycResult = await response.Content.ReadAsStringAsync();
+    // Process result and return
+    return new OkObjectResult(kycResult);
+}
+    
+7.4 Azure Function (Python): KYC Verification
+
+import azure.functions as func
+import json
+import requests
+
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    req_body = req.get_json()
+    customer_id = req_body.get("customerId")
+    resp = requests.get(f"https://externalkyc.api/verify/{customer_id}")
+    if resp.status_code != 200:
+        return func.HttpResponse("KYC verification failed", status_code=400)
+    return func.HttpResponse(resp.text, status_code=200)
+    
+8. Security Considerations
+* Customizations: Use field-level security profiles for SSN/Portfolio Value. Enable auditing on sensitive fields and entities.
+* Integrations: Use OAuth2 for APIs, encrypt data in transit, implement logging, retry, and alerting on failures.
+* Data Migration: Restrict access, anonymize test data, verify audit trails post-import, ensure data validation scripts.
+* PCF Controls: No direct data write, review for XSS/injection if user input is accepted, use trusted libraries only.
+9. Glossary
+TermDescriptionAccountCustomer in D365 CEKYCKnow Your Customer, regulatory compliance requirementPortfolioAggregated set of customer financial productsOpportunitySales opportunity recordBPFBusiness Process FlowPowerAutomateMicrosoft workflow/automation toolField SecurityMechanism to restrict access to sensitive fields
