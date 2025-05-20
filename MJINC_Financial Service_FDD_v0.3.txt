@@ -1,0 +1,82 @@
+Technical Design Document (TDD)
+Financial Services Enhancements for Dynamics 365 CE
+1. Introduction
+This Technical Design Document (TDD) translates all requirements from the Functional Design Document (FDD) for Financial Services Enhancements in Dynamics 365 CE. It provides a comprehensive technical specification, covering customizations, integrations, security, data migration, and user experience enhancements for customer onboarding, regulatory compliance, and portfolio management. 
+2. Entity Model & Attribute Tables
+2.1 Entity List
+Entity NameDescriptionTypeKey RelationshipsAccountCustomer (Individual or Organization)Standard1:N Portfolio, 1:N KYC Document, 1:N OpportunityContactContact Person for AccountStandardN:1 AccountOpportunitySales OpportunityStandardN:1 Account, 1:N Opportunity LineOpportunity LineProduct Allocation to OpportunityStandardN:1 Opportunity, N:1 ProductPortfolioCustomer Asset AggregationCustomN:1 AccountKYC DocumentKYC/AML Documentation for CustomerCustomN:1 AccountProductFinancial Product CatalogStandard1:N Opportunity Line2.2 Attribute Tables
+Account
+AttributeTypeDescriptionaccountidGUIDPrimary KeynameTextCustomer NametypeOptionSetAccount TyperiskprofileOptionSetRisk ProfilerelationshipmanageridLookup(User)Assigned Relationship ManagerPortfolio
+AttributeTypeDescriptionportfolioidGUIDPrimary KeyaccountidLookup(Account)Customer AccounttotalvalueCurrencyTotal Portfolio ValuelastrevieweddateDateLast Review DateKYC Document
+AttributeTypeDescriptionkycdocumentidGUIDPrimary KeyaccountidLookup(Account)CustomerdoctypeOptionSetDocument TypestatusOptionSetKYC StatusexpirydateDateExpiry DateOpportunity
+AttributeTypeDescriptionopportunityidGUIDPrimary KeyaccountidLookup(Account)Customer AccountestimatedvalueCurrencyEstimated ValuestatusOptionSetStatusOpportunity Line
+AttributeTypeDescriptionopportunityproductidGUIDPrimary KeyopportunityidLookup(Opportunity)Parent OpportunityproductidLookup(Product)Allocated ProductquantityDecimalProduct QuantityallocationpercentageDecimalAllocation %Product
+AttributeTypeDescriptionproductidGUIDPrimary KeynameTextProduct NametypeOptionSetProduct TyperiskcategoryOptionSetRisk Category3. Customization Analysis
+3.1 Customizations & Configuration Steps
+CustomizationDescriptionConfiguration StepsPseudoCode/LogicCustom Entity: PortfolioAggregate customer assets, track allocations; 1:N Account1. Create "Portfolio" custom entity.
+2. Add totalvalue, lastrevieweddate, accountid fields.
+3. Establish 1:N relationship with Account. Custom Entity: KYC DocumentMaintain KYC compliance docs, N:1 Account1. Create "KYC Document" custom entity.
+2. Add doctype, status, expirydate, accountid fields.
+3. Establish N:1 relationship with Account. Business Rule: KYC Completion RequiredEnforce mandatory KYC completion before opportunity closure1. On Opportunity entity, create a business rule or plugin.
+2. Block closure if not all KYC documents are completed. If user tries to close Opportunity:
+?Check all related KYC documents for Account.
+?If any are not complete, block the closure and display an error. Business Rule: KYC EscalationIf KYC Status is escalated, set related Opportunities to "On Hold"1. On KYC Document entity, add workflow/plugin.
+2. Update linked Opportunity status if KYC escalated. If KYC status is escalated:
+?Find related Opportunities.
+?Update Opportunity status to "On Hold".
+?Notify Relationship Manager. Business Process FlowStage-gated process: Qualification ? KYC ? Proposal ? Approval ? Close1. Create BPF on Opportunity.
+2. Add stages, required fields, and automation. BPF advances only if required fields in stage are complete.
+Opportunity cannot move to Close unless all prior stages, including KYC, are completed. Field-Level SecurityRestrict sensitive fields (SSN, Portfolio Value) to privileged roles1. Create security profiles.
+2. Assign to sensitive fields and privileged roles. Custom Views & DashboardsActive Portfolios, Pending KYC Approvals, etc.1. Create filtered views.
+2. Build dashboards with charts and KPIs. 3.2 Role and Privileges Matrix
+RoleAccountPortfolioKYC DocumentOpportunityOpportunity LineProductRelationship ManagerFullFullReadFullFullReadCompliance OfficerReadReadFullRead, Write (KYC fields)ReadReadPortfolio ManagerReadFullReadReadReadRead4. Integration Strategy
+IntegrationSystems InvolvedData Flow & MappingMethodSecurity & PerformanceKYC/AML VerificationD365 CE, External KYC/AML APIAccount/KYC Document ? API (verify) ? Update KYC StatusAzure Logic Apps/Functions (REST API)OAuth2, encrypted PII, error logging, retry policyProduct Catalog SyncD365 CE, Core Banking Product APIProduct ? API (name, type, risk category)Dual Write / Scheduled Data SyncField mapping, encryption, failure alertsPortfolio AggregationD365 CE, Finance InsightsPortfolio (total, allocation) ? Finance InsightsDataverse, Azure Service BusBatch processing, field-level security, error logsNotification ServicesD365 CE, Email/SMS GatewayTrigger alerts for KYC, portfolio updates, escalationsPower Automate / Azure Logic AppsSecure endpoints, alert on failure5. Data Migration
+AspectDetailsSource SystemsLegacy CRM, Core Banking, Excel/CSV, External KYC/AMLData CleansingRemove duplicates, validate KYC expiry/status, normalize product codesMigration ToolsData Import Wizard, KingswaySoft, SSIS, Azure Data FactoryTransformationField mapping, default risk category, portfolio value calculationValidation & ReconciliationPost-import record count, spot checks, data integrity scripts6. PCF Component Evaluation
+Component Use CaseDescriptionInputsOutputsLinksPortfolio Allocation ChartVisualize asset allocation as donut/pie in Portfolio formAsset type, allocation %SVG chartPCF Gallery: Chart ControlKYC Expiry AlertInline banner if KYC expiry within 30 daysKYC expiry dateWarning message/iconPCF Gallery: Notification Banner7. PseudoCode for Key Logic
+7.1 KYC Completion Plugin
+
+If user attempts to close an Opportunity:
+    Find all related KYC documents for the Account.
+    If any KYC document is not marked as Complete:
+        Block the closure and show error: "Complete all KYC before closing opportunity."
+    Else:
+        Allow Opportunity to be closed.
+        
+7.2 KYC Escalation (Workflow/Plugin/JS)
+
+When KYC status changes to Escalated:
+    Find Opportunities linked to the same Account.
+    For each Opportunity:
+        Set status to "On Hold".
+        Notify the Relationship Manager of escalation.
+        
+7.3 Portfolio Value Calculation (Plugin/Workflow)
+
+On Portfolio update or allocation change:
+    Sum all product allocations in the Portfolio.
+    Update the Portfolio Total Value field.
+    If the calculated value does not match expected, alert user.
+        
+7.4 Allocation Rule (JavaScript/Plugin)
+
+On Opportunity Line update:
+    Calculate total allocation percentage for all products.
+    If total > 100%:
+        Show warning and block save.
+    If only valid financial products are allocated:
+        Allow save.
+        
+7.5 PCF: Portfolio Allocation Chart
+
+On Portfolio form load:
+    Retrieve asset allocation data from Portfolio.
+    Render donut/pie chart showing allocation percentages.
+    Update chart in real time on allocation changes.
+        
+8. Security Considerations
+* Customizations: Use field-level security for SSN, Portfolio Value. Enable audit logging for changes to sensitive data. Only authorized roles can edit or view sensitive fields.
+* Integrations: All API calls use OAuth2 or certificate-based auth. Encrypt data in transit. Implement error and exception logging.
+* Data Migration: Restrict migration access. Mask/anonymize PII in test loads. Validate all imported data and keep audit logs for changes.
+* PCF Controls: Never store sensitive data in browser storage. Sanitize all user input and validate outputs. Review code for vulnerabilities and XSS.
+9. Glossary
+TermDescriptionAccountCustomer in D365 CEKYCKnow Your Customer, regulatory compliance requirementPortfolioAggregated set of customer financial productsOpportunitySales opportunity recordBPFBusiness Process Flow
