@@ -1,0 +1,61 @@
+ID 	Requirement Category	Title	Description
+CRM1	Sales Call Created		
+CRM1.1		System created call - Based on Tiering	"Each 'Existing' customer (ie. A live trading customer) will be 'Tiered' based on a combination of factors (Current sales, volume & margin plus potential additional sales)"
+			
+			"In turn each Tier will be allocated a sales call schedule (Not yet confirmed but proposal is Tiers 1-4, with Tier 1 requiring a bi-weekly call, Tier 2 = monthly, Tier 3 = bi-monthly & Tier 4 = 3 monthly)"
+			
+			Consider last meeting date for creating the plan.
+			
+			This tiering will then drive a system created plan for the account manager to follow. Assigned to connected ASM.
+CRM1.2		Manually created call	The account manager will need to be able to manually add in Prospect customer sales calls and will also be able to amend existing customer scheduled calls based on customer availability
+CRM1.3		Capability to schedule 7 calls per day	Sales team are tasked with minimum 7 calls and maximum 9 per day
+CRM1.4		"Considering bank holiday, opening hours, planned holidays, meeting hours for journey planning"	"Review the outlook calendar, opening hours in the accounts section for planning "
+CRM1.5		"Definition of home locations, start and end locations"	This is for start and end of the journeys.
+CRM1.6		Including contact type - Accounts and Prospects	Considering 2 calls per day from Prospects in the Journey Plan
+CRM1.7		Circular or optimised journeys from start and end locations	Consider start and end locations such as the home location for having circular journeys for minimum travel back to home location
+CRM1.8		"Considering journey plans including walking, public transport and private trasport"	Region specific consideration for alternate modes of transport apart from driving vehicles to the locations
+CRM1.9		Visual Map of the route plan by day and by week	Ability to review the journey plan on a visual map
+CRM1.10		JP for every ASM to be created for 4 week period on a monthly basis	
+CRM1.11		Daily update and refresh for the plan	"Based on any changes and adjustments, refresh of the plan "
+CRM 1.12		Confirmed and Walk-in appointments	The appointments which have been confirmed with the client will need communication for re-scheduling
+CRM 1.13		The call duration (visit to a client) to be 60 to 90 minutes 	Based on the objective of the call the duration of the call changes between 60 -90 minutes.
+			1. Live and existing
+			2. Prospecting
+			3. Wine tasting / training
+CRM 1.14		Detailed directions for travel on the Journey route	Natively available for the directions
+CRM 1.15		Ability to integrate with mobile app for travel	"Integrate with mobile applications such as google maps, waze, etc"
+CRM2	Create JP		
+CRM2.1		Weekly & 4 week rolling plan created	Account manager will need to be able to see a weekly & rolling monthly view of scheduled sales calls
+			
+			"5 day calendar view for ASM, data only up to 1 month visible to ASM"
+			
+			Must be able to sync with Outlook
+CRM2.2		Plans to be visible to account manager & line manager	"Including RSM, RSD & SD, with ability to filter by ASM"
+CRM2.3		Prospect calls included in daily journey plan	Blend of prospect calls & existing customers to be included in the journey plan per day
+CRM2.4		Route planning	Automated route planning; to reduce time spent travelling and more time in call with customers
+CRM2.5		Call objectives	Ability to view the objective of the call
+CRM3	Re-schedule 		
+CRM3.1		Ability to re-schedule the call	Ability to change the date and time of the call
+CRM3.2		Rescheduled reason code	Users to fill in if resheduled to a different day
+CRM3.3		Ability to suggest additional walk-ins for the day from the cancellation	Suggest from prospect lists nearby walk-ins to fill up for the cancelled appointment
+CRM4	Set next call date		
+CRM4.1		System creates next call - Based on Tiering	System to automatically create the next sales call date based on tiering
+CRM4.2		Manually created next call	The account manager will need to be able to add in the next call date for Prospect customer sales calls and will also be able to amend existing customer scheduled calls based on customer availability
+CRM5	Management Reporting		
+CRM5.1		Track actual calls - by indiviudal & team	Need to measure average calls per day by account manager over a nominated time period
+			- Last week
+			- Last month
+CRM5.2		Track planned calls - by individual & team	Need to measure average planned calls per day by account manager over a nominated time period
+			- Last week
+			- Last month
+CRM5.3		Reason code report for re-scheduled calls	The number of re-scheduled calls by day by account manager with reason code over the nominated time period
+			- Last week
+			- Last month
+CRM6	Integration		
+CRM6.1		Integration with CRM	Need to integrate with Dynamics CRM platform
+CRM6.2		Integration with Outlook	Need to integrate with Outlook for calendar sync
+CRM6.3		Integration with native mobile navigation app	"Need to integrate with mobile navigaition app such as Google Maps, Bing Maps or Waze"
+CRM7	Mobile Capability		
+CRM7.1		Mobile Access	Need to ensure ASMs are able to access their journey plans and relevant information on their mobile devices
+CRM8	Offline Capability		
+CRM8.1		Offline Access	"Offline functionality is required for ASMs in the event of intermittent or no internet access due to travelling to more remote locations. ASMs must be able to access journey plans, any specific customer data and other essential information required for a visit with customers without an internet connection"
