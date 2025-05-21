@@ -42,7 +42,7 @@ If user attempts to close an Opportunity:
     Else:
         Allow Opportunity to be closed.
         
-7.2 KYC Escalation (Plugin)
+7.2 KYC Escalation Plugin
 
 When KYC status changes to Escalated:
     Find Opportunities linked to the same Account.
@@ -50,7 +50,7 @@ When KYC status changes to Escalated:
         Set status to "On Hold".
         Notify the Relationship Manager of escalation.
         
-7.3 Portfolio Value Calculation (Plugin)
+7.3 Portfolio Value Calculation Plugin
 
 On Portfolio update or allocation change:
     Sum all product allocations in the Portfolio.
