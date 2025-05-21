@@ -156,7 +156,7 @@ Sign the plugin project assembly with strong name and add related xml nodes in t
 
 Resolve nullable issue prompt
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-can you suggest me the prompt to get a  powershell script to resolve Invalid 'nullable' value: 'Enable' for C# 7.3. Please use language version '8.0' or greater.
+can you suggest me the prompt to get a  powershell script to resolve Invalid 'nullable' value: 'Enable' for C# 7.3. Please use language version '10.0' or greater.
 
 
 find sn.exe prompt
