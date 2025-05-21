@@ -1,0 +1,164 @@
+Functional Design Document Creation Prompt
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Please reverse engineer the attached Functional Design Document (FDD) to generate a new, complete, and detailed FDD. Please follow these guidelines:
+
+Deep Dive into Requirements:
+
+Thoroughly analyze Section 1.1.2 (Scope) to enumerate all in-scope business processes, actors, and touchpoints.
+Meticulously examine Section 1.1.4 (Description/Solution of Requirements) to extract every stated and implied requirement, including business rules, exceptions, integrations, and user interactions.
+Ensure that no requirement or detail is missed—if in doubt, infer implied requirements based on context or best practices.
+Expand and Structure the FDD:
+
+For every requirement, describe the expected behavior, business context, and user experience in detail.
+Structure the FDD into clear sections: Introduction, Scope, Actors/Roles, Functional Requirements, Non-Functional Requirements, User Stories, Integration Points, Reporting, Security, and any other relevant sections.
+For each functional requirement, include:
+Business rationale
+Preconditions/triggers
+Step-by-step user interactions
+Expected system behavior
+Edge cases and validation rules
+Design Inventory Table:
+
+Create a table with the following columns:
+Feature
+User Story
+Components to be Generated or Extended
+Type of Component (e.g., Entity, View, Workflow, Plugin, Integration, Dashboard)
+Description
+Each row should map a feature/user story to specific technical components required for implementation.
+User Story Summary Table:
+
+Create a summary table with columns:
+User Story ID/Number
+Summary/Title
+Primary Actor
+Goal
+Acceptance Criteria
+Ensure all critical user stories are included.
+Comprehensive Coverage:
+
+Review and incorporate relevant insights from other sections of the document (e.g., data model, integration, security, reporting, glossary).
+For requirements or features not explicitly mentioned but implied or industry-standard, call them out as "Assumptions" or "Inferred Requirements".
+Output Requirements:
+
+The final FDD should be exhaustive, business-friendly, and ready for stakeholder review.
+Use clear headings, bullet points, and tables for readability.
+All requirements must be traceable to solution components.
+Example Table: Design Inventory
+
+Feature	User Story	Components to be Generated or Extended	Type of Component	Description
+Customer Onboarding	As a user, I onboard a new customer...	Onboarding Entity, Main Form, Workflow	Entity, Form, Flow	Entity for onboarding, form for data entry, etc.
+Example Table: User Story Summary
+
+User Story ID	Summary	Primary Actor	Goal	Acceptance Criteria
+US-01	Onboard new customer	Onboarding Agent	Capture and validate customer details	All required fields validated, KYC triggered
+Instructions:
+
+Use the above structure and tables.
+Ensure every requirement, even minor or implied, is described.
+Reference and cover all relevant FDD sections.
+Use business language where possible, but be specific and detailed.
+
+
+FDD to TDD Prompt
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Based on the provided Functional Design Document (FDD) for a Dynamics 365 CE solution, create a detailed Technical Design Document (TDD) that addresses the following:
+
+Comprehensive Coverage of FDD:  Thoroughly translate all requirements and specifications from the FDD into technical specifications.  Ensure all functional aspects are addressed with specific technical solutions and add visual interpretation wherever needed.Use Tabluar format for all the interpretations if needed
+
+Customization Analysis:  Analyze the FDD for any areas requiring customizations within Dynamics 365 CE (custom entities, fields, business rules, workflows, business process flows and javascript). For each customization, provide:
+
+Detailed description of the customization.
+Configuration steps (if applicable).
+Add Role and Privileges matrix in case of security roles
+List out all entities
+List out all attributes in seperate table categorized by entity
+Code snippets (if applicable, e.g., for calculated fields or custom logic) 
+Integration Strategy: Identify all integration points mentioned in the FDD (or reasonably implied).  For each integration:
+
+Specify the systems involved.
+Outline the data flow (including data mapping).
+Propose the integration method (e.g., API, webhooks, data export/import).
+Provide considerations for security, error handling, and performance.
+Data Migration: If the FDD indicates data migration, detail the following:
+
+Source data systems.
+Data cleansing and transformation rules.
+Migration approach (e.g., custom scripts, data migration tools).
+Data validation and reconciliation procedures.
+PCF Component Evaluation: Evaluate the requirements outlined in the FDD and identify any potential use cases where Power Apps Component Framework (PCF) controls could enhance the user experience or provide required functionality.
+
+Describe the component's purpose and functionality.
+Outline the input and output parameters.
+Provide links to relevant PCF component examples or documentation.
+PseudoCode: Where applicable (for example plugins, custom workflow activities, integrations, PCF components,javascript)  and Ensure the the pseudocode is in English, not any programming language
+
+Security Considerations: Describe the security measures that need to be in place for each of these areas: customizations, integrations, data migrations, and any PCF controls.
+Please ensure that the document should be well formatted and beautified and maintain proper paragraph spacing between the sections and it should be in HTML format
+	
+
+
+Tech Design to Code Prompt(Entity and attributes and other customizations)
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+*"Create a robust PowerShell script to automate and orchestrate the Dynamics 365 CE solution setup process as follows:
+
+1. Input and Parameterization
+
+Accept as input parameters:
+CompanyName
+Dry-run flag (to simulate actions without making changes)
+dont add TDD path as parameter rather retrieve the contents from TDD document attached
+
+2. Document Parsing
+download the attached doeument to current folder
+Parse the provided TDD attached to identify and extract:
+
+All plugin code blocks (look for sections marked as 'Plugin Implementation', 'C# Plugin','Plugin')
+All JavaScript web resource code blocks (look for sections/titles such as 'Web Resources', 'JavaScript')
+Project name or solution name (from the introduction, title, or a specific metadata section)
+
+3. Solution and Project Structure Creation
+
+Use VS CLI (devenv, dotnet new, or msbuild as appropriate) to:
+Create a new blank .NET solution named based on the project or solution name found in the Technical Design Document
+use standard using directives 
+Add two class library projects:
+'CompanyName.Plugins' (targeting .NET Framework 4.6.2)
+'CompanyName.WebResources'
+
+4. Plugin Project Configuration
+Add NuGet packages to 'CompanyName.Plugins':
+Microsoft.CrmSdk.CoreAssemblies
+Microsoft.CrmSdk.Workflow
+Add the class file(one for each plugin code block) with plugin template(dont add any comments) and convert the plugin pseudo into C# plugin code and put it in the plugin template and apply proper C# syntax and replace all occurences of "" with "
+
+5. Web Resources Project Configuration
+Add the javascript file with the javascript template(dont add any comments) and convert the javascript pseudo code into javascript and put it in the javascript template and escape the special characters whereever applicable
+
+
+6.write a script that scans a given Visual Studio solution or project directory, locates all .csproj files, and automatically updates the language version to 8.0 or greater if the file contains the setting <Nullable>enable</Nullable> but is targeting a language version less than 8.0 (e.g., 7.3 or unspecified). The script should:
+1.consider root directory as solution directory and should not use the parameter
+2.Ignore .csproj files with project name contains "WebResources"
+3.Check each .csproj for <Nullable>enable</Nullable>.
+4.If found, set <LangVersion>10.0</LangVersion> (or higher) in the same <PropertyGroup>.
+
+7. Write a script to locate sn.exe by searching under all "Program Files" and "Program Files (x86)" folders, and set full path with sn.exe to variable 
+Sign the plugin project assembly with strong name and add related xml nodes in the first occourence of <PropertyGroup>
+
+8. Delete Class1.cs from all the projects
+
+9. Recursively scans a .sln file to identify all included C# projects (.csproj) and Modifies each project with name contains "WebResources" to set the <Build> property to false in all <ProjectConfiguration> sections
+
+8.Build the Plugins project (optionally increment version)
+
+Resolve nullable issue prompt
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+can you suggest me the prompt to get a  powershell script to resolve Invalid 'nullable' value: 'Enable' for C# 7.3. Please use language version '8.0' or greater.
+
+
+find sn.exe prompt
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+can you suggest me the prompt to get a  powershell script to find sn.exe file in local drives
