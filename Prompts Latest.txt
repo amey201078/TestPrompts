@@ -100,7 +100,7 @@ Please ensure that the document should be well formatted and beautified and main
 	
 
 
-Tech Design to Code Prompt(Entity and attributes and other customizations)
+Tech Design to Code Prompt(Plugins/JS)
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 *"Create a robust PowerShell script to automate and orchestrate the Dynamics 365 CE solution setup process as follows:
