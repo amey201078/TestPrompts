@@ -133,10 +133,10 @@ Add two class library projects:
 Add NuGet packages to 'CompanyName.Plugins':
 Microsoft.CrmSdk.CoreAssemblies
 Microsoft.CrmSdk.Workflow
-Add the class file(one for each plugin code block) with plugin template(dont add any comments) and convert the plugin pseudo into C# plugin code and put it in the plugin template and apply proper C# syntax and replace all occurences of "" with "
+Add the class file(one for each plugin code block) with plugin template with namespace(dont add any comments) and convert the plugin pseudo into C# plugin code and put it in the plugin template and apply proper C# syntax and replace all occurences of "" with "
 
 5. Web Resources Project Configuration
-Add the javascript file with the javascript template(dont add any comments) and convert the javascript pseudo code into javascript and put it in the javascript template and escape the special characters whereever applicable
+Add the javascript file with the javascript template with namespace(dont add any comments) and convert the javascript pseudo code into javascript and put it in the javascript template and escape the special characters whereever applicable and replace "\\" with ""
 
 
 6.write a script that scans a given Visual Studio solution or project directory, locates all .csproj files, and automatically updates the language version to 8.0 or greater if the file contains the setting <Nullable>enable</Nullable> but is targeting a language version less than 8.0 (e.g., 7.3 or unspecified). The script should:
