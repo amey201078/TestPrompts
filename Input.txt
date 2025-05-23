@@ -278,33 +278,41 @@ PCF Gallery: Notification Banner
 7. PseudoCode for Key Logic
 
 7.1 KYC Completion Plugin
+//Plugin Logic - Start
 If user attempts to close an Opportunity:
     Find all related KYC documents for the Account.
     If any KYC document is not marked as Complete:
         Block the closure and show error: "Complete all KYC before closing opportunity."
     Else:
         Allow Opportunity to be closed.
+//Plugin Logic - End
 
 7.2 KYC Escalation Plugin
+//Plugin Logic - Start
 When KYC status changes to Escalated:
     Find Opportunities linked to the same Account.
     For each Opportunity:
         Set status to "On Hold".
         Notify the Relationship Manager of escalation.
-  
+//Plugin Logic - End
+
 7.3 Portfolio Value Calculation Plugin
+//Plugin Logic - Start
 On Portfolio update or allocation change:
     Sum all product allocations in the Portfolio.
     Update the Portfolio Total Value field.
     If the calculated value does not match expected, alert user.
-       
+//Plugin Logic - End
+     
 7.4 Allocation Rule (JavaScript/Plugin)
+//JavaScript Logic - Start
 On Opportunity Line update:
     Calculate total allocation percentage for all products.
     If total > 100%:
         Show warning and block save.
     If only valid financial products are allocated:
         Allow save.
+//JavaScript Logic - End
 
 7.5 PCF: Portfolio Allocation Chart
 
