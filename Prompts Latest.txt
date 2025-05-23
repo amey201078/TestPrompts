@@ -57,20 +57,20 @@ Instructions:
 
 also perfom the below task as well
 
-ask:
+Task:
 Analyze the attached requirement document for a Dynamics 365 CE project.
 
 For each requirement, check if it is supported by Dynamics 365 CE Out-of-the-Box (OOB) features.
 If not OOB, check if the requirement can be achieved through supported Customization (configuration, workflow, business rules, no-code/low-code customization).
 If the requirement cannot be met OOB or via standard Customization, identify it as a gap or requiring custom development.
-For each gap or ambiguity, raise a clear, valid, and meaningful query for stakeholders to clarify or resolve.
+For each gap or ambiguity, raise clear, valid, and meaningful queries(should be multiple queries for ecah gap/ambiguity) for stakeholders to clarify or resolve.
 Summarize the analysis in a table with the following columns:
 Requirement ID/Reference
 Requirement Description
 OOB Supported (Yes/No)
 Customization Possible (Yes/No)
 Discrepancy/Gaps/Notes
-Query for Stakeholder
+Query for Stakeholders
 Deliverable:
 Provide the resulting table with all findings and queries for review.
 
