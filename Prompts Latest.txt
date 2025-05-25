@@ -112,7 +112,18 @@ PCF Component Evaluation: Evaluate the requirements outlined in the FDD and iden
 Describe the component's purpose and functionality.
 Outline the input and output parameters.
 Provide links to relevant PCF component examples or documentation.
-PseudoCode: Where applicable (for example plugins, custom workflow activities, integrations, PCF components,javascript)  and Ensure the the pseudocode is in English, not any programming language
+PseudoCode: Where applicable (for example plugins, custom workflow activities, integrations, PCF components,javascript)  and Ensure the the pseudocode is in English, not any programming language and each code bloack should enclosed like below
+{Plugin Header}
+//{Component} Logic - Start
+{pseudocode}
+//{Component} Logic - End
+
+For Example
+7.1 KYC Completion Plugin
+//{Plugin} Logic - Start
+{pseudocode}
+//{Plugin} Logic - End
+
 
 Security Considerations: Describe the security measures that need to be in place for each of these areas: customizations, integrations, data migrations, and any PCF controls.
 Please ensure that the document should be well formatted and beautified and maintain proper paragraph spacing between the sections and it should be in HTML format
