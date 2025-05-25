@@ -180,7 +180,7 @@ find sn.exe prompt
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 can you suggest me the prompt to get a  powershell script to find sn.exe file in local drives
 
-TDD to Code Components Generation Prompt(Plugin/JS)
+TDD to Code Components Generation Prompt(Plugin/JS) - Assuing Solution Template is already available
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 1.Analyze the attached Technical Design Document and create a powershell script to add the class file(one for each plugin code block which starts with "//Plugin Logic - Start" word till "//Plugin Logic - End" with plugin template with namespace( add comments to the function header) and convert the plugin pseudo into C# plugin code and put it in the plugin template(inherting the IPlugin and implementation of the interface and make sure that every variable is initialzied and no compilation issues should occur) and consider line above plugin code block for Plugin Name(Exclude numbers and spaces and "." and omit the words like "Plugin","Javascript","Azure Function","Power Automate","Workflow") and apply proper C# syntax 
 2. Copy the c# file to plugins folder of the root solution folder(As input parameter)
