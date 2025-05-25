@@ -119,7 +119,7 @@ Please ensure that the document should be well formatted and beautified and main
 	
 
 
-Tech Design to Solution Creation Prompt(Plugins/JS)
+Tech Design to Solution Creation Prompt(Plugins/JS) - Not working as on 25 May 2025 Due To powershell issues
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 *"Create a robust PowerShell script to automate and orchestrate the Dynamics 365 CE solution setup process as follows:
