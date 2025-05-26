@@ -200,6 +200,7 @@ Description
 Any required options (for OptionSet/Choice fields)
 
 2.Write robust, maintainable, OOP-based C# code that reads the above JSON(as a string parameter) and, using the Dynamics 365 CE Organization Service (with connection string configurable), creates or updates the described entities and attributes in Dataverse.
+Just check for attributes existance in CE and if present then please update its properties that are changed
 The entire implementation must be a single C# class file (no extra files).
 Follow Microsoft best practices for C# (naming conventions, exception handling, async/await where appropriate, XML documentation, etc.).
 Use appropriate abstraction and modular code within the class.
@@ -208,5 +209,5 @@ Demonstrate how to load the connection string and JSON file.
 Include a sample Main method demonstrating usage.
 Output:
 The JSON file as described above.
-A single C# class file containing all code, including entity/attribute parsing, Dataverse connection, and entity/attribute creation/update logic and it should be able to get called from any .Net Application(dont use console contruct anywhere)
+A single C# class file with namespace containing all code, including entity/attribute parsing, Dataverse connection, and entity/attribute creation/update logic and it should be able to get called from any .Net Application(dont use console contruct anywhere)
 
