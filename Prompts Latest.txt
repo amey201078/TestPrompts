@@ -190,14 +190,19 @@ TDD to Code Components Generation Prompt(Plugin/JS) - Assuing Solution Template 
 
 TDD To CE Metadata Components Generation Prompt
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-1.Analyze the attached technical design document and generate a JSON file that lists all entities (both standard and custom) and their attributes which need to be created or updated in Microsoft Dynamics 365 CE Dataverse. The JSON should include for each entity:
+1.Analyze the attached technical design document and generate a JSON file that lists all entities (both standard and custom) and their attributes which need to be created or updated in Microsoft Dynamics 365 CE Dataverse. The JSON should include for 
+1. New Solution Creation with Solution name suffixed by current DateTime
+2. Creation of global option sets
+3. for each entity:
 Entity name
-Entity type (Standard/Custom)
-List of attributes, and for each attribute:
+Entity type (Out Of Box/Custom)
+4.List of attributes, and for each attribute:
 Attribute name
 Data type
 Description
-Any required options (for OptionSet/Choice fields)
+Target entity(in case of lookup)
+Set Requirred as Optional for all new attributes
+5. add attributes and entities in the solution mentioned in step 1
 
 2.Write robust, maintainable, OOP-based C# code that reads the above JSON(as a string parameter) and, using the Dynamics 365 CE Organization Service (with connection string configurable), creates or updates the described entities and attributes in Dataverse.
 Just check for attributes existance in CE and if present then please update its properties that are changed
