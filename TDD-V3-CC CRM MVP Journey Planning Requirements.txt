@@ -1,0 +1,131 @@
+Technical Design Document (TDD): C&C CRM MVP Journey Planning
+1. Introduction
+This Technical Design Document (TDD) translates the requirements from the Functional Design Document (FDD) into a comprehensive technical blueprint for the CRM MVP Journey Planning solution on Microsoft Dynamics 365 CE.
+The document covers architecture, customizations, integrations, security, and provides detailed technical mappings, configuration steps, entity model, pseudocode, and PCF evaluations. 
+2. Functional Coverage & Solution Mapping
+FDD Functional RequirementTechnical Solution/ComponentCustomizations/EntitiesIntegration PointsSales Call Management (Auto & Manual Scheduling)- Custom Workflow/Plugin for auto-scheduling
+- Business Rules for validation
+- Custom Forms, Views
+- Outlook Calendar Sync - NF_SalesCall (Custom Entity)
+- NF_Tiering (Custom Entity)
+- Custom fields for scheduling, tier, etc. Dynamics 365 CE ? OutlookJourney Route OptimizationCustom Plugin + PCF Map Control- NF_JourneyPlan (Custom Entity)
+- NF_StartLocation, NF_EndLocation, etc. Dynamics 365 CE ? Navigation AppsReporting & AnalyticsPower BI Integration, Custom Reports- NF_CallReport (Custom Entity) Dynamics 365 CE ? Power BIException Handling & Walk-ins- Workflows
+- Option Sets for reasons - NF_RescheduleReason (Custom OptionSet) -Security & Access Control- Security Roles
+- Field-level Security - Roles: ASM, RSM, RSD, SD -3. Customization Analysis
+3.1 Custom Entities
+Entity NameSchema NameDescriptionSales Callnf_salescallRepresents a scheduled or completed sales call (auto/manual)Journey Plannf_journeyplanGrouping of multiple sales calls for a time window/weekReschedule Reasonnf_reschedulereasonentityOptionSet for reasons for rescheduling callsCall Reportnf_callreportStores reporting data for actual/planned calls3.2 Attributes by Entity
+NF_SalesCall
+Attribute NameSchema NameTypeLookup TargetDescriptionCall Datenf_calldateDateTime-Scheduled date for the callCall Typenf_calltypeOptionSet-Type of call (Existing, Prospect, Training)Durationnf_durationInteger-Duration of call (mins)Journey Plannf_journeyplanidLookupnf_journeyplanAssociated Journey PlanAccountnf_accountidLookupaccountRelated customer/prospectReschedule Reasonnf_reschedulereasonOptionSet-Reason for rescheduleNF_JourneyPlan
+Attribute NameSchema NameTypeLookup TargetDescriptionStart Locationnf_startlocationString-Home/anchor/start point for journeyEnd Locationnf_endlocationString-End point for journeyMode Of Transportnf_modeoftransportOptionSet-Car, Public, WalkingAccount
+Attribute NameSchema NameTypeLookup TargetDescriptionTiernf_tierOptionSet-Tier 1, Tier 2, Tier 3, etc.NF_RescheduleReason
+Attribute NameSchema NameTypeDescriptionReasonnf_reasonStringText for reasonNF_CallReport
+Attribute NameSchema NameTypeDescriptionActual Callsnf_actualcallsIntegerActual number of callsPlanned Callsnf_plannedcallsIntegerPlanned number of calls3.3 Option Sets (Local or Global)
+OptionSet NameTypeValuesUsed Innf_calltypeLocalExisting (100), Prospect (200), Training (300)NF_SalesCallnf_reschedulereasonLocalCustomer Unavailable (100), ASM Unavailable (200), Holiday/Closure (300), Other (400)NF_SalesCallnf_modeoftransportLocalCar (100), Public (200), Walking (300)NF_JourneyPlannf_tierLocalTier 1 (100), Tier 2 (200), Tier 3 (300), N/A (400)NF_Tiering3.4 Role & Privilege Matrix
+RoleNF_SalesCallNF_JourneyPlanNF_TieringNF_CallReportNF_RescheduleReasonAccount Sales Manager (ASM)Create/Read/UpdateRead/UpdateReadReadReadRegional Sales Manager (RSM)Read/UpdateRead/UpdateReadReadReadRegional Sales Director (RSD)ReadReadReadReadReadSales Director (SD)ReadReadReadReadReadSystem AdminFullFullFullFullFull3.5 Configuration Steps & Example Code (Plugins, JavaScript)
+Auto-Scheduling Plugin Example
+
+//{Plugin Header}: NF_SalesCall_AutoScheduler
+//{Plugin} Logic - Start
+For each customer with assigned NF_Tiering:
+    If (Last NF_SalesCall date + Tier Frequency) <= Today:
+        Create new NF_SalesCall record with scheduled date = Today + offset
+        Set NF_CallType based on profile (default to Existing)
+        Notify ASM of new call scheduled
+//{Plugin} Logic - End
+        
+Route Optimization Plugin Example
+
+//{Plugin Header}: NF_JourneyPlan_RouteOptimizer
+//{Plugin} Logic - Start
+On Journey Plan save:
+    Collect all NF_SalesCall records linked to plan
+    Retrieve NF_StartLocation, NF_EndLocation, ModeOfTransport
+    Call external Map API with locations, transport mode
+    Receive optimized order of calls
+    Update NF_SalesCall sequence/order fields accordingly
+//{Plugin} Logic - End
+        
+Form Validation JavaScript Example
+
+//{JS Header}: NF_SalesCall_FormValidation
+//{Javascript} Logic - Start
+On Save:
+    If (call count for day < 7 OR > 9):
+        Prevent save, show warning
+    If (call time outside working hours OR on holiday):
+        Prevent save, show error
+    If (reschedule initiated AND no reason code set):
+        Prevent save, prompt for reason
+//{Javascript} Logic - End
+        
+4. Integration Strategy
+Integration AreaSourceTargetData/ProcessIntegration MethodSecurity/PerformanceCRM PlatformLegacy/ExcelD365 CECustomer, Tier, CallsData Import/APIOAuth, Field Security, Data ValidationCalendarD365 CEOutlook/ExchangeCall/Appointment DataOOB Sync/PluginOAuth, Sync Filters, Error LoggingNavigationCRM/MobileMaps AppsAddresses, DirectionsURL/PCF IntegrationURL Signing, TokenizationReportingD365 CEPower BICall/Journey DataOData Feed/DirectQueryRead-Only, Data MaskingIntegration Security, Error Handling, Performance
+* Security: Use OAuth 2.0; encrypt data in transit; validate inbound/outbound data.
+* Error Handling: Log all integration failures; retry logic for transient errors; alert support for persistent issues.
+* Performance: Restrict payloads to changed data; batch updates where possible; monitor API throttling/quota.
+Integration Pseudocode Example
+
+//{Integration Header}: CRM-Outlook Calendar Sync
+//{Integration} Logic - Start
+For each NF_SalesCall with status 'Scheduled':
+    If call date/time updated OR record created:
+        Push to Outlook as appointment via Server-Side Sync
+        If push fails:
+            Log error and retry up to 3 times
+//{Integration} Logic - End
+        
+5. Data Migration
+* Source Systems: Legacy CRM, Excel, or other structured data.
+* Data Cleansing: Remove duplicates, fill mandatory fields (e.g., tiering, last call date).
+* Transformation Rules: Map legacy fields to new schema with nf_ prefix; assign default values where missing.
+* Migration Approach: Use Data Migration Tool (Dataflows, KingswaySoft) for initial load; scripts for transformation.
+* Validation Procedures: Pre/post load validation reports; random sampling; reconciliation of record counts.
+* Reconciliation: Cross-check migrated calls, plans, and tierings with business users before go-live.
+Note: Schedule migration during off-peak hours. Back up all target tables/entities prior to load. 
+6. PCF Component Evaluation
+Use CaseComponent PurposeInputsOutputsReference/LinkVisual Map View of JourneyDisplay interactive journey route, visit sequence, locationsNF_JourneyPlan, NF_SalesCall (location data)Map UI, clickable pins, route overlayPCF Docs Click-to-Navigate ButtonLaunch navigation app with destination pre-filledAddress/CoordinatesOpens Google Maps/WazePCF Gallery Example PCF Pseudocode Example
+
+//{PCF Header}: NF_JourneyMapControl
+//{PCF} Logic - Start
+On load:
+    Read all NF_SalesCall records for current plan
+    Extract addresses/coordinates
+    Render map, draw route (in order of NF_SalesCall sequence)
+    Allow pin click to show call details
+    Provide "Navigate" button per pin to launch external app
+//{PCF} Logic - End
+        
+7. Security Considerations
+7.1 Customizations
+* Field- and record-level security for sensitive data (e.g., call objectives, financials).
+* Role-based access control for all custom entities and fields, as detailed in the matrix above.
+* Audit logs enabled for all changes to calls, plans, and tiering.
+7.2 Integrations
+* OAuth 2.0 for all API integrations.
+* Data encryption in transit (TLS 1.2+).
+* Input validation and sanitation at all integration points.
+* API token lifetime management.
+7.3 Data Migration
+* Restrict data migration tool/script access to admins.
+* Audit all migration activities.
+* Have a rollback strategy for failed loads.
+7.4 PCF Controls
+* Restrict external link generation to whitelisted domains.
+* Sanitize all PCF input/output to prevent code injection/XSS.
+* Do not display sensitive data in PCF controls unless user has access.
+7.5 General
+* Single sign-on with MFA where possible.
+* Regular penetration testing and security reviews.
+* Data loss prevention (DLP) policies on integrations and exports.
+8. Visual Interpretation (Entity-Relationship Overview)
+Entity Relationship Highlights: 
+* NF_SalesCall many-to-one NF_JourneyPlan
+* NF_SalesCall many-to-one Account (Customer/Prospect)
+* NF_SalesCall many-to-one NF_RescheduleReason (OptionSet)
+* NF_JourneyPlan one-to-many NF_SalesCall
+* NF_Tiering many-to-one Account
+A diagrammatic ERD should be produced for implementation showing these relationships with schema names. 
+9. Conclusion
+This TDD provides a comprehensive blueprint for implementing the CRM Journey Planning MVP in Dynamics 365 CE.
+All customizations, integrations, security, and reporting requirements are mapped to specific technical components and steps.
+This document is ready for review and implementation by technical and business stakeholders. 
