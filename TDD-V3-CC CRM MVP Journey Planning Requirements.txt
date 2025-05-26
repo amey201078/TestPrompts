@@ -123,7 +123,6 @@ Entity Relationship Highlights:
 * NF_SalesCall many-to-one Account (Customer/Prospect)
 * NF_SalesCall many-to-one NF_RescheduleReason (OptionSet)
 * NF_JourneyPlan one-to-many NF_SalesCall
-* NF_Tiering many-to-one Account
 A diagrammatic ERD should be produced for implementation showing these relationships with schema names. 
 9. Conclusion
 This TDD provides a comprehensive blueprint for implementing the CRM Journey Planning MVP in Dynamics 365 CE.
