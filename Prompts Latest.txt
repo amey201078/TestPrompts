@@ -92,8 +92,40 @@ Customization Analysis:  Analyze the FDD for any areas requiring customizations 
 Detailed description of the customization.
 Configuration steps (if applicable).
 Add Role and Privileges matrix in case of security roles
-List out all entities
+List out all entities and please consider the below points while creation
+- Avoid entity creation and use Option Sets wherever applicable(this is not a thumb rule please decide according to the requirements)
+- Use default name property wherever applicable insted of creating a seperate attribute
+- Please call out below CE Customizations for each entity in minute details for each item
+	1) Forms(create table with colums Form Name,Form Type)
+	2) views(create table with colums View Name,View Type,View Columns)
+	3) Business Rules(create table with colums Business Rule Name Pseudo Logic)
+	4) Entity Relationships(Create Table with columns Source Entity,Target Entity,Relationship Type)
 List out all attributes in seperate table categorized by entity
+Create a configuration checklist for important Entity Properties to be set using the items below
+Create a matrix with columns Configuration Item, To be configured(CheckBox) , consider Configuration items listed below
+Entity Validation in Dynamics CE
+Entity Creation
+Attribute Validation
+Attribute Creation
+Enable Attachments(including notes and files)
+Apply duplicate detection rules Track changes
+Audit changes to its data
+Leverage quick-create form if available
+Enable long term retention
+Creating a new activity1
+Doing a mail merge
+Setting up service level agreements1
+Setting up SharePoint document management
+Rows in this table
+Can have connections1
+Appear in search results
+Can have a Contact Email
+Have an access team
+Can be taken offline
+Can be added to a queue
+
+
+Security Role Matrix entitywise
 Code snippets (if applicable, e.g., for calculated fields or custom logic) 
 Integration Strategy: Identify all integration points mentioned in the FDD (or reasonably implied).  For each integration:
 
@@ -105,7 +137,7 @@ Data Migration: If the FDD indicates data migration, detail the following:
 
 Source data systems.
 Data cleansing and transformation rules.
-Migration approach (e.g., custom scripts, data migration tools).
+Migration approach (e.g. custom scripts, data migration tools).
 Data validation and reconciliation procedures.
 PCF Component Evaluation: Evaluate the requirements outlined in the FDD and identify any potential use cases where Power Apps Component Framework (PCF) controls could enhance the user experience or provide required functionality.
 
@@ -113,18 +145,18 @@ Describe the component's purpose and functionality.
 Outline the input and output parameters.
 Provide links to relevant PCF component examples or documentation.
 PseudoCode: Where applicable (for example plugins, custom workflow activities, integrations, PCF components,javascript)  and Ensure the the pseudocode is in English, not any programming language and each code bloack should enclosed like below
-{Plugin Header}
+
 //{Component} Logic - Start
 {pseudocode}
 //{Component} Logic - End
 
 For Example
 7.1 KYC Completion Plugin
-//{Plugin} Logic - Start
+//Plugin Logic - Start
 {pseudocode}
-//{Plugin} Logic - End
+//Plugin Logic - End
 
-
+Also generate a table for Plugin step creation Checklist(in Plugin Registration Tool) with columns Plugin Name,Entity Name, Registration step , Configured(CheckBox)
 Security Considerations: Describe the security measures that need to be in place for each of these areas: customizations, integrations, data migrations, and any PCF controls.
 Please ensure that the document should be well formatted and beautified and maintain proper paragraph spacing between the sections and it should be in HTML format
 	
