@@ -222,29 +222,43 @@ TDD to Code Components Generation Prompt(Plugin/JS) - Assuing Solution Template 
 
 TDD To CE Metadata Components Generation Prompt
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-1.Analyze the attached technical design document and generate a JSON file that lists all entities (both standard and custom) and their attributes which need to be created or updated in Microsoft Dynamics 365 CE Dataverse. The JSON should include for 
-1. New Solution Creation with Solution name suffixed by current DateTime
-2. Creation of global option sets
-3. for each entity:
-Entity name
-Entity type (Out Of Box/Custom)
-4.List of attributes, and for each attribute:
-Attribute name
-Data type
-Description
-Target entity(in case of lookup)
-Set Requirred as Optional for all new attributes
-5. add attributes and entities in the solution mentioned in step 1
+Given the attached technical design document for a Dynamics 365 CE solution, please perform the following:
 
-2.Write robust, maintainable, OOP-based C# code that reads the above JSON(as a string parameter) and, using the Dynamics 365 CE Organization Service (with connection string configurable), creates or updates the described entities and attributes in Dataverse.
-Just check for attributes existance in CE and if present then please update its properties that are changed
-The entire implementation must be a single C# class file (no extra files).
-Follow Microsoft best practices for C# (naming conventions, exception handling, async/await where appropriate, XML documentation, etc.).
-Use appropriate abstraction and modular code within the class.
-Demonstrate how to load the connection string and JSON file.
-3.The code should be easily extensible for more entities/attributes in the future.
-Include a sample Main method demonstrating usage.
+1. Analyze & Generate Dataverse Schema JSON
+Analyze the document and extract all entities (both standard and custom) and their attributes that need to be created or updated in Microsoft Dynamics 365 CE Dataverse.
+Generate a JSON file including:
+For each entity:
+Entity name, logical/schema name (with publisher prefix for custom), type (Out Of Box/Custom)
+List of attributes(exclude optionset), and for each attribute:
+Attribute name, logical/schema name (with publisher prefix for custom), data type, description, target entity (for lookup)
+2. Write Robust, Maintainable, OOP-Based C# Code
+Write a single C# class file named DataverseGenerateMetadataHelper in the namespace DataverseGenerateMetadata with one facade public method Run.
+The class should:
+Accept the above JSON as a string parameter.
+Use the Dynamics 365 CE Organization Service 
+- Dynamically creates all entities in Microsoft Dataverse, ensuring:
+    - Any entity that is the target of a lookup is created before any entity that references it via a lookup.
+    - Entities are created in an order that satisfies all lookup dependencies (use topological sorting or dependency analysis to determine this order).
+
+- For each entity:
+    - Create the entity if it does not exist in Dataverse.
+    - Add all non-lookup attributes during entity creation.
+    - After the referenced entity/entities exist, add lookup attributes referencing them.
+
+The code must follow Microsoft best practices (naming conventions, synchronous processing, XML documentation, OOP, no console constructs).
+Use CreateOneToManyRequest to create lookup attributes. Do NOT use CreateAttributeRequest for lookups.
+Exception handling must be present for each method
+show progress message on console after every step
+The code should be easily extensible for more entities/attributes in the future.
+Include a sample Run method demonstrating usage 
 Output:
+
 The JSON file as described above.
-A single C# class file with namespace containing all code, including entity/attribute parsing, Dataverse connection, and entity/attribute creation/update logic and it should be able to get called from any .Net Application(dont use console contruct anywhere)
+A single C# class file (DataverseGenerateMetadataHelper in DataverseGenerateMetadata namespace, with only one public facade method Run) that adheres to the above requirements.
+Instructions for use:
+
+Attach the technical design document as input.
+Specify the publisher name to use for custom entities/attributes/solution.
+Example usage:
+"Given the attached TDD and the publisher name 'nf', please generate the required JSON schema and the C# class file as described above"
 
