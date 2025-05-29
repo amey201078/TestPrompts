@@ -1,0 +1,404 @@
+Technical Design Document (TDD)
+Sales Call Journey Planning Solution (Dynamics 365 CE)
+1. Overview
+This Technical Design Document (TDD) describes the technical implementation for the Sales Call Journey Planning solution in Dynamics 365 CE, based on the provided FDD. It covers customizations, configuration, integration, security, and best practices, ensuring traceability and alignment with business requirements. 
+2. Customization & Configuration Details
+2.1 Entity Model & Ownership
+The solution leverages OOB entities where possible, with minimal custom entities using the nf publisher prefix. Option Sets are used for static lists. Entity ownership is determined by business context. 
+Entity Name
+Type
+Ownership
+Purpose
+OOB/Custom
+Account
+Customer
+Organization
+Stores customer details, tier, address
+OOB
+Contact
+Contact
+Organization
+Stores contact details for customers/prospects
+OOB
+Appointment
+Activity
+User/Team
+Represents sales calls/meetings
+OOB (extended)
+nf_UserLocation
+Reference
+User/Team
+Stores ASM home locations
+Custom
+nf_Calendar
+Reference
+Organization
+Stores holidays, ASM planned leaves
+Custom
+nf_OfflineQueue
+Queue
+User/Team
+Stores unsynced changes for offline support
+Custom
+2.2 Option Sets (Global Choices)
+* Customer Tier (Account): 1, 2, 3, 4
+* Call Type (Appointment): Live, Prospect, Wine Tasting, Training
+* Reschedule Reason (Appointment): Customer Request, ASM Unavailable, Emergency, Other
+* Transport Mode (Appointment): Walking, Public, Private
+* Calendar Type (nf_Calendar): Holiday, Leave
+* Offline Action (nf_OfflineQueue): Create, Update, Delete
+3. Entity Customizations
+3.1 Account (OOB, Extended)
+* Attributes: nf_tier (Option Set), nf_nextcalldate (Date), nf_geocode (Text, for mapping)
+Forms
+Form Name
+Form Fields
+Main
+Name, nf_tier, nf_nextcalldate, Address, nf_geocode, Contacts, Appointments
+Views
+View Name
+View Type
+View Filter
+Active Accounts
+Public
+Status = Active
+Tier 1 Customers
+Public
+nf_tier = 1
+Business Rules
+Business Rule Name
+Pseudo Logic
+Require Tier for Live Accounts
+If Status = Active, nf_tier is required
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+Account
+Appointment
+1:N
+Account
+Contact
+1:N
+3.2 Appointment (OOB, Extended)
+* Attributes: nf_calltype (Option Set), nf_reschedulereason (Option Set), nf_transportmode (Option Set), nf_objective (Text), nf_duration (Whole Number, minutes)
+Forms
+Form Name
+Form Fields
+Main
+Subject, Regarding, nf_calltype, nf_reschedulereason, nf_transportmode, nf_objective, nf_duration, Start, End, Location
+Views
+View Name
+View Type
+View Filter
+My Upcoming Calls
+Personal
+Owner = Current User, Start >= Today
+Rescheduled Calls
+Public
+nf_reschedulereason is not null
+Business Rules
+Business Rule Name
+Pseudo Logic
+Require Reschedule Reason
+If Start/End changed, nf_reschedulereason is required
+Validate Duration
+If nf_duration < 60 or > 90, show warning unless nf_calltype = Training
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+Appointment
+Account
+N:1
+Appointment
+Contact
+N:1
+3.3 nf_UserLocation (Custom)
+* Attributes: nf_name (default), nf_userid (Lookup: SystemUser), nf_isprimary (Two Options), nf_address (Text), nf_geocode (Text)
+Forms
+Form Name
+Form Fields
+Main
+nf_name, nf_userid, nf_isprimary, nf_address, nf_geocode
+Views
+View Name
+View Type
+View Filter
+My Home Locations
+Personal
+nf_userid = Current User
+Primary Locations
+Public
+nf_isprimary = Yes
+Business Rules
+Business Rule Name
+Pseudo Logic
+Only One Primary
+If user sets nf_isprimary = Yes, set all other locations for user to No
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+nf_UserLocation
+SystemUser
+N:1
+3.4 nf_Calendar (Custom)
+* Attributes: nf_name (default), nf_type (Option Set: Holiday, Leave), nf_date (Date), nf_userid (Lookup: SystemUser, optional)
+Forms
+Form Name
+Form Fields
+Main
+nf_name, nf_type, nf_date, nf_userid
+Views
+View Name
+View Type
+View Filter
+All Holidays
+Public
+nf_type = Holiday
+My Leaves
+Personal
+nf_type = Leave, nf_userid = Current User
+Business Rules
+Business Rule Name
+Pseudo Logic
+Prevent Duplicate Holiday
+If nf_type = Holiday and nf_date exists, prevent save
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+nf_Calendar
+SystemUser
+N:1 (optional)
+3.5 nf_OfflineQueue (Custom)
+* Attributes: nf_name (default), nf_entityname (Text), nf_recordid (GUID), nf_action (Option Set: Create, Update, Delete), nf_data (Multiline Text, JSON)
+Forms
+Form Name
+Form Fields
+Main
+nf_name, nf_entityname, nf_recordid, nf_action, nf_data
+Views
+View Name
+View Type
+View Filter
+Pending Sync
+Public
+nf_action is not null
+Business Rules
+Business Rule Name
+Pseudo Logic
+None
+--
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+nf_OfflineQueue
+SystemUser
+N:1
+4. Attribute List by Entity
+Account
+Attribute Name
+Type
+Description
+name
+Text
+Account Name (default)
+nf_tier
+Option Set
+Customer Tier
+nf_nextcalldate
+Date
+Next Call Date
+nf_geocode
+Text
+Geocoded Address
+Appointment
+Attribute Name
+Type
+Description
+subject
+Text
+Subject (default)
+nf_calltype
+Option Set
+Call Type
+nf_reschedulereason
+Option Set
+Reschedule Reason
+nf_transportmode
+Option Set
+Transport Mode
+nf_objective
+Text
+Call Objective
+nf_duration
+Whole Number
+Duration (minutes)
+nf_UserLocation
+Attribute Name
+Type
+Description
+nf_name
+Text
+Location Name (default)
+nf_userid
+Lookup
+User
+nf_isprimary
+Two Options
+Primary Location
+nf_address
+Text
+Address
+nf_geocode
+Text
+Geocoded Address
+nf_Calendar
+Attribute Name
+Type
+Description
+nf_name
+Text
+Calendar Entry Name (default)
+nf_type
+Option Set
+Type (Holiday/Leave)
+nf_date
+Date
+Date
+nf_userid
+Lookup
+User (for leave)
+nf_OfflineQueue
+Attribute Name
+Type
+Description
+nf_name
+Text
+Queue Item Name (default)
+nf_entityname
+Text
+Entity Name
+nf_recordid
+GUID
+Record ID
+nf_action
+Option Set
+Action (Create/Update/Delete)
+nf_data
+Multiline Text
+Serialized Data
+5. Security Role Matrix
+Entity
+ASM
+Line Manager
+System Admin
+IT Support
+Account
+Read, Append, Append To
+Read
+Full
+Read
+Appointment
+CRUD (own)
+Read, Append
+Full
+Read
+nf_UserLocation
+CRUD (own)
+Read
+Full
+Read
+nf_Calendar
+Read (holidays), CRUD (own leave)
+Read
+Full
+Read
+nf_OfflineQueue
+CRUD (own)
+None
+Full
+Read
+6. Code Snippets & Plugin Pseudocode
+6.1 Plugin: Appointment Rescheduling
+
+//Appointment Rescheduling Plugin Logic - Start
+On Appointment update, if Start or End date/time is changed:
+    - Require nf_reschedulereason to be populated.
+    - Log the reason and previous date/time in a custom field or audit log.
+    - Trigger email notification to customer with new details.
+    - If email fails, retry and alert ASM.
+//Appointment Rescheduling Plugin Logic - End
+        
+6.2 Power Automate: Auto-Scheduling Flow
+
+//Flow Logic - Start
+On Account Tier update:
+    - Calculate next call date based on tier rules.
+    - Create Appointment activity for ASM.
+    - Set nf_calltype, nf_objective, and link to Account.
+    - If required data missing, flag for review.
+//Flow Logic - End
+        
+6.3 Power Automate: Walk-in Suggestion Flow
+
+//Flow Logic - Start
+On Appointment cancellation:
+    - Identify nearby prospects (geocode proximity).
+    - Suggest available prospects for walk-in.
+    - Allow ASM to accept/reject suggestion.
+//Flow Logic - End
+        
+6.4 Business Rule: Only One Primary Home Location
+
+//Business Rule Logic - Start
+On nf_UserLocation save:
+    - If nf_isprimary = Yes, set nf_isprimary = No for all other locations for the same user.
+//Business Rule Logic - End
+        
+7. Integration Strategy
+7.1 Dynamics 365 CRM & Outlook Calendar
+* Systems: Dynamics 365 CE, Microsoft Outlook
+* Data Flow: Appointment entity syncs to Outlook Calendar (subject, start, end, location, attendees)
+* Method: Native Dynamics 365-Exchange integration (server-side sync)
+* Security: OAuth, role-based access
+* Error Handling: Sync failures logged, user alerts
+* Performance: 3-5 minute sync window
+7.2 Navigation Apps Integration
+* Systems: Dynamics 365 CE, Google Maps/Waze/Bing Maps (mobile)
+* Data Flow: Deep-link journey plan with route/waypoints
+* Method: URL deep-linking from Dynamics mobile app
+* Security: Device-level app permissions
+* Error Handling: Fallback to manual entry if app not installed
+* Performance: Instant, device-dependent
+7.3 Data Import/Migration
+* Source: Legacy CRM, HR/ERP (for holidays, home locations)
+* Method: Data Import Wizard, Power Query, custom ETL scripts
+* Data Cleansing: Validate addresses, deduplicate, ensure geocoding
+* Validation: Pre/post migration reports, sample record checks
+8. Data Migration Approach
+* Source Systems: Legacy CRM, HR/ERP, Excel/CSV
+* Transformation: Map fields to new schema, standardize option set values, geocode addresses
+* Migration Tools: Data Import Wizard, Power Query, KingswaySoft (if needed)
+* Validation: Use test imports, reconcile record counts, spot-check data
+* Reconciliation: Export post-migration data, compare with source, resolve discrepancies
+9. PCF Component Evaluation
+9.1 Journey Map Visualization
+* Purpose: Display daily/weekly journey plan on an interactive map with route, stops, and transport info
+* Inputs: List of appointments (with geocodes), transport mode
+* Outputs: Map with route, stops, directions, travel time
+* Example: Microsoft Map PCF Sample
+9.2 Appointment Directions Button
+* Purpose: Button to open navigation app with pre-loaded route
+* Inputs: Appointment address/geocode
+* Outputs: Deep-link URL
+* Example: PCF Gallery: Google Maps Directions
+10. Security Considerations
+* Customizations: Use role-based security, field-level security for sensitive data (e.g., home locations)
+* Integrations: OAuth for Outlook, device permissions for navigation apps, encrypted data in transit
+* Data Migration: Restrict access to migration tools, audit logs for all changes
+* PCF Controls: Validate input, prevent data leakage, respect user permissions
+* Audit: Enable auditing for key entities and attributes
