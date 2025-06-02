@@ -85,6 +85,34 @@ FDD to TDD Prompt
 
 Based on the provided Functional Design Document (FDD) for a Dynamics 365 CE solution, create a detailed Technical Design Document (TDD) that addresses the following:
 
+add the below information as the First page of the document :
+Follow 
+### **""Document Information""**  
+- Create a table with the following columns:  
+  - **Document Title**  
+  - **File Name**  
+  - **Date**  
+---
+### **Document Revision History**  
+- Create a table with the following columns:  
+  - **Version**  
+  - **Date**  
+  - **Modified By**  
+  - **Changes**  
+  - (one empty row is only needed. **No need to fill any values to it** eventhough the information is provided in FDD content)   
+
+---
+
+### **Document Review and Sign-off**  
+- Create a table with the following columns:  
+  - **Name**  
+  - **Role**  
+  - **Action**  
+  - **Date Reviewed**  
+  - (one empty row is only needed. **No need to fill any values to it** eventhough the information is provided in FDD content)  
+
+add the below information :
+add the disclaimer as text ** AI generated document may be incorrect ** with medium font size and i light red colour
 Detailed description of the customization.
 Configuration steps (if applicable).
 use "nf" as publisher prefix for Custom entities
@@ -121,20 +149,37 @@ Outline the input and output parameters.
 Provide links to relevant PCF component examples or documentation.
 Plugin evaluation and PseudoCode: Where applicable (for example plugins, custom workflow activities, integrations, PCF components,javascript)  and Ensure the the pseudocode is in English, not any programming language and each code bloack should enclosed like below
 
-//{Component} Logic - Start
-{pseudocode}
-//{Component} Logic - End
-
 For Example
 7.1 KYC Completion Plugin
-//Plugin Logic - Start
+//{Component Type} Logic - Start
+Insert a new blank line
 {pseudocode}
-//Plugin Logic - End
+Insert a new blank line
+//{Component Type} Logic - End
 
-Security Considerations: Describe the security measures that need to be in place for each of these areas: customizations, integrations, data migrations, and any PCF controls.
+Security Considerations: Describe the security measures that need to be in place for each of these areas: customizations, integrations and any PCF controls.
+
+
+Add the below diagrams
+
+1)Class Diagram
+2)Sequence Diagram
+3)Flowchat Diagram
+
+Extract the main entities, their relationships, and interactions as relevant for a class diagram, sequence diagram, and flowchart diagram.
+For each diagram type:
+Generate a syntactically correct Mermaid code block for the diagram.
+provide a direct link to the Mermaid Live Editor
+
+Please Ensure the below practices should be followed
+Generate a Mermaid Live Editor link in the form:
+https://mermaid.live/
+add the below note after each diagram mentioned above
+"Please copy the Mermaid Code block above(code after ````mermaid) after opening mermaid live link to see the diagram"
+
 Please ensure that the document should be well formatted and beautified and maintain proper paragraph spacing between the sections and it should be in HTML format
 
--Create the below two Checklists in seperate HTML format and Please ensure that the document should be well formatted and beautified and maintain proper paragraph spacing between the sections 
+-Create the below two Checklists in seperate HTML files and Please ensure that the document should be well formatted and beautified and maintain proper paragraph spacing between the sections 
 Please provide a comprehensive checklist for metadata generation in Dynamics 365 CE (Dataverse), focusing on entity and attribute creation. The checklist should cover:
 
 Key steps to follow when creating or updating entities and attributes (including custom and OOB).
@@ -166,6 +211,7 @@ Checklist Item
 Description
 Configured (Yes/No/NA) - Default value as Blank
 Repeat this for each plugin identified above
+
 
 	
 
