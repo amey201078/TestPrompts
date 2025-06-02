@@ -159,7 +159,7 @@ Forms
 Form Name
 Form Fields
 Main
-Name, Customer, Verification Type (Option Set), Status, KYC/AML Result, Date Verified, Document Link
+Name, Customer, Verification Type (Option Set), Status, KYC/AML Result, Date Verified
 Views
 View Name
 View Type
@@ -179,9 +179,6 @@ Relationship Type
 nf_identityverification
 contact
 Many-to-One
-nf_identityverification
-nf_documentmanagement
-One-to-Many
 Document Management (nf_documentmanagement)
 * Ownership Type: User-owned
 * Description: Stores onboarding documents, linked to related customer.
@@ -189,7 +186,7 @@ Forms
 Form Name
 Form Fields
 Main
-Name, Customer, Document Type (Option Set), File Upload, Date Uploaded, Linked Verification
+Name, Customer, Document Type (Option Set), File Upload, Date Uploaded
 Views
 View Name
 View Type
@@ -371,4 +368,10 @@ Security Considerations
 * Integrations: Use secure authentication (OAuth), restrict integration user permissions, encrypt all data in transit and at rest.
 * PCF Controls: Validate and sanitize all input/output, avoid exposing sensitive data in visual controls.
 * Plugins/Workflows: Handle exceptions gracefully, do not return sensitive error messages to users.
+Class Diagram
+
+classDiagram
+    class Contact {
+        +String Full Name
+        +String Emai
 
