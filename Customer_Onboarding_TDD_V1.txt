@@ -1,9 +1,31 @@
 Technical Design Document
 Customer Onboarding for Retail Bank in Dynamics 365 CE
 Document Information
-Document TitleFile NameDateTechnical Design Document - Customer Onboarding for Retail Bank in Dynamics 365 CECustomer_Onboarding_Technical_Design_Document.html2025-06-02Document Revision History
-VersionDateModified ByChangesDocument Review and Sign-off
-NameRoleActionDate ReviewedDisclaimer: AI generated document may be incorrect. 
+Document Title
+File Name
+Date
+Technical Design Document - Customer Onboarding for Retail Bank in Dynamics 365 CE
+Customer_Onboarding_Technical_Design_Document.html
+2025-06-02
+Document Revision History
+Version
+Date
+Modified By
+Changes
+
+
+
+
+Document Review and Sign-off
+Name
+Role
+Action
+Date Reviewed
+
+
+
+
+Disclaimer: AI generated document may be incorrect. 
 Detailed Description of the Customization
 This document details the technical design for implementing the customer onboarding process in Dynamics 365 Customer Engagement (CE) for a retail bank, based on the provided FDD. It covers custom entity creation, system configuration, integration, migration, and security, following best practices for Dynamics 365 CE and Dataverse. 
 Configuration Steps
@@ -17,53 +39,261 @@ Entities Overview
 Design Notes: 
 * Option Sets are used instead of new entities where only static values are required (e.g., task status, feedback type).
 * The default name property is used when storing entity descriptions or names, avoiding redundant attributes.
-* Entity Ownership: Customer-related entities are User-owned. Checklist and Task-type entities are Organization-owned for global access. Refer to each entity’s details.
-Entity Display NameLogical NameOwnership TypeDescriptionOnboarding Tasknf_onboardingtaskOrganization-ownedTracks specific tasks related to customer onboarding.Onboarding Checklistnf_onboardingchecklistOrganization-ownedStores checklists for the onboarding process.Customer Feedbacknf_customerfeedbackUser-ownedCollects feedback from customers during onboarding.Identity Verificationnf_identityverificationUser-ownedManages KYC and AML checks for customers.Document Managementnf_documentmanagementUser-ownedStores and manages customer documents for onboarding.Entity Customizations
+* Entity Ownership: Customer-related entities are User-owned. Checklist and Task-type entities are Organization-owned for global access. Refer to each entity s details.
+Entity Display Name
+Logical Name
+Ownership Type
+Description
+Onboarding Task
+nf_onboardingtask
+Organization-owned
+Tracks specific tasks related to customer onboarding.
+Onboarding Checklist
+nf_onboardingchecklist
+Organization-owned
+Stores checklists for the onboarding process.
+Customer Feedback
+nf_customerfeedback
+User-owned
+Collects feedback from customers during onboarding.
+Identity Verification
+nf_identityverification
+User-owned
+Manages KYC and AML checks for customers.
+Document Management
+nf_documentmanagement
+User-owned
+Stores and manages customer documents for onboarding.
+Entity Customizations
 Onboarding Task (nf_onboardingtask)
 * Ownership Type: Organization-owned
 * Description: Tracks detailed onboarding steps for customers, linked to checklist and customer entities.
 Forms
-Form NameForm FieldsMainName, Assigned To, Checklist, Status, Due Date, Related Customer, NotesViews
-View NameView TypeView FilterActive Onboarding TasksPublicStatus = ActiveAll TasksPublicNoneBusiness Rules
-Business Rule NamePseudo LogicSet Due Date Required for ActiveIf Status = Active then Due Date is requiredEntity Relationships
-Source EntityTarget EntityRelationship Typenf_onboardingtasknf_onboardingchecklistMany-to-Onenf_onboardingtaskcontact/accountMany-to-One
+Form Name
+Form Fields
+Main
+Name, Assigned To, Checklist, Status, Due Date, Related Customer, Notes
+Views
+View Name
+View Type
+View Filter
+Active Onboarding Tasks
+Public
+Status = Active
+All Tasks
+Public
+None
+Business Rules
+Business Rule Name
+Pseudo Logic
+Set Due Date Required for Active
+If Status = Active then Due Date is required
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+nf_onboardingtask
+nf_onboardingchecklist
+Many-to-One
+nf_onboardingtask
+contact/account
+Many-to-One
 Onboarding Checklist (nf_onboardingchecklist)
 * Ownership Type: Organization-owned
 * Description: Master list of tasks for onboarding, reused for multiple customers.
 Forms
-Form NameForm FieldsMainName, Description, Applicable Segment, ActiveViews
-View NameView TypeView FilterActive ChecklistsPublicActive = YesBusiness Rules
-Business Rule NamePseudo LogicActivate ChecklistIf checklist is complete, set Active = YesEntity Relationships
-Source EntityTarget EntityRelationship Typenf_onboardingchecklistnf_onboardingtaskOne-to-Many
+Form Name
+Form Fields
+Main
+Name, Description, Applicable Segment, Active
+Views
+View Name
+View Type
+View Filter
+Active Checklists
+Public
+Active = Yes
+Business Rules
+Business Rule Name
+Pseudo Logic
+Activate Checklist
+If checklist is complete, set Active = Yes
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+nf_onboardingchecklist
+nf_onboardingtask
+One-to-Many
 Customer Feedback (nf_customerfeedback)
 * Ownership Type: User-owned
 * Description: Captures feedback from customers (linked to Contact).
 Forms
-Form NameForm FieldsMainName, Customer, Feedback Type (Option Set), Comments, Date SubmittedViews
-View NameView TypeView FilterRecent FeedbackPersonalDate Submitted DescendingBusiness Rules
-Business Rule NamePseudo LogicRequire Comments for Negative FeedbackIf Feedback Type = Negative, Comments is requiredEntity Relationships
-Source EntityTarget EntityRelationship Typenf_customerfeedbackcontactMany-to-One
+Form Name
+Form Fields
+Main
+Name, Customer, Feedback Type (Option Set), Comments, Date Submitted
+Views
+View Name
+View Type
+View Filter
+Recent Feedback
+Personal
+Date Submitted Descending
+Business Rules
+Business Rule Name
+Pseudo Logic
+Require Comments for Negative Feedback
+If Feedback Type = Negative, Comments is required
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+nf_customerfeedback
+contact
+Many-to-One
 Identity Verification (nf_identityverification)
 * Ownership Type: User-owned
 * Description: Manages KYC/AML checks, linked to customers, holds verification status and documents.
 Forms
-Form NameForm FieldsMainName, Customer, Verification Type (Option Set), Status, KYC/AML Result, Date Verified, Document LinkViews
-View NameView TypeView FilterPending VerificationsPublicStatus = PendingBusiness Rules
-Business Rule NamePseudo LogicRequire Document for PassIf Status = Passed, Document Link is requiredEntity Relationships
-Source EntityTarget EntityRelationship Typenf_identityverificationcontactMany-to-Onenf_identityverificationnf_documentmanagementOne-to-Many
+Form Name
+Form Fields
+Main
+Name, Customer, Verification Type (Option Set), Status, KYC/AML Result, Date Verified, Document Link
+Views
+View Name
+View Type
+View Filter
+Pending Verifications
+Public
+Status = Pending
+Business Rules
+Business Rule Name
+Pseudo Logic
+Require Document for Pass
+If Status = Passed, Document Link is required
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+nf_identityverification
+contact
+Many-to-One
+nf_identityverification
+nf_documentmanagement
+One-to-Many
 Document Management (nf_documentmanagement)
 * Ownership Type: User-owned
 * Description: Stores onboarding documents, linked to related customer.
 Forms
-Form NameForm FieldsMainName, Customer, Document Type (Option Set), File Upload, Date Uploaded, Linked VerificationViews
-View NameView TypeView FilterDocuments by CustomerPublicGrouped by CustomerBusiness Rules
-Business Rule NamePseudo LogicFile MandatoryIf Document Type is selected, File Upload is requiredEntity Relationships
-Source EntityTarget EntityRelationship Typenf_documentmanagementcontactMany-to-Onenf_documentmanagementnf_identityverificationMany-to-One
+Form Name
+Form Fields
+Main
+Name, Customer, Document Type (Option Set), File Upload, Date Uploaded, Linked Verification
+Views
+View Name
+View Type
+View Filter
+Documents by Customer
+Public
+Grouped by Customer
+Business Rules
+Business Rule Name
+Pseudo Logic
+File Mandatory
+If Document Type is selected, File Upload is required
+Entity Relationships
+Source Entity
+Target Entity
+Relationship Type
+nf_documentmanagement
+contact
+Many-to-One
 Attributes by Entity
 Onboarding Task (nf_onboardingtask)
-Attribute Display NameSchema NameData TypeRequiredDescriptionNamenf_nameSingle Line of TextYesTask title/descriptionAssigned Tonf_assignedtoLookup (SystemUser)NoUser assigned to taskChecklistnf_checklistidLookup (nf_onboardingchecklist)YesRelated checklistStatusnf_statusOption SetYesTask status (Pending, Active, Completed)Due Datenf_duedateDateTimeNoTask due dateRelated Customernf_customeridLookup (Contact/Account)YesAssociated customerNotesnf_notesMultiple Lines of TextNoAdditional detailsSecurity Role Matrix
+Attribute Display Name
+Schema Name
+Data Type
+Required
+Description
+Name
+nf_name
+Single Line of Text
+Yes
+Task title/description
+Assigned To
+nf_assignedto
+Lookup (SystemUser)
+No
+User assigned to task
+Checklist
+nf_checklistid
+Lookup (nf_onboardingchecklist)
+Yes
+Related checklist
+Status
+nf_status
+Option Set
+Yes
+Task status (Pending, Active, Completed)
+Due Date
+nf_duedate
+DateTime
+No
+Task due date
+Related Customer
+nf_customerid
+Lookup (Contact/Account)
+Yes
+Associated customer
+Notes
+nf_notes
+Multiple Lines of Text
+No
+Additional details
+Security Role Matrix
 Entity-wise security roles with CRUD (Create, Read, Update, Delete) and special permissions:
-EntityRoleCreateReadUpdateDeleteAppendAppend ToAssignShareOnboarding TaskOnboarding ManagerYesYesYesYesYesYesYesYesOnboarding TaskOnboarding AgentYesYesYesNoYesYesNoNoIdentity VerificationKYC OfficerYesYesYesNoYesYesNoNoCode Snippets (Pseudocode)
+Entity
+Role
+Create
+Read
+Update
+Delete
+Append
+Append To
+Assign
+Share
+Onboarding Task
+Onboarding Manager
+Yes
+Yes
+Yes
+Yes
+Yes
+Yes
+Yes
+Yes
+Onboarding Task
+Onboarding Agent
+Yes
+Yes
+Yes
+No
+Yes
+Yes
+No
+No
+Identity Verification
+KYC Officer
+Yes
+Yes
+Yes
+No
+Yes
+Yes
+No
+No
+Code Snippets (Pseudocode)
 7.1 KYC Completion Plugin
 
 //Plugin Logic - Start
