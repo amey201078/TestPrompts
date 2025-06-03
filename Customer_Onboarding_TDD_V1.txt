@@ -347,21 +347,21 @@ o Reference: Microsoft PCF Documentation
 * Document Previewer: Inline display of uploaded documents in Document Management entity
 Plugin Evaluation & Pseudocode
 
-//Plugin: Data Validation on Import - Start
+Data Validation on Import 
+//Plugin Logic - Start
 
 For each imported entity record:
     If mandatory fields missing, set status = Error, log details
     If duplicate found, mark as duplicate, prevent import
 
-//Plugin: Data Validation on Import - End
-        
+//Plugin Logic - End        
 
-//JavaScript: Onboarding Task Form - Start
-
+Onboarding Task Form
+//JavaScript Logic - Start
 On form load:
     If Status = Completed, lock all fields except Notes
 
-//JavaScript: Onboarding Task Form - End
+//JavaScript Logic - End
         
 Security Considerations
 * Customizations: Set field-level security on sensitive data (e.g., KYC/AML fields), enable auditing for all critical attribute changes.
@@ -373,5 +373,86 @@ Class Diagram
 classDiagram
     class Contact {
         +String Full Name
-        +String Emai
+        +String Email
+        +String Phone
+    }
+    class Account {
+        +String Name
+        +String AccountNumber
+    }
+    class nf_onboardingchecklist {
+        +String Name
+        +String Description
+        +String Segment
+        +Bool Active
+    }
+    class nf_onboardingtask {
+        +String Name
+        +Enum Status
+        +DateTime DueDate
+        +Contact/Account RelatedCustomer
+        +nf_onboardingchecklist Checklist
+    }
+    class nf_identityverification {
+        +String Name
+        +Enum VerificationType
+        +Enum Status
+        +String KYCResult
+        +Contact Customer
+        +nf_documentmanagement Document
+    }
+    class nf_customerfeedback {
+        +String Name
+        +Enum FeedbackType
+        +Contact Customer
+        +String Comments
+    }
+    class nf_documentmanagement {
+        +String Name
+        +Enum DocumentType
+        +File FileUpload
+        +Contact Customer
+    }
+
+    nf_onboardingtask --> nf_onboardingchecklist : belongs to
+    nf_onboardingtask --> Contact : for
+    nf_customerfeedback --> Contact : for
+    nf_identityverification --> Contact : for
+    nf_identityverification --> nf_documentmanagement : uses
+    nf_documentmanagement --> Contact : for
+    nf_documentmanagement --> nf_identityverification : supports
+https://mermaid.live/
+Please copy the Mermaid Code block above(code after mermaid) after opening mermaid live link to see the diagram 
+Sequence Diagram
+
+sequenceDiagram
+    participant User
+    participant CE_System
+    participant KYC_Officer
+    participant EmailSystem
+    participant DocumentStore
+
+    User->>CE_System: Initiate Onboarding
+    CE_System->>CE_System: Create Onboarding Tasks & Checklist
+    User->>CE_System: Upload Documents
+    CE_System->>DocumentStore: Store Document
+    KYC_Officer->>CE_System: Perform KYC/AML Verification
+    CE_System->>KYC_Officer: Notify Verification Result
+    CE_System->>EmailSystem: Send Onboarding Completion Email
+https://mermaid.live/
+Please copy the Mermaid Code block above(code after mermaid) after opening mermaid live link to see the diagram 
+Flowchart Diagram
+
+flowchart TD
+    A[Start Onboarding] --> B[Create Customer Record]
+    B --> C[Assign Checklist & Tasks]
+    C --> D[Send Welcome Email]
+    D --> E[Upload Documents]
+    E --> F{KYC/AML Verification}
+    F -- Passed --> G[Onboarding Complete]
+    F -- Failed --> H[Request Additional Info]
+    H --> E
+https://mermaid.live/
+Please copy the Mermaid Code block above(code after mermaid) after opening mermaid live link to see the diagram 
+
 
