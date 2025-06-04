@@ -159,26 +159,6 @@ Insert a new blank line
 
 Security Considerations: Describe the security measures that need to be in place for each of these areas: customizations, integrations and any PCF controls.
 
-
-Add the below diagrams
-
-1)Class Diagram
-2)Sequence Diagram
-3)Flowchat Diagram
-
-Extract the main entities, their relationships, and interactions as relevant for a class diagram, sequence diagram, and flowchart diagram.
-For each diagram type:
-Generate a syntactically correct Mermaid code block for the diagram.
-provide a direct link to the Mermaid Live Editor
-
-Please Ensure the below practices should be followed
-Generate a Mermaid Live Editor link in the form:
-https://mermaid.live/
-add the below note after each diagram mentioned above
-"Please copy the Mermaid Code block above(code after ````mermaid) after opening mermaid live link to see the diagram"
-
-Please ensure that the document should be well formatted and beautified and maintain proper paragraph spacing between the sections and it should be in HTML format
-
 -Create the below two Checklists in seperate HTML files and Please ensure that the document should be well formatted and beautified and maintain proper paragraph spacing between the sections 
 Please provide a comprehensive checklist for metadata generation in Dynamics 365 CE (Dataverse), focusing on entity and attribute creation. The checklist should cover:
 
@@ -212,7 +192,7 @@ Description
 Configured (Yes/No/NA) - Default value as Blank
 Repeat this for each plugin identified above
 
-
+Please ensure that complete HTML  code  with html and head and body tags with beautification using inline styling  for all elements and apply #FD5600 fill color and keep 1.5 lines spacing between each html table used 
 	
 
 
