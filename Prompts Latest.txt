@@ -150,7 +150,7 @@ Provide links to relevant PCF component examples or documentation.
 Plugin evaluation and PseudoCode: Where applicable (for example plugins, custom workflow activities, integrations, PCF components,javascript)  and Ensure the the pseudocode is in English, not any programming language and each code bloack should enclosed like below
 
 For Example
-7.1 KYC Completion Plugin
+7.1 KYC Completion {Component Type}
 //{Component Type} Logic - Start
 Insert a new blank line
 {pseudocode}
