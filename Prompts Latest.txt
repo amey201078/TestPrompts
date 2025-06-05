@@ -196,56 +196,6 @@ Please ensure that complete HTML  code  with html and head and body tags with be
 	
 
 
-Tech Design to Solution Creation Prompt(Plugins/JS) - Not working as on 25 May 2025 Due To powershell issues
---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-*"Create a robust PowerShell script to automate and orchestrate the Dynamics 365 CE solution setup process as follows:
-
-1. Input and Parameterization
-
-Accept as input parameters:
-CompanyName
-Dry-run flag (to simulate actions without making changes)
-dont add TDD path as parameter rather retrieve the contents from TDD document attached
-
-2. Document Parsing
-download the attached doeument to current folder
-Parse the provided TDD attached to identify and extract:
-Project name or solution name (from the introduction, title, or a specific metadata section)
-
-3. Solution and Project Structure Creation
-
-Use VS CLI (devenv, dotnet new, or msbuild as appropriate) to:
-Create a new blank .NET solution named based on the project or solution name found in the Technical Design Document
-use standard using directives 
-Add two class library projects:
-'CompanyName.Plugins' (targeting .NET Framework 4.6.2)
-'CompanyName.WebResources'
-
-4.write a script that scans a given Visual Studio solution or project directory, locates all .csproj files, and automatically updates the language version to 8.0 or greater if the file contains the setting <Nullable>enable</Nullable> but is targeting a language version less than 8.0 (e.g., 7.3 or unspecified). The script should:
-1.consider root directory as solution directory and should not use the parameter
-2.Ignore .csproj files with project name contains "WebResources"
-3.Check each .csproj for <Nullable>enable</Nullable>.
-4.If found, set <LangVersion>10.0</LangVersion> (or higher) in the same <PropertyGroup>.
-
-5. Write a script to locate sn.exe by searching under all "Program Files" and "Program Files (x86)" folders, and set full path with sn.exe to variable 
-Sign the plugin project assembly with strong name and add related xml nodes in the first occourence of <PropertyGroup>
-
-6. Delete Class1.cs from all the projects
-
-7. Recursively scans a .sln file to identify all included C# projects (.csproj) and Modifies each project with name contains "WebResources" to set the <Build> property to false in all <ProjectConfiguration> sections
-
-8.Build the Plugins project (optionally increment version)
-
-Resolve nullable issue prompt
-------------------------------------------------------------------------------------------------------------------------------------------------------------
-can you suggest me the prompt to get a  powershell script to resolve Invalid 'nullable' value: 'Enable' for C# 7.3. Please use language version '10.0' or greater.
-
-
-find sn.exe prompt
--------------------------------------------------------------------------------------------------------------------------------------------------------------
-can you suggest me the prompt to get a  powershell script to find sn.exe file in local drives
-
 TDD to Code Components Generation Prompt(Plugin/JS) - Assuming Solution Template is already available
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 1.Analyze the attached Technical Design Document and create and add the C# class file(one for each plugin code block which starts with "//Plugin Logic - Start" word till "//Plugin Logic - End" with plugin template with namespace( add comments to the function header) and convert the plugin pseudocde into C# plugin code and put it in the plugin template(inherting the IPlugin and implementation of the interface and make sure that dont use generic logic to merge plugin template and pseudocde) and every variable is initialzied and no compilation issues should occur) and check for first occurence of non blank line above plugin code block for Plugin Name(Exclude numbers and spaces and "." and omit the words like "Plugin","Javascript","Azure Function","Power Automate","Workflow") and apply proper C# syntax 
