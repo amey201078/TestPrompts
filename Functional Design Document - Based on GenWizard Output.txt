@@ -1,0 +1,154 @@
+Functional Design Document (FDD)
+Migration of Lotus Notes-Based Internal Transfer Processing to Dynamics 365 CE
+
+1. Introduction
+This document details the functional design for migrating the Internal Transfer Processing business process from the legacy Lotus Notes/Pega environment to Microsoft Dynamics 365 Customer Engagement (D365 CE). The goal is to modernize, streamline, and secure the process, leveraging D365 CE’s features and extensibility.
+
+2. Scope
+In Scope:
+* Automated ingestion and processing of daily internal transfer batch files.
+* Exception handling workflows for failed transfers.
+* Real-time and manual status monitoring.
+* Integration with mainframe (file-based), Hostbridge (HTTP), and email systems.
+* Administrative configuration and secure notifications.
+* Reporting and audit trails.
+Out of Scope:
+* Processes unrelated to internal transfers.
+* Enhancement beyond documented legacy functionality (unless specifically inferred).
+
+3. Actors / Roles
+Role NameDescriptionKey ResponsibilitiesInternal Transfer ProcessorOperations staff resolving transfer issuesInvestigate and resolve exceptionsApplication AdministratorManages configuration and monitoringConfigure settings, trigger batch processingSystem User (Automated)Automated agent for file ingestion/processingFile ingestion, batch automationIT SupportSupport error monitoring/escalationSystem error monitoringCompliance/Reporting UserAccesses reports, audit, and data extractsRun reports, review audit trails
+4. Functional Requirements
+4.1 Internal Transfer Data Ingestion
+* Business Rationale: Automate daily capture of transfer requests, reduce manual entry.
+* Preconditions/Triggers: Batch file available in FTP/SFTP location (triggered daily or on admin action).
+* User Experience: Mostly automated; admin can view status or manually trigger.
+* System Behavior:
+o Connect to FTP/SFTP, retrieve and parse file, create transfer records.
+o Prevent duplicate file ingestion (based on date/unique file identifier).
+* Edge Cases/Validation:
+o Invalid file format ? error notification, file ignored.
+o Duplicate detection logic enforced.
+4.2 Automated Transfer Processing
+* Business Rationale: Increase efficiency, enforce business rules.
+* Preconditions/Triggers: New transfer records created or batch process initiated.
+* User Experience: Admin can monitor; processors notified for exceptions.
+* System Behavior:
+o Apply business rules, validate via Hostbridge.
+o Set transfer status: Completed, Exception (with reason).
+* Edge Cases/Validation:
+o If Hostbridge/API fails or validation fails ? mark as Exception.
+o Exclude Navchek accounts.
+4.3 Exception Handling & Resolution
+* Business Rationale: Ensure failed transfers are tracked and resolved.
+* Preconditions/Triggers: Transfer in Exception status.
+* User Experience:
+o Processor accesses exception queue, views/edit details, retries or closes.
+* System Behavior:
+o Editable fields with audit trail.
+o Reprocessing logic on update.
+* Edge Cases/Validation:
+o Field edit restrictions based on status/role.
+o Only authorized users can resolve.
+4.4 Monitoring & Views
+* Business Rationale: Provide transparency and control.
+* Preconditions/Triggers: User accesses dashboard/views.
+* User Experience:
+o Role-based dashboards for Completed, Exception, All Transfers.
+o Filtering, sorting, export.
+* System Behavior:
+o Real-time updates post-processing.
+4.5 Administrative Settings
+* Business Rationale: Secure, centralized configuration.
+* Preconditions/Triggers: Admin accesses settings.
+* User Experience:
+o Settings for FTP, Hostbridge, notifications.
+* System Behavior:
+o Secure credential storage, audit of changes.
+4.6 Notifications & Alerts
+* Business Rationale: Ensure stakeholders are informed.
+* Preconditions/Triggers: Batch/job completion, error, or exception event.
+* User Experience:
+o Email notifications to configured recipients.
+* System Behavior:
+o Templated emails with dynamic details.
+4.7 Integration with External Systems
+* Business Rationale: Data enrichment and transfer execution.
+* Integration Points:
+o FTP/SFTP for batch ingestion.
+o Hostbridge HTTP for validation/execution.
+o Email for notifications.
+4.8 Reporting & Audit
+* Business Rationale: Support compliance and operational oversight.
+* Preconditions/Triggers: User runs a report or audits activity.
+* User Experience:
+o Ability to run/download standard and ad-hoc reports.
+* System Behavior:
+o Field-level audit trails.
+
+5. Non-Functional Requirements
+* Performance: Batch jobs complete within business-defined windows; UI loads within 5 seconds.
+* Availability: System accessible during business hours; batch jobs scheduled after hours.
+* Security: Role and field-level access, encrypted integration endpoints.
+* Audit: All critical actions and changes logged.
+* Compliance: Data retention, privacy, and regulatory adherence.
+* Scalability: Growth for increasing transfer volume.
+
+6. User Stories
+User Story IDSummary/TitlePrimary ActorGoalAcceptance CriteriaUS-01Ingest daily transfer fileApplication AdminEnsure new transfers are availableFile processed, records created, duplicates ignoredUS-02Automate processing of transfersSystemProcess transfers and set statusValid transfers completed, exceptions flaggedUS-03Review and resolve exceptionsTransfer ProcessorInvestigate and resolve failed transfersExceptions editable, retriable, audit loggedUS-04Monitor transfer statusAny UserView progress and details of transfersRole-based, filterable, exportable viewsUS-05Configure application settingsApplication AdminUpdate integration/notification settingsEdits logged, credentials securedUS-06Receive notificationsStakeholderStay informed of processing outcomesTimely, accurate emails sentUS-07Integrate with HostbridgeSystemValidate and execute transfersValidations/enrichments occur, errors handledUS-08Audit and report on all actionsCompliance UserProvide compliance and traceabilityAll actions/audits accessible in reports
+7. Integration Points
+Integration PointSystemProtocolDirectionFrequencyNotesFile IngestionMainframe/FTPFTP/SFTPInbound (to D365)DailyBatch file, fixed formatData EnrichmentHostbridgeHTTP/HTTPSOutbound (from D365)Per recordReal-time validation/calc/executionEmail NotificationsSMTP/ExchangeSMTPOutbound (from D365)EventConfigurable recipients, templated
+8. Reporting
+* Completed Transfers Report: All processed transfers, grouped by date/member.
+* Exception Transfers Report: All failed/exception records with error codes.
+* Audit Trail Report: Change history for all critical records.
+* Configuration Change Audit: All changes to application settings.
+
+9. Security
+* Role-based access control: Restrict edit/view based on role.
+* Field-level security: Mask sensitive fields as required.
+* Data protection: Encryption at rest and in transit.
+* Audit: All sensitive actions logged.
+* Integration security: SFTP/HTTPS and secure credential storage.
+
+10. Glossary
+TermDefinitionTransfer RecordA case representing an internal transferExceptionTransfer record that failed validation/processingHostbridgeExternal HTTP service for validation/executionBatch FileMainframe text file with transfer requestsApplication AdminUser configuring application/integrations
+11. Design Inventory Table
+FeatureUser StoryComponents to be Generated or ExtendedType of ComponentDescriptionFile IngestionUS-01Internal Transfer Entity, Batch Import Flow, PluginEntity, PluginEntity for transfers, plugin for file parsingAutomated ProcessingUS-02Workflow, Plugin, Business RulesWorkflow, PluginAutomate transfer validation and status assignmentException HandlingUS-03Exception Queue View, Form, WorkflowView, WorkflowException management views and workflowsMonitoring/ViewsUS-04Dashboards, List ViewsDashboard, ViewFilterable views and dashboards for status trackingApplication SettingsUS-05App Config Entity, Settings FormEntity, FormAdmin settings and secure config managementNotificationsUS-06Email Workflow, Notification RulesWorkflow, ConfigAutomated email notifications on key eventsHostbridge IntegrationUS-07Plugin, Dataflow, HTTP ConnectorPlugin, IntegrationReal-time validation/execution via HostbridgeReporting/AuditUS-08Reports, Audit Logs, Advanced FindReport, AuditCompliance and operational reporting, audit trail
+12. User Story Summary Table
+User Story IDSummary/TitlePrimary ActorGoalAcceptance CriteriaUS-01Ingest daily transfer fileApplication AdminTransfers ready for processFile processed, records created, duplicates ignoredUS-02Automate transfersSystemStatus set/completedStatus set, exceptions flaggedUS-03Resolve exceptionsProcessorFix and retry failuresEditable, retry, audit trailUS-04Monitor statusAny UserView progress/statusRole-based, filterable, exportableUS-05Manage settingsApplication AdminUpdate settings securelyEdits logged, credentials securedUS-06NotificationsStakeholderTimely awarenessEmails sent, details presentUS-07Hostbridge integrationSystemValidate, executeValidations, errors handledUS-08Audit/reportCompliance UserCompliance, traceabilityAll actions/audits reported
+13. Requirement Support Analysis Table
+Req IDRequirement DescriptionOOB SupportedCustomization PossibleDiscrepancy/Gaps/NotesQuery for StakeholdersFR-01Daily batch file ingestion from FTP/SFTPNoYes (Plugin/Flow)OOB import is manual, FTP/SFTP and parsing need plugin/flowWhat file formats/volumes/error conditions to support?FR-02Duplicate file detectionNoYes (Plugin logic)Custom logic required to prevent duplicatesWhat constitutes a duplicate? Partial file handling?FR-03Automated processing with business rulesPartialYesOOB workflows for basic rules, plugins for complexWhich rules must be configurable? Any complex calculations?FR-04Exception queue/view for failed transfersYesYesOOB queues/views; may need custom columns/filtersWhat fields must be visible/editable? Escalation process?FR-05Editable, retriable exceptionsPartialYesOOB record updates, reprocessing may require plugin/flowWhich fields editable? What triggers reprocessing?FR-06Field-level audit for changesYesEnhanced via configOOB auditing; enable for custom entitiesWhich fields must be audited? Retention period for audit logs?FR-07Role-based dashboards and viewsYesYesOOB dashboards; config for rolesRequired KPIs/charts for dashboards?FR-08Admin config/settings entityPartialYesOOB limited; custom config entity neededWhat settings to be managed? How to store credentials securely?FR-09Hostbridge HTTP integrationNoYes (Plugin/Flow)Custom connector/plugin for HTTP integrationAPI specs for Hostbridge? Auth method? Error handling expectations?FR-10Automated email notificationsPartialYesOOB workflows for email, plugins for advanced scenariosNotification templates, recipient rules?FR-11Standard/compliance reportingPartialYesOOB and custom reports possibleRequired formats, fields, export rules?FR-12Secure credential storagePartialYesOOB for some, advanced needs may need Azure Key VaultCompliance/security requirements for credentials?FR-13SFTP/HTTPS for secure integrationNo (FTP only)YesPlugin or Azure Logic App for SFTP/HTTPSSFTP/HTTPS mandatory? Azure Integration available?FR-14Ad-hoc report generation/exportYesYesOOB Advanced Find covers thisAny custom export or redaction requirements?FR-15Data retention and archivingPartialYesOOB retention policies, custom for advanced scenariosRetention/archival periods and triggers?NFR-01Processing performance (<X mins batch)N/AN/ADepends on implementationAcceptable processing window?NFR-02Availability (business hours, batch)N/AN/AStandard D365 uptime, batch can be scheduledRequired maintenance windows/service levels?NFR-03PII protection, field securityYesYesOOB field security profiles, role-based accessWhich fields PII? Masking/restricted reporting needed?
+14. Assumptions / Inferred Requirements
+* All file imports via secure protocol (SFTP/HTTPS); FTP only if necessary.
+* Only authorized admin users can modify application settings.
+* All business rules mappable to D365 workflows/plugins unless specified.
+* Exception handling requires audit logging and traceability.
+* No requirement for mobile/offline support unless specified.
+
+15. Stakeholder Queries
+1. File Ingestion:
+o What is the formal data contract and error handling for the batch file?
+o Is there a need for file reprocessing or rollback?
+2. Business Rules:
+o Which rules are expected to change frequently and should be admin-configurable?
+o Do any rules require complex calculations beyond workflow capability?
+3. Exception Handling:
+o Which fields are editable on exception records and who can edit?
+o What is the escalation path for unresolved exceptions?
+4. Security:
+o What encryption standards and audit requirements apply to integrations?
+o Who is responsible for managing credentials and compliance?
+5. Reporting:
+o Are there regulatory requirements for reports or export formats?
+o Should audit logs be accessible to all admin users or further restricted?
+6. Retention:
+o Required retention/archival periods and triggers for data purging?
+7. Integration:
+o Is Hostbridge accessible via HTTPS and are APIs documented?
+o Required response times and error handling for integrations?
+8. Performance/Scale:
+o Expected/peak daily transfer volume?
+o SLAs for batch completion and UI response times?
+
+
