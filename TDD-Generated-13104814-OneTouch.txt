@@ -1,0 +1,225 @@
+	
+Sales Call Journey Planning Solution Technical Design Document
+Workitemid
+
+Document Information
+Document TitleFile NameDateSales Call Journey Planning Solution Technical Design DocumentSalesCallJourneyPlanning_TDD.docx[Insert Date]
+Document Revision History
+VersionDateModified ByChanges
+Document Review and Sign-off
+NameRoleActionDate Reviewed
+1.1.1. Introduction
+1.1.1.1. General Information
+This Technical Design Document (TDD) outlines the technical implementation details for the Sales Call Journey Planning Solution. It provides a comprehensive view of the system architecture, data flow, and design considerations required to meet the functional requirements outlined in the Functional Design Document (FDD).
+1.1.1.2. Terms, Acronyms, and Definitions
+Refer to the glossary section in the FDD for definitions of terms such as ASM, Tier, Prospect, Journey Plan, and others.
+1.1.1.3. Purpose and Intended Audience of This Document
+The purpose of this document is to provide technical stakeholders, including developers, architects, and system administrators, with the necessary details to implement the solution. The intended audience includes the technical team responsible for the development, testing, deployment, and maintenance of the solution.
+1.1.1.4. Solution Overview
+The Sales Call Journey Planning Solution is designed to automate and optimize sales call scheduling and journey planning for Account Sales Managers (ASMs). It leverages Dynamics 365 Customer Engagement (CE) and integrates with Microsoft technologies such as Outlook and navigation apps to deliver a seamless experience.
+
+1.1.2. Design Considerations
+1.1.2.1. Key Technical Decisions
+• Use of Dynamics 365 CE as the core platform for managing sales call activities and journey plans.
+• Integration with Outlook for calendar synchronization and navigation apps for route planning.
+• Implementation of Power Automate workflows for automated scheduling and validation.
+• Customization of entities and business rules to enforce journey planning constraints.
+• Offline access for ASMs with synchronization capabilities upon reconnection.
+1.1.2.2. Assumptions and Dependencies
+• All ASMs have access to Dynamics 365 CE and Outlook on mobile devices.
+• Customer tiering data is current and updated regularly in CRM.
+• Geocoded addresses are available for all customers and prospects.
+• Organizational policies for data privacy and retention are adhered to.
+• Navigation app integration is device-dependent and requires supported apps.
+
+1.1.3. Technical Architecture
+1.1.3.1. System Architecture
+The solution architecture consists of the following components:
+• Dynamics 365 CE: Core platform for managing entities such as Account, Appointment, and User Location.
+• Power Automate: Workflow automation for scheduling, validation, and notifications.
+• Custom Entities: User Location and Calendar for managing home locations and holidays.
+• Integration: Outlook calendar sync, navigation app integration, and external data imports.
+• Mobile Access: Native Dynamics 365 mobile app with offline capabilities.
+1.1.3.2. Data Flow
+The data flow includes:
+• Input: Customer tiering, ASM availability, customer opening hours, and geocoded addresses.
+• Processing: Automated scheduling, route optimization, and validation of business rules.
+• Output: Journey plans, visual maps, and management reports.
+• Integration: Syncing data with Outlook and navigation apps, importing external data for holidays and user locations.
+
+End of Document# Technical Design Document (TDD)
+1.2. Data Model Design Specifications
+1.2.1. Entity Design
+Entity NameDisplay NameTypeOwnershipDescriptionOOB/CustomAccountAccountStandardOrganizationRepresents customers with extended fields for tier, last meeting date, etc.OOBContactContactStandardOrganizationRepresents individual customers or prospects.OOBAppointmentAppointmentStandardOrganizationRepresents scheduled sales calls or visits.OOBnf_UserLocationUser LocationCustomUserStores ASM home locations with primary flag for journey routing.Customnf_CalendarCalendarCustomOrganizationStores holidays and ASM-specific availability for scheduling validation.Customnf_OfflineQueueOffline QueueCustomOrganizationStores unsynced changes for offline mode.Custom
+1.2.2. Entity Attributes
+Account Entity
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/CustomnameNameTextYesDefault name of the account.OOBnf_tierTierOption SetYesCustomer classification driving call frequency (1-4).Customnf_lastMeetingDateLast Meeting DateDateNoTracks the last meeting date with the customer.Customnf_openingHoursOpening HoursTextNoStores customer opening hours for scheduling validation.Custom
+Contact Entity
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/CustomfullnameFull NameTextYesDefault name of the contact.OOBnf_prospectStatusProspect StatusOption SetNoIndicates whether the contact is a prospect or an existing customer.Custom
+Appointment Entity
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/CustomsubjectSubjectTextYesDefault subject of the appointment.OOBnf_callTypeCall TypeOption SetYesSpecifies the type of call (Live, Prospecting, Wine Tasting).Customnf_durationDurationNumberYesDuration of the call in minutes.Customnf_rescheduleReasonReschedule ReasonOption SetNoReason for rescheduling the appointment.Custom
+nf_UserLocation Entity
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/Customnf_locationNameLocation NameTextYesName of the ASM's home location.Customnf_isPrimaryIs PrimaryBooleanYesIndicates whether the location is the primary home location.Custom
+nf_Calendar Entity
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/Customnf_dateDateDateYesRepresents a holiday or ASM-specific unavailable date.Customnf_typeTypeOption SetYesSpecifies the type of calendar entry (Holiday, ASM Leave, etc.).Custom
+nf_OfflineQueue Entity
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/Customnf_entityNameEntity NameTextYesName of the entity for which changes are stored offline.Customnf_changeDetailsChange DetailsTextYesDetails of the unsynced changes.Custom
+1.2.3. Entity Relationships
+Source EntityTarget EntityRelationship TypeAccountAppointment1:NContactAppointment1:Nnf_UserLocationAppointment1:Nnf_CalendarAppointment1:N
+1.3. 5. Customization & Configuration Summary
+1.3.1. Forms
+Account Entity
+Form NameForm FieldsMainName, Tier, Last Meeting Date, Opening Hours
+Contact Entity
+Form NameForm FieldsMainFull Name, Prospect Status
+Appointment Entity
+Form NameForm FieldsMainSubject, Call Type, Duration, Reschedule Reason
+nf_UserLocation Entity
+Form NameForm FieldsMainLocation Name, Is Primary
+nf_Calendar Entity
+Form NameForm FieldsMainDate, Type
+nf_OfflineQueue Entity
+Form NameForm FieldsMainEntity Name, Change Details
+1.3.2. Views
+Account Entity
+View NameView TypeView FilterActive AccountsPublicStatus = Active
+Contact Entity
+View NameView TypeView FilterActive ContactsPublicStatus = Active
+Appointment Entity
+View NameView TypeView FilterUpcoming AppointmentsPublicStart Date >= Today
+nf_UserLocation Entity
+View NameView TypeView FilterPrimary LocationsPublicIs Primary = True
+nf_Calendar Entity
+View NameView TypeView FilterHolidaysPublicType = Holiday
+nf_OfflineQueue Entity
+View NameView TypeView FilterUnsynced ChangesPublicChange Details IS NOT NULL
+1.3.3. Business Rules
+Business Rule NamePseudo Logic or Code SnippetsValidate Appointment HoursIf Appointment Start Time falls outside Opening Hours, block save and show error message.Enforce Reschedule ReasonIf Appointment is rescheduled, Reschedule Reason is mandatory.Validate Prospect CallsIf daily plan has <2 prospect calls, show warning to ASM.Validate Call DurationIf Call Duration is outside 60-90 minutes, show warning unless exception is logged.Validate Primary LocationIf no primary location is set, block save and prompt user to set one.### 6. ReportingCall Activity Reports
+• Report Name: nf_CallActivityReport
+• Description: Provides a comparison of actual vs planned calls for each ASM/team over a specified period (e.g., last week/month).
+• Fields Included: ASM Name, Planned Calls, Actual Calls, Call Status, Call Duration, Reschedule Count.
+• Filters: Date Range, ASM, Team, Call Status.
+• Visualization: Bar chart for planned vs actual calls, pie chart for call status distribution.
+Reschedule Reason Reports
+• Report Name: nf_RescheduleReasonReport
+• Description: Tracks reschedule reasons by day, ASM, and reason code over time.
+• Fields Included: ASM Name, Reschedule Date, Reason Code, Call ID.
+• Filters: Date Range, ASM, Reason Code.
+• Visualization: Line chart for reschedule trends, table for detailed reasons.
+Journey Efficiency Reports
+• Report Name: nf_JourneyEfficiencyReport
+• Description: Analyzes average travel time, call duration, and optimization rate for each ASM.
+• Fields Included: ASM Name, Avg. Travel Time, Avg. Call Duration, Optimization Rate (%).
+• Filters: Date Range, ASM, Transport Mode.
+• Visualization: Heatmap for travel time, bar chart for optimization rate.
+Prospect Conversion Reports
+• Report Name: nf_ProspectConversionReport
+• Description: Tracks prospect calls and their outcomes over a specified period.
+• Fields Included: ASM Name, Prospect Name, Call Date, Outcome (Converted/Not Converted).
+• Filters: Date Range, ASM, Outcome.
+• Visualization: Funnel chart for conversion rates, table for detailed outcomes.
+Management Dashboards
+• Dashboard Name: nf_ManagementDashboard
+• Description: Provides a visual summary of team performance, filtered by ASM, territory, and period.
+• Widgets: Planned vs Actual Calls, Reschedule Reasons, Journey Efficiency, Prospect Conversion.
+• Filters: Date Range, ASM, Territory.
+
+1.3.4. Integration
+Integration with External Systems
+• Integration Name: nf_NavigationAppIntegration
+• Description: Integrates Dynamics 365 CE with external navigation apps like Google Maps, Waze, and Bing Maps.
+• Purpose: Enables ASMs to open journey plans directly in navigation apps with pre-loaded stops.
+• Trigger: ASM clicks "Open in Navigation App" button on the journey plan UI.
+• Data Flow:
+• Input: Journey plan details (start location, stops, end location).
+• Output: Route opened in the selected navigation app.
+• Technology Used: Deep-linking via URL schemes supported by navigation apps.
+
+1.3.5. JavaScript
+JavaScript File Details
+File Name: nf_JourneyPlanValidation.js
+• Function Name: validateDailyCallCap
+• Code Snippet:
+function validateDailyCallCap(executionContext) { var formContext = executionContext.getFormContext(); var callCount = formContext.getAttribute("nf_dailycallcount").getValue(); if (callCount < 7 || callCount > 9) { formContext.ui.setFormNotification( "Daily call count must be between 7 and 9.", "ERROR", "callCapValidation" ); } else { formContext.ui.clearFormNotification("callCapValidation"); } }
+• Event Information: OnSave
+• Associated Entity Form: Appointment
+File Name: nf_RescheduleReasonValidation.js
+• Function Name: enforceRescheduleReason
+• Code Snippet:
+function enforceRescheduleReason(executionContext) { var formContext = executionContext.getFormContext(); var reasonCode = formContext.getAttribute("nf_reschedulereason").getValue(); if (!reasonCode) { formContext.ui.setFormNotification( "Reschedule reason is mandatory.", "ERROR", "rescheduleReasonValidation" ); executionContext.getEventArgs().preventDefault(); } else { formContext.ui.clearFormNotification("rescheduleReasonValidation"); } }
+• Event Information: OnSave
+• Associated Entity Form: Appointment
+File Name: nf_ProspectCallValidation.js
+• Function Name: validateProspectCalls
+• Code Snippet:
+function validateProspectCalls(executionContext) { var formContext = executionContext.getFormContext(); var prospectCallCount = formContext.getAttribute("nf_prospectcallcount").getValue(); if (prospectCallCount < 2) { formContext.ui.setFormNotification( "At least 2 prospect calls must be included in the daily plan.", "ERROR", "prospectCallValidation" ); } else { formContext.ui.clearFormNotification("prospectCallValidation"); } }
+• Event Information: OnSave
+• Associated Entity Form: Journey Plan
+
+1.3.6. Power Automate with Steps
+Flow Name: nf_AutoSchedulingFlow
+• Trigger: When an Account's Tier is updated.
+• Steps:
+1. Trigger: On Account entity update (Tier field).
+2. Condition: Check if Tier is not null.
+3. Action: Retrieve ASM linked to the Account.
+4. Action: Calculate call frequency based on Tier.
+5. Action: Create Appointment records for the calculated frequency.
+6. Action: Notify ASM via email about the updated schedule.
+Flow Name: nf_DailyPlanValidation
+• Trigger: At 6 AM daily.
+• Steps:
+1. Trigger: Recurrence (daily at 6 AM).
+2. Action: Retrieve all Journey Plans for the day.
+3. Condition: Check if each plan includes at least 2 prospect calls.
+4. Action: Send alert email to ASM if validation fails.
+Flow Name: nf_WalkInSuggestionFlow
+• Trigger: When an Appointment is cancelled.
+• Steps:
+1. Trigger: On Appointment entity update (Status = Cancelled).
+2. Action: Retrieve nearby prospects based on ASM's current location.
+3. Action: Suggest walk-in appointments via email to ASM.
+Flow Name: nf_RescheduleNotificationFlow
+• Trigger: When an Appointment is rescheduled.
+• Steps:
+1. Trigger: On Appointment entity update (Start Date/Time changes).
+2. Action: Validate reschedule reason code.
+3. Action: Send email notification to the customer about the updated schedule.
+Flow Name: nf_MobileSyncFlow
+• Trigger: When offline changes are detected.
+• Steps:
+1. Trigger: On entity update in offline mode.
+2. Action: Store changes in Offline Queue entity.
+3. Action: Sync changes to Dynamics 365 when the device reconnects.
+4. Action: Resolve conflicts and notify ASM. # Technical Design Document (TDD)
+
+1.4. Plugins with Codes
+Plugin Details
+Plugin Name: Appointment Rescheduling
+• Message: Update
+• Primary Entity: Appointment
+• Execution Pipeline Stage: Pre-Operation
+• Filtering Attributes: Reason Code (if applicable)
+• Pre-/Post-Image Registration: Pre-Image (to capture original appointment details)
+• Secure/Unsecure Configuration: Not applicable
+• Execution Mode: Synchronous
+Plugin Steps
+1. Validate the presence of a reason code during appointment rescheduling.
+2. Trigger an email notification to the customer and ASM.
+3. Log the rescheduling event for audit purposes.
+Plugin Evaluation and PseudoCode
+10.1 Appointment Rescheduling
+//Plugin Logic - Start If the appointment is being rescheduled: Check if the reason code is provided. If the reason code is missing: Block the operation and return an error message to the user. Else: Update the appointment with the new date and time. Send an email notification to the customer and ASM with the updated details. Log the rescheduling event in the audit table for reporting purposes. //Plugin Logic - End
+
+Plugin Code Example
+using Microsoft.Xrm.Sdk; using Microsoft.Xrm.Sdk.Query; using System; public class AppointmentReschedulingPlugin : IPlugin { public void Execute(IServiceProvider serviceProvider) { IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext)); IOrganizationServiceFactory serviceFactory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory)); IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId); if (context.MessageName == "Update" && context.PrimaryEntityName == "appointment") { Entity preImage = (Entity)context.PreEntityImages["PreImage"]; Entity target = (Entity)context.InputParameters["Target"]; // Validate reason code if (!target.Attributes.Contains("reasoncode")) { throw new InvalidPluginExecutionException("Reason code is required for rescheduling."); } // Send email notification SendEmailNotification(service, target); // Log rescheduling event LogReschedulingEvent(service, preImage, target); } } private void SendEmailNotification(IOrganizationService service, Entity appointment) { // Logic to send email notification } private void LogReschedulingEvent(IOrganizationService service, Entity preImage, Entity target) { // Logic to log rescheduling event } }
+
+1.5. Security
+Business Unit
+• Details: The solution will be implemented across multiple business units, each representing a geographical region or sales territory. Data security will be enforced to ensure that ASMs and managers can only access data relevant to their business unit.
+Security Role Matrix
+EntityRoleRead AccessWrite AccessAccountASMYesYesAccountManager (RSM/RSD/SD)YesYesAppointmentASMYesYesAppointmentManager (RSM/RSD/SD)YesYesAppointmentSystem AdministratorYesYesUser LocationASMYesYesUser LocationManager (RSM/RSD/SD)YesNoUser LocationSystem AdministratorYesYesCalendar (Custom)ASMYesNoCalendar (Custom)Manager (RSM/RSD/SD)YesNoCalendar (Custom)System AdministratorYesYes
+1.6. Glossary
+Terms and Definitions
+TermDefinitionASMAccount Sales Manager; field sales employee managing journey plans.TierCustomer classification driving call frequency (1-4).ProspectPotential customer (Lead/Contact entity).Journey PlanSet of scheduled sales calls/visits for a period.RSM/RSD/SDManager roles (Regional Sales Manager, etc.).OOBOut-of-the-Box, native Dynamics 365 functionality.AppointmentDynamics 365 Activity entity for scheduled call/visit.Home LocationJourney start/end point for ASM.Walk-inUnscheduled/ad-hoc sales call to fill plan gaps.Power AutomateMicrosoft cloud workflow automation.PluginCustom Dynamics 365 logic triggered by events.PCFPowerApps Component Framework (for custom UI).Outlook SyncDynamics 365-Outlook calendar integration.
+End of Document
