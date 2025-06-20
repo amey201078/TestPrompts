@@ -208,27 +208,44 @@ Given the attached technical design document for a Dynamics 365 CE solution, ple
 1. Analyze & Generate Dataverse Schema JSON
 Analyze the document and extract all entities (both standard and custom) and their attributes that need to be created or updated in Microsoft Dynamics 365 CE Dataverse.
 Generate a JSON file including:
-For each entity(include entities which are target entities for lookup):
+For each entity(include entities which are target entities for lookup and dont skip any entity):
 Entity name, logical/schema name (with publisher prefix for custom), type (Out Of Box/Custom)
-List of attributes(exclude optionset), and for each attribute:
+List of attributes(OOB and Custom) including option sets, and for each attribute:
 Attribute name, logical/schema name (with publisher prefix for custom), data type, description, target entity (for lookup)
+set referencingAttribute in case of lookup column to {publisher name}_{relationshipSchemaName}id
+and set SchemaName of the relationship as {publisher name}_{ReferencingEntity}_{ReferencedEntity}.
 2. Write Robust, Maintainable, OOP-Based C# Code
 Write a single C# class file named DataverseGenerateMetadataHelper in the namespace DataverseGenerateMetadata with one facade public method Run.
 The class should:
 Accept the above JSON as a string parameter.
 Use the Dynamics 365 CE Organization Service 
 - Dynamically creates all entities in Microsoft Dataverse, ensuring:
-    - Any entity that is the target of a lookup is created before any entity that references it via a lookup.
+    - Any entity(include both OOB and Custom entities) that is the target of a lookup is created before any entity that references it via a lookup.
     - Entities are created in an order that satisfies all lookup dependencies (use topological sorting or dependency analysis to determine this order and ignore circular dependencies).
 
 - For each entity:
 	- Check the existance of the entity by checking "Could not find an entity" or "does not exist" string in exception message
     - Create the entity if it does not exist in Dataverse and set schema name to logical name.
-    - Add all non-lookup attributes during entity creation(if attribute is already present then ignore).
+    - Check for existance of each non-lookup attribute in dataverse
+	- Create the non-lookup if its not already exist
     - After the referenced entity/entities exist, add lookup attributes referencing them(if attribute is already present then ignore).
+	-You should not create multiple attributes at once when creating the entity. 
+	- primary name attribute should be created at the same time as the entity with the forat {publisher name}_{Name}. All other attributes, including lookups, must be created separately.
+	- Please do not use RelationshipSchema as a custom class proprty
+	- Please ensure funtion that creates attribute covers below data types except lookup
+		1)Text
+		2)Number
+		3)Date
+		4)Currency
+		5)AutoNumber
+		6)OptionSet
+		7)GUID
+		8)Boolean
+	 and apply the correct format based upon the attached document 
 
 The code must follow Microsoft best practices (naming conventions, synchronous processing, XML documentation, OOP, no console constructs).
-Use appropriate and accurate Relationship request(based on analyzed document) to create lookup attributes. Do NOT use CreateAttributeRequest for lookups and use NoCascade option for cascaded configuration(for delete use RemoveLink) and set SchemaName of the relationship as <ReferencingEntity>_<ReferencedEntity>.
+Use standard switch case construct and strictly dont use recursive patterns
+Use appropriate and accurate Relationship request(based on analyzed document) to create lookup attributes. Do NOT use CreateAttributeRequest for lookups and use NoCascade option for cascaded configuration(for delete use RemoveLink) and set SchemaName of the relationship as {publisher name}_<ReferencingEntity>_<ReferencedEntity>.
 set ReferencedAttribute as primary key attribute of the target entity
 Exception handling must be present for each method
 show progress message on console after every step
