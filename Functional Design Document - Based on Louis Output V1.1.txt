@@ -1,0 +1,142 @@
+Functional Design Document (FDD): Exception Handling and Integration for Internal Transfer Processing
+
+1. Introduction
+This FDD describes the end-to-end requirements for the Internal Transfer Exception Handling and Integration solution, based on deep analysis of the provided Functional Design Document (FDD) for the "INTERNAL TRANSFERS FOR ACAPS" application. The document is structured to provide exhaustive coverage of business processes, actors, integration points, features, user stories, and touchpoints, with clear mapping to technical components and Dynamics 365 CE capability analysis.
+
+2. Scope
+* In Scope:
+o Exception handling for internal transfers
+o All core and supporting features described in "Features", "Journey 2: Exception Handling", and integration sections
+o Hostbridge service integrations
+o User roles, security, reporting, and data model
+* Out of Scope:
+o Processes external to internal transfer management unless they are integrated
+o Non-ACAPS related workflows
+
+3. Actors & Roles
+Actor/RoleDescriptionInternal Transfer Processor (Isabel)Operations staff who reviews, investigates, and resolves exception cases in internal transfersApplication Administrator (Adam)Responsible for daily file intake, monitoring, triggering automated agents, and configurationSystem/AgentAutomated background processes (agents) that parse, process, and update transfer recordsIT/System SupportReceives error notifications and supports technical troubleshootingMainframe System (ACAPS)Source of daily internal transfer fileHostbridge ServicesProvides real-time data lookup and transfer execution APIs
+4. Functional Requirements
+4.1 Exception Handling
+4.1.1 Business Rationale
+Exception handling is critical for ensuring that failed or problematic internal transfer requests are promptly identified, reviewed, and resolved to maintain operational integrity.
+4.1.2 Preconditions & Triggers
+* New transfer records are processed by the automated agent.
+* Any record not processed successfully is flagged as an exception.
+4.1.3 User Interactions & System Behavior
+* Step 1: Exception Identification
+o System parses daily file and creates transfer records.
+o Any validation, data, or processing error sets the status to "Exception" and writes an error reason.
+* Step 2: Exception Review
+o Processor opens the "Exceptions" view to see all failed records.
+o Detailed error message and all transfer data are visible.
+* Step 3: Exception Investigation & Correction
+o Processor reviews, corrects data, adds notes, or marks record as rejected.
+o May trigger a reprocess or resolve manually.
+* Step 4: Resolution
+o On successful correction, record is moved out of exceptions (to completed/archived).
+o If not resolvable, record is marked appropriately (e.g. "Manual Handling", "Rejected").
+* Validation Rules & Edge Cases
+o Only users with appropriate roles can update exception status.
+o Audit trail is maintained for all changes.
+o System prevents duplicate or incomplete data submission.
+4.1.4 Edge Cases & Validations
+* System must prevent duplicate processing of the same file/date.
+* Data fields must be validated for completeness and correctness.
+* Exception records must be visible until resolved.
+
+4.2 Integration Features
+4.2.1 Hostbridge Service Calls (as Use Cases)
+For each Hostbridge call, a separate use case is defined:
+Hostbridge ServiceUse Case TitleBusiness Context & BehaviorgetMbrNameRetrieve Member NameFor each transfer, retrieves the member's name using the Access Number. If unsuccessful, flags exception.getAccountTypeRetrieve Account TypeRetrieves account type for debit account, using Access Number and Debit Account. Flags exception on failure.getAppIDValidate Loan Account-AppID LinkChecks if loan account is still linked to original AppID. Flags exception if mismatch.getFullPaymentAmountRetrieve Full Payment AmountLooks up mandatory payment amount for loan. Exception on failure.getDueDateRetrieve Loan Due DateFetches due date for loan account; exception if not found.performITExecute Internal TransferCore process to execute/set up internal transfer. On failure, sets exception and captures error message.getDraftObtain Draft Number (if used)(Potential, currently commented out) Checks for draft number to prevent duplicate ITs.For each:
+* Precondition: Transfer record ready for enrichment/execution.
+* User/System Steps: Automated agent constructs request, calls Hostbridge API, processes response.
+* Expected Behavior: On success, data is updated in record; on failure, exception is flagged with error details.
+* Edge Cases: Unreachable Hostbridge, timeouts, malformed data, partial response—handled as exception.
+
+4.3 Application Configuration
+* Administrators can manage FTP, Hostbridge, and notification settings via "Application Settings".
+* Only authorized users can update configuration.
+* Audit trail of changes is maintained.
+
+4.4 Reporting & Views
+* "Completed", "Exceptions", and "All Documents" views for tracking status.
+* Exception reports show reason, user actions, and resolution status.
+* Ad hoc reporting for operational needs.
+
+4.5 Security
+* Role-based access to views, actions, and data.
+* Sensitive data masked or access-restricted.
+* Audit logging for all changes and exception handling.
+
+4.6 User Experience
+* Clear, actionable error messages for exceptions.
+* Intuitive navigation between views.
+* Real-time update of views upon data change.
+
+4.7 Non-Functional Requirements (NFRs)
+* Availability: Daily file processing; user access during business hours.
+* Performance: Batch processing and UI must complete within agreed timeframes.
+* Scalability: Support future growth in volume/users.
+* Business Continuity: Backup, recovery, and disaster recovery in place.
+* Compliance: Data privacy, retention, audit trails.
+* Reliability: Robust error handling, notification, and data integrity.
+
+5. User Stories Summary Table
+User Story IDSummary/TitlePrimary ActorGoalAcceptance CriteriaUS-01Review and resolve exceptionsInternal Transfer ProcessorIdentify and correct failed transfersException records visible, error reason clear, updates savedUS-02Configure application settingsApplication AdminManage FTP, Hostbridge, notification settingsOnly admin can change config; changes auditedUS-03View completed, exception, and all transfersAll users (role-based)Track status of all internal transfersViews show correct records/status, export availableUS-04Receive and parse daily transfer fileSystem, AdminIngest and process daily batch from ACAPSFile processed once per day, records created, errors loggedUS-05Integrate with Hostbridge for data enrichmentSystemEnrich and validate transfer data with HostbridgeHostbridge data returned/used or exception flagged on failureUS-06Automated transfer setup/processingSystemAutomatically complete valid transfersSuccessful records flagged as completed, failures as exceptionsUS-07Exception notification & reportingSystem, Admin, ITNotify relevant parties of errors and exceptionsEmails sent, logs/audit available, escalations as needed
+6. Design Inventory Table
+FeatureUser StoryComponents to be Generated/ExtendedType of ComponentDescriptionException HandlingUS-01Exception Entity, Exception View, Exception FormEntity, View, FormEntity to store exceptions, view for list, form for detailsApplication SettingsUS-02Settings Entity, Settings FormEntity, FormStore and manage config parametersStatus ViewsUS-03Completed View, All Documents ViewViewPredefined and customizable viewsFile IntakeUS-04File Listener, Processing AgentWorkflow, PluginBatch process for file ingestion and record creationHostbridge Service IntegrationUS-05Integration Workflows, Data Pages, ConnectorsIntegration, WorkflowAPI calls for data enrichment and validationAutomated ProcessingUS-06Processing Agent, Status Update LogicPlugin, WorkflowLogic for end-to-end automated processingNotification & ReportingUS-07Email Templates, Notification Workflow, ReportsReporting, WorkflowEmail alerts, dashboards, exception & completion reporting
+7. Integration Points
+Integration NameDirectionDescriptionData/ProtocolError Handling/NotesMainframe ACAPSInbound (FTP)Daily batch file of internal transfersFTP/TextUniqueness check, error notification on failureHostbridge ServicesOutbound (HTTP)Real-time APIs for member, account, payment, due date lookup, and transfer executionHTTP/XMLExceptions on timeout/failure; retries, loggingInternal EmailOutboundNotifications for processing status and critical errorsLotus Notes MailAudit trail, error escalation
+8. Reporting
+* Completed Transfers Report: All successfully processed transfers, filterable by date, status, member, etc.
+* Exception Report: All exceptions, with error details, user actions, and resolution timelines.
+* Audit Log: Changes to configuration, exception handling, and processing steps.
+* Custom/Ad-hoc Reports: As required by operations.
+
+9. Security
+* Role-based access control for all features.
+* Field-level security for sensitive data.
+* Audit trails for configuration and exception actions.
+* Secure storage of all credentials and configuration.
+
+10. Glossary
+* Exception: Any transfer record that fails automated processing and requires manual intervention.
+* Hostbridge: An external service platform for real-time data validation and transaction execution.
+* Internal Transfer Processor: User responsible for investigating and resolving exceptions.
+* Completed Transfer: A transfer successfully processed and completed via automated or manual means.
+* Agent: Automated process for parsing files, processing records, or handling background logic.
+
+11. Assumptions & Inferred Requirements
+* Exception handling will include both data correction and manual disposition.
+* All integrations are assumed to be synchronous unless specified.
+* Audit logs and reporting are required for compliance.
+* System must support future integration extensions.
+* Security and privacy are paramount due to sensitive financial data.
+
+12. Dynamics 365 CE OOB/Customization Analysis Table
+Requirement ID/ReferenceRequirement DescriptionOOB SupportedCustomization PossibleDiscrepancy/Gaps/NotesQuery for StakeholdersEXC-001Exception queue/view for failed transfersNoYesRequires custom entity/view, not native in D365Should exceptions be surfaced as Activities or custom records?EXC-002Exception detail form with error, comments, statusNoYesCustom form needed, no OOB exception trackingWhat fields/actions must be on exception form for business needs?EXC-003Exception assignment/escalation workflowPartialYesCase assignment possible, escalation rule is customShould escalation be time-based, queue-based, or both?EXC-004Exception resolution (data correction, retry, reject)NoYesCustom business process flow/logic requiredAre there standard resolution categories or free-form reasons?EXC-005Hostbridge integration for member/account lookupNoNoRequires plugin/custom API integrationWhat SLAs and error handling are required for Hostbridge failures?EXC-006Hostbridge service for transfer executionNoNoCustom plugin/service; OOB cannot execute transferAre synchronous responses required, or can transfer be queued?EXC-007File intake via FTP, parsing, deduplicationNoPartial (Power Automate/Logic Apps; plugin for FTP)FTP is not natively supported in D365 cloudCan file be delivered via SFTP/SharePoint/Blob for easier integration?EXC-008Exception reporting and dashboardsPartialYesCustom report/dashboard needed for exception statesWhat KPIs/metrics are required for exception reporting?EXC-009Email notifications for exceptions/errorsYesYesOOB workflows support email, but templates/config neededWho should be notified and what info must be included in notifications?EXC-010Application-wide configuration UI (FTP, Hostbridge, etc.)NoYes (Custom Setting Entity)Needs custom config entity/formsWho manages config, and how is access controlled?EXC-011Completed/All Documents viewPartialYesOOB views can be customizedWhat filters/columns are required for these views?EXC-012Audit trail for exception actions/config changesPartialYesOOB audit for entities, but config auditing is customWhat changes must be audited and for how long?EXC-013Role-based access to exceptions/configYesYesSecurity roles OOB, but custom roles may be neededWhat roles are needed and what access must each have?EXC-014Field-level security/masking for sensitive dataYesYesOOB field security, set on custom entitiesWhich fields require masking or restricted access?EXC-015Ad hoc/operational reportsPartialYesOOB reporting can be extended, but not for all dataWhat ad hoc queries/reports are needed by operations?EXC-016Automated process scheduling/triggeringPartialYes (Power Automate/Workflow)Recurring flows possible, but agent logic is customCan all processes be triggered by Power Automate, or is plugin needed?EXC-017Error log entity and error escalationNoYesCustom entity needed for error logsHow should system errors be surfaced and tracked for IT/support?EXC-018Manual override for exception statusNoYesCustom action/button requiredWho is authorized to perform overrides?
+Gaps/Queries (Examples for Stakeholder Clarification)
+* How should exceptions be prioritized or assigned (manually, auto-routing)?
+* What is the expected SLA for exception resolution? Is escalation automatic?
+* What is the preferred method for file intake if FTP is not feasible in the cloud?
+* What error handling is required for Hostbridge outages—should process pause, retry, or flag exceptions?
+* What fields must be masked, and what is the policy for data retention?
+* Are there any regulatory or audit trail requirements for configuration changes?
+* What are the notification/escalation rules for critical system errors?
+* Is any part of exception handling time-sensitive (e.g., must be resolved within X hours)?
+* What is the volume/scale expectation for exception records?
+* Are batch job results to be visible on a dashboard or only via email?
+
+13. Additional Sections
+13.1. Assumptions
+* All integration endpoints (Hostbridge, FTP) are available and documented.
+* Stakeholders will provide sample data and file layouts as needed.
+* Security and compliance requirements will be validated prior to go-live.
+13.2. Inferred Requirements
+* System should support future expansion to new integration points.
+* Exception handling UI should be mobile/tablet responsive.
+* All user actions in exception handling should be logged for compliance.
+* Manual data correction should be reversible or tracked with audit trail.
+
+End of Document
+
