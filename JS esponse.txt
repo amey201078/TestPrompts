@@ -1,0 +1,122 @@
+Below are the JavaScript files created based on the pseudocode provided in the Technical Design Document. Each file is named according to the JavaScript name derived from the first occurrence of a non-blank line above the JavaScript code block, omitting generic words like "Plugin", "JavaScript", "Azure Function", "Power Automate", and "Workflow". The pseudocode has been converted into JavaScript code with proper syntax and comments.
+ 
+---
+ 
+### File: AppointmentValidation.js
+ 
+```javascript
+// Namespace for Appointment Validation
+var AppointmentValidation = AppointmentValidation || {};
+ 
+/**
+* Validates the appointment duration to ensure it is within the allowed range (60-90 minutes).
+* Displays a warning message and prevents saving if the duration is invalid.
+* @param {object} context - The execution context of the form.
+*/
+AppointmentValidation.validateAppointmentDuration = function (context) {
+    var formContext = context.getFormContext();
+    var durationField = formContext.getAttribute("acc_Duration");
+ 
+    if (durationField) {
+        var duration = durationField.getValue();
+ 
+        // Check if duration is within the allowed range
+        if (duration < 60 || duration > 90) {
+            // Display warning message
+            formContext.ui.setFormNotification("Duration must be between 60 and 90 minutes.", "ERROR", "durationValidation");
+ 
+            // Prevent saving the appointment
+            context.getEventArgs().preventDefault();
+        } else {
+            // Clear any previous notifications
+            formContext.ui.clearFormNotification("durationValidation");
+        }
+    }
+};
+```
+ 
+---
+ 
+### File: RescheduleReason.js
+ 
+```javascript
+// Namespace for Reschedule Reason Enforcement
+var RescheduleReason = RescheduleReason || {};
+ 
+/**
+* Ensures the reschedule reason field is populated before saving a rescheduled appointment.
+* Displays an error message and prevents saving if the field is empty.
+* @param {object} context - The execution context of the form.
+*/
+RescheduleReason.enforceRescheduleReason = function (context) {
+    var formContext = context.getFormContext();
+    var rescheduleReasonField = formContext.getAttribute("acc_RescheduleReason");
+ 
+    if (rescheduleReasonField) {
+        var reason = rescheduleReasonField.getValue();
+ 
+        // Check if the reschedule reason is populated
+        if (!reason) {
+            // Display error message
+            formContext.ui.setFormNotification("Reschedule reason is required.", "ERROR", "rescheduleReasonValidation");
+ 
+            // Prevent saving the appointment
+            context.getEventArgs().preventDefault();
+        } else {
+            // Clear any previous notifications
+            formContext.ui.clearFormNotification("rescheduleReasonValidation");
+        }
+    }
+};
+```
+ 
+---
+ 
+### File: WalkInSuggestion.js
+ 
+```javascript
+// Namespace for Walk-In Suggestion
+var WalkInSuggestion = WalkInSuggestion || {};
+ 
+/**
+* Suggests nearby walk-ins based on the ASM's current location.
+* Displays a list of suggested walk-ins and allows the ASM to confirm an appointment.
+* @param {object} context - The execution context of the form.
+*/
+WalkInSuggestion.suggestNearbyWalkIns = function (context) {
+    var formContext = context.getFormContext();
+ 
+    // Retrieve ASM's current location (mocked for demonstration purposes)
+    var currentLocation = { latitude: 40.7128, longitude: -74.0060 }; // Example: New York City coordinates
+ 
+    // Define the radius for nearby prospects (in kilometers)
+    var radius = 10;
+ 
+    // Mocked function to retrieve nearby prospects
+    var nearbyProspects = WalkInSuggestion.getNearbyProspects(currentLocation, radius);
+ 
+    // Display the list of suggested walk-ins
+    if (nearbyProspects.length > 0) {
+        var suggestions = nearbyProspects.map(function (prospect) {
+            return prospect.name + " (" + prospect.distance + " km away)";
+        }).join("\n");
+ 
+        formContext.ui.setFormNotification("Suggested Walk-Ins:\n" + suggestions, "INFO", "walkInSuggestions");
+    } else {
+        formContext.ui.setFormNotification("No nearby walk-ins found.", "INFO", "walkInSuggestions");
+    }
+};
+ 
+/**
+* Mocked function to retrieve nearby prospects within a defined radius.
+* @param {object} location - The current location of the ASM.
+* @param {number} radius - The radius to search for prospects.
+* @returns {Array} List of nearby prospects.
+*/
+WalkInSuggestion.getNearbyProspects = function (location, radius) {
+    // Example data for demonstration purposes
+    return [
+        { name: "Prospect A", distance: 5 },
+        { name: "Prospect B", distance: 8 }
+    ];
+};

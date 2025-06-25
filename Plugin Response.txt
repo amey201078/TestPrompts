@@ -1,0 +1,100 @@
+Below is the C# implementation of the plugins based on the provided pseudocode. Each plugin is implemented in its own class file, with proper namespaces, comments, and adherence to the pseudocode logic.
+ 
+---
+ 
+### Plugin: Appointment Rescheduling
+ 
+**File Name:** `AppointmentReschedulingPlugin.cs`
+ 
+```csharp
+using Microsoft.Xrm.Sdk;
+using System;
+ 
+namespace SalesCallJourneyPlanning.Plugins
+{
+    /// <summary>
+    /// Plugin to enforce the requirement of a Reason Code when rescheduling an appointment.
+    /// </summary>
+    public class AppointmentReschedulingPlugin : IPlugin
+    {
+        public void Execute(IServiceProvider serviceProvider)
+        {
+            // Obtain the execution context
+            IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+ 
+            // Ensure the plugin is triggered on the Appointment entity
+            if (context.PrimaryEntityName != "appointment" || context.MessageName != "Update")
+                return;
+ 
+            // Check if the Reason Code attribute is being updated
+            if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is Entity targetEntity))
+                return;
+ 
+            // Retrieve the Reason Code attribute
+            if (!targetEntity.Attributes.Contains("acc_RescheduleReason"))
+            {
+                throw new InvalidPluginExecutionException("Reason Code is mandatory for rescheduling.");
+            }
+ 
+            // Log the Reason Code for audit purposes
+            string reasonCode = targetEntity.GetAttributeValue<string>("acc_RescheduleReason");
+            // (Audit logic can be added here)
+ 
+            // Trigger an email notification to the customer about the rescheduling
+            // (Email logic can be added here)
+        }
+    }
+}
+```
+ 
+---
+ 
+### Plugin: System-Generated Next Call
+ 
+**File Name:** `SystemGeneratedNextCallPlugin.cs`
+ 
+```csharp
+using Microsoft.Xrm.Sdk;
+using System;
+ 
+namespace SalesCallJourneyPlanning.Plugins
+{
+    /// <summary>
+    /// Plugin to automatically create the next call appointment based on customer tier.
+    /// </summary>
+    public class SystemGeneratedNextCallPlugin : IPlugin
+    {
+        public void Execute(IServiceProvider serviceProvider)
+        {
+            // Obtain the execution context
+            IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+ 
+            // Ensure the plugin is triggered on the Appointment entity
+            if (context.PrimaryEntityName != "appointment" || context.MessageName != "Create")
+                return;
+ 
+            // Retrieve the related account record
+            IOrganizationService service = (IOrganizationService)serviceProvider.GetService(typeof(IOrganizationService));
+            Entity appointment = (Entity)context.InputParameters["Target"];
+            Guid accountId = appointment.GetAttributeValue<EntityReference>("regardingobjectid").Id;
+ 
+            Entity account = service.Retrieve("account", accountId, new Microsoft.Xrm.Sdk.Query.ColumnSet("acc_Tier"));
+ 
+            // Calculate the next call date based on tiering rules
+            int tier = account.GetAttributeValue<OptionSetValue>("acc_Tier").Value;
+            DateTime nextCallDate = DateTime.Now.AddDays(tier == 1 ? 7 : tier == 2 ? 14 : 30);
+ 
+            // Create a new appointment record
+            Entity nextAppointment = new Entity("appointment");
+            nextAppointment["subject"] = "Next Call";
+            nextAppointment["scheduledstart"] = nextCallDate;
+            nextAppointment["regardingobjectid"] = new EntityReference("account", accountId);
+ 
+            service.Create(nextAppointment);
+ 
+            // Log the next call creation for audit purposes
+            // (Audit logic can be added here)
+        }
+    }
+}
+```
