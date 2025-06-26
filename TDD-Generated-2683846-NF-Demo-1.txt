@@ -1,0 +1,367 @@
+Technical Design Document for Exception Handling and Integration for Internal Transfer Processing
+
+Technical Design Document
+Workitem ID : 1195215.
+
+
+Document Information
+Document TitleFile NameDateTechnical Design Document for Exception Handling and Integration for Internal Transfer ProcessingTDD_ExceptionHandling_InternalTransfer.docx[Insert Date]
+Document Revision History
+VersionDateModified ByChanges
+Document Review and Sign-off
+NameRoleActionDate Reviewed
+1.1.1. Introduction
+1.1.1.1. General Information
+This Technical Design Document (TDD) outlines the technical implementation details for the Exception Handling and Integration solution for Internal Transfer Processing. It is based on the Functional Design Document (FDD) and provides a comprehensive guide for developers, architects, and stakeholders to understand the technical architecture, design considerations, and implementation approach.
+1.1.1.2. Terms, Acronyms, and Definitions
+• Exception: A transfer record that fails automated processing and requires manual intervention.
+• Hostbridge: An external service platform for real-time data validation and transaction execution.
+• Internal Transfer Processor: A user responsible for investigating and resolving exceptions.
+• Agent: Automated processes for parsing files, processing records, or handling background logic.
+1.1.1.3. Purpose and Intended Audience of This Document
+The purpose of this document is to provide a detailed technical design for the implementation of the Exception Handling and Integration solution. The intended audience includes:
+• Dynamics 365 CE Developers
+• Solution Architects
+• Business Analysts
+• Quality Assurance Teams
+• Project Stakeholders
+1.1.1.4. Solution Overview
+The solution involves exception handling for internal transfers, integration with Hostbridge services, and the development of custom entities, workflows, and views in Dynamics 365 CE. It ensures robust error handling, real-time data validation, and compliance with business and regulatory requirements.
+
+1.1.2. Design Considerations
+1.1.2.1. Key Technical Decisions
+• Use of custom entities and workflows to handle exceptions and integrate with Hostbridge services.
+• Implementation of role-based security to ensure data privacy and compliance.
+• Use of plugins and Power Automate for file intake and processing logic.
+• Real-time API integration with Hostbridge for data enrichment and validation.
+1.1.2.2. Assumptions and Dependencies
+• Hostbridge APIs and FTP endpoints are available and documented.
+• Sample data and file layouts will be provided by stakeholders.
+• Security and compliance requirements will be validated before go-live.
+• The system will support future integration points and scalability.
+
+1.1.3. Technical Architecture
+1.1.3.1. System Architecture
+The system architecture includes the following components:
+• Dynamics 365 CE as the core platform for managing exceptions, workflows, and reporting.
+• Hostbridge services for real-time data validation and transaction execution.
+• FTP server for daily file intake and processing.
+• Email notification system for exception alerts and escalations.
+1.1.3.2. Data Flow
+1. File Intake:
+• Daily transfer files are ingested via FTP.
+• Records are parsed and created in Dynamics 365 CE.
+2. Exception Handling:
+• Failed records are flagged as exceptions.
+• Users review and resolve exceptions via custom views and forms.
+3. Hostbridge Integration:
+• API calls are made to validate and enrich data.
+• Responses are processed, and records are updated accordingly.
+4. Notification and Reporting:
+• Exception notifications are sent to relevant users.
+• Reports are generated for operational tracking and compliance.
+---# 1. Data Model
+1.2. Entity Design
+Entity NameDisplay NameTypeOwnershipDescriptionOOB/Customacc_ExceptionExceptionCustomUserStores details of failed internal transfer records requiring manual review.Customacc_ApplicationSettingApplication SettingCustomOrganizationStores configuration settings for FTP, Hostbridge, and notifications.Customacc_ErrorLogError LogCustomOrganizationLogs system errors and exceptions for IT troubleshooting.Customacc_TransferRecordTransfer RecordCustomUserRepresents individual internal transfer records.CustomContactContactOOBUserStores member details for internal transfers.OOB
+1.3. Entity Attributes
+1.3.1. acc_Exception
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/Customacc_nameException NameTextYesName of the exception record.Customacc_ErrorReasonError ReasonTextYesReason for the exception.Customacc_StatusStatusOption SetYesCurrent status of the exception (e.g., New, In Progress, Resolved).Customacc_ResolutionNotesResolution NotesMultilineNoNotes added by the processor during resolution.Customacc_AssignedToAssigned ToLookupNoUser assigned to resolve the exception.Customacc_CreatedOnCreated OnDate/TimeYesDate and time the exception was created.OOB
+1.3.2. acc_ApplicationSetting
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/Customacc_nameSetting NameTextYesName of the configuration setting.Customacc_ValueValueTextYesValue of the configuration setting.Customacc_DescriptionDescriptionMultilineNoDescription of the configuration setting.Customacc_LastUpdatedByLast Updated ByLookupNoUser who last updated the setting.Customacc_LastUpdatedOnLast Updated OnDate/TimeYesDate and time the setting was last updated.Custom
+1.3.3. acc_ErrorLog
+Attribute NameDisplay NameTypeRequiredDescriptionOOB/Customacc_nameError NameTextYesName of the error log entry.Customacc_ErrorDetailsError DetailsMultilineYesDetailed description of the error.Customacc_ErrorTypeError TypeOption SetYesType of error (e.g., System, Integration, User).Customacc_LoggedOnLogged OnDate/TimeYesDate and time the error was logged.Customacc_ResolvedResolvedBooleanNoIndicates whether the error has been resolved.Custom
+1.4. Entity Relationships
+Source EntityTarget EntityRelationship Typeacc_Exceptionacc_TransferRecord1:Nacc_ExceptionSystemUserN:1acc_ApplicationSettingSystemUserN:1acc_ErrorLogSystemUserN:1acc_TransferRecordContactN:1
+2. 2. Customization & Configuration Summary
+2.1. Forms
+2.1.1. acc_Exception
+Form NameForm FieldsException Main FormException Name, Error Reason, Status, Resolution Notes, Assigned To, Created On
+2.1.2. acc_ApplicationSetting
+Form NameForm FieldsApplication Setting Main FormSetting Name, Value, Description, Last Updated By, Last Updated On
+2.1.3. acc_ErrorLog
+Form NameForm FieldsError Log Main FormError Name, Error Details, Error Type, Logged On, Resolved
+2.2. Views
+2.2.1. acc_Exception
+View NameView TypeView FilterActive ExceptionsPublicStatus = New OR Status = In ProgressResolved ExceptionsPublicStatus = Resolved
+2.2.2. acc_ApplicationSetting
+View NameView TypeView FilterAll SettingsPublicNone
+2.2.3. acc_ErrorLog
+View NameView TypeView FilterActive ErrorsPublicResolved = NoResolved ErrorsPublicResolved = Yes
+2.3. Business Rules
+Business Rule NamePseudo Logic or Code SnippetsSet Default Exception StatusIF Exception Status is NULL THEN set Exception Status = "New".Prevent Empty Resolution NotesIF Status = "Resolved" AND Resolution Notes IS NULL THEN throw validation error.Auto-Assign ExceptionsIF Exception Created THEN Assign to Default Processor based on Role/Team.Mark Error as ResolvedIF Resolved = Yes THEN update Resolved On = Current Date/Time.---### 1. Reports and Dashboards
+2.3.1.1. Completed Transfers Report
+• Report Name: Completed Transfers Report
+• Description: Displays all successfully processed internal transfers.
+• Filters:
+• Date Range (Start Date, End Date)
+• Member Name
+• Transfer Status
+• Transfer Amount
+• Columns:
+• Transfer ID
+• Member Name
+• Transfer Amount
+• Transfer Date
+• Status (Completed)
+• Delivery: Available as a view in Dynamics 365 CE and exportable to Excel.
+2.3.1.2. Exception Report
+• Report Name: Exception Report
+• Description: Lists all transfer records flagged as exceptions, including error details and resolution status.
+• Filters:
+• Exception Date Range
+• Error Type
+• Assigned Processor
+• Resolution Status (Pending, Resolved, Rejected)
+• Columns:
+• Transfer ID
+• Member Name
+• Error Type
+• Error Details
+• Assigned Processor
+• Resolution Status
+• Last Updated Date
+• Delivery: Available as a view in Dynamics 365 CE and exportable to Excel.
+2.3.1.3. Audit Log Report
+• Report Name: Audit Log Report
+• Description: Tracks all changes made to exception records, including updates to status, comments, and resolution actions.
+• Filters:
+• Date Range
+• User
+• Action Type (Create, Update, Delete)
+• Columns:
+• Record ID
+• User
+• Action Type
+• Timestamp
+• Field Changed
+• Old Value
+• New Value
+• Delivery: Available as a downloadable report in Dynamics 365 CE.
+2.3.1.4. Dashboard: Exception Management Overview
+• Dashboard Name: Exception Management Overview
+• Widgets:
+• Total Exceptions (Count)
+• Exceptions by Error Type (Pie Chart)
+• Exceptions by Assigned Processor (Bar Chart)
+• Exceptions Resolved vs Pending (Line Chart)
+• Recent Exceptions (List View)
+• Purpose: Provides a high-level overview of exception handling performance and trends.
+
+2.3.2. Integration
+2.3.2.1. Hostbridge Service Integration
+• Integration Name: Hostbridge Services
+• Description: Real-time API calls to validate and enrich transfer data.
+• External System: Hostbridge
+• Direction: Outbound (HTTP)
+• Endpoints:
+• getMbrName
+• getAccountType
+• getAppID
+• getFullPaymentAmount
+• getDueDate
+• performIT
+• Error Handling:
+• Log errors in a custom "Error Log" entity.
+• Retry mechanism for transient errors.
+• Flag exceptions for unresolved errors.
+• Security: API keys and credentials stored securely in Dynamics 365 CE configuration settings.
+
+2.3.3. Javascript
+2.3.3.1. Exception Form Validation
+• Javascript File Name: acc_ExceptionFormValidation.js
+• Function Name: validateExceptionForm
+• Pseudocode:
+Exception Form Validation {Form Logic}  
+//Javacript Logic - Start  
+
+Check if all mandatory fields are filled.  
+If any mandatory field is empty, display an error message.  
+Validate the format of the "Error Details" field.  
+If the format is invalid, display an error message.  
+Prevent form submission if any validation fails.  
+
+// Javacript Logic - End  
+
+• Event Information: OnSave
+• Associated Entity Form: Exception
+2.3.3.2. Auto-Populate Member Name
+• Javascript File Name: acc_AutoPopulateMemberName.js
+• Function Name: autoPopulateMemberName
+• Pseudocode:
+Auto-Populate Member Name {Field Logic}  
+// Javacript Logic - Start  
+
+On change of "Access Number" field, call Hostbridge API to fetch Member Name.  
+If API call is successful, populate the "Member Name" field with the returned value.  
+If API call fails, display an error message and clear the "Member Name" field.  
+
+// Javacript Logic - End  
+
+• Event Information: OnChange
+• Associated Entity Form: Transfer
+
+2.3.4. Power Automate with Steps
+2.3.4.1. Exception Notification Flow
+• Flow Name: acc_ExceptionNotificationFlow
+• Trigger: When a new exception record is created.
+• Steps:
+1. Trigger the flow when a new record is created in the "Exception" entity.
+2. Retrieve the details of the exception record (e.g., Transfer ID, Error Type, Assigned Processor).
+3. Check if the "Assigned Processor" field is populated.
+• If yes, proceed to Step 4.
+• If no, assign the exception to the default processor and update the record.
+4. Send an email notification to the assigned processor with the exception details.
+5. Log the notification in the "Notification Log" entity.
+2.3.4.2. Hostbridge API Retry Flow
+• Flow Name: acc_HostbridgeAPIRetryFlow
+• Trigger: When a Hostbridge API call fails.
+• Steps:
+1. Trigger the flow when an error is logged in the "Error Log" entity.
+2. Retrieve the error details (e.g., API Name, Error Message, Retry Count).
+3. Check if the retry count is less than the maximum allowed retries.
+• If yes, proceed to Step 4.
+• If no, flag the exception as "Unresolvable" and notify IT support.
+4. Retry the API call using the same parameters.
+5. If the API call is successful, update the related transfer record and mark the error as resolved.
+6. If the API call fails again, increment the retry count and log the error.
+2.3.4.3. Daily File Processing Flow
+• Flow Name: acc_DailyFileProcessingFlow
+• Trigger: Scheduled to run daily at a specified time.
+• Steps:
+1. Connect to the FTP server and download the daily transfer file.
+2. Parse the file and create transfer records in Dynamics 365 CE.
+3. For each record, validate the data fields.
+• If validation fails, create an exception record.
+• If validation succeeds, proceed to Step 4.
+4. Call Hostbridge APIs to enrich the transfer data.
+• If any API call fails, create an exception record.
+5. Mark all successfully processed records as "Completed".
+6. Send a summary email to the admin with the processing results (e.g., Total Records, Exceptions, Completed).
+2.3.4.4. Exception Escalation Flow
+• Flow Name: acc_ExceptionEscalationFlow
+• Trigger: When an exception record remains unresolved for more than 48 hours.
+• Steps:
+1. Trigger the flow when an exception record's "Last Updated Date" exceeds 48 hours.
+2. Retrieve the details of the exception record (e.g., Transfer ID, Assigned Processor).
+3. Notify the assigned processor and their manager via email.
+4. Update the exception record to indicate that it has been escalated.
+5. Log the escalation in the "Escalation Log" entity. # 1. Plugins and Pseudo Code
+2.4. Exception Handling Plugin
+Plugin Details:
+• Message: Create
+• Primary Entity: Exception
+• Execution Pipeline Stage: Post-Operation
+• Filtering Attributes: None
+• Pre-/Post-Image Registration: Post-Image (to capture the created exception record)
+• Secure/Unsecure Configuration: Not applicable
+• Execution Mode: Synchronous
+• Step Order: 1
+Pseudo Code:
+Exception Handling
+// Plugin Logic - Start
+
+1. Retrieve the exception record from the context.
+2. Check if the exception status is "New".
+3. If "New", validate the exception data fields for completeness and correctness.
+4. If validation fails:
+   a. Update the exception status to "Invalid".
+   b. Add an error message to the exception record.
+5. If validation passes:
+   a. Call the Hostbridge service to enrich the data.
+   b. If the Hostbridge call fails:
+      i. Update the exception status to "Hostbridge Error".
+      ii. Log the error details.
+   c. If the Hostbridge call succeeds:
+      i. Update the exception record with the enriched data.
+      ii. Set the status to "Ready for Processing".
+6. Save the changes to the exception record.
+
+// Plugin Logic - End
+
+
+2.5. Hostbridge Integration Plugin
+Plugin Details:
+• Message: Update
+• Primary Entity: Exception
+• Execution Pipeline Stage: Pre-Operation
+• Filtering Attributes: Status
+• Pre-/Post-Image Registration: Pre-Image (to capture the original status)
+• Secure/Unsecure Configuration: Not applicable
+• Execution Mode: Synchronous
+• Step Order: 2
+Pseudo Code:
+Hostbridge Integration
+// Plugin Logic - Start
+
+1. Retrieve the exception record and its status from the context.
+2. If the status is updated to "Ready for Processing":
+   a. Call the Hostbridge service to execute the internal transfer.
+   b. If the Hostbridge call fails:
+      i. Update the exception status to "Processing Error".
+      ii. Log the error details.
+   c. If the Hostbridge call succeeds:
+      i. Update the exception status to "Completed".
+      ii. Log the success details.
+3. Save the changes to the exception record.
+
+// Plugin Logic - End
+
+
+2.6. Notification Plugin
+Plugin Details:
+• Message: Update
+• Primary Entity: Exception
+• Execution Pipeline Stage: Post-Operation
+• Filtering Attributes: Status
+• Pre-/Post-Image Registration: Post-Image (to capture the updated status)
+• Secure/Unsecure Configuration: Not applicable
+• Execution Mode: Asynchronous
+• Step Order: 3
+Pseudo Code:
+Notification
+// Plugin Logic - Start
+
+1. Retrieve the exception record and its updated status from the context.
+2. If the status is "Processing Error" or "Completed":
+   a. Generate an email notification.
+   b. Include the exception details and status in the email body.
+   c. Send the email to the appropriate recipients (e.g., IT support, processors).
+3. Log the notification details for audit purposes.
+
+// Plugin Logic - End
+
+
+3. Security
+3.1. Business Unit and Data Security
+• Business Unit: Internal Transfers
+• All exception records and related data are restricted to the "Internal Transfers" business unit.
+• Data visibility is limited to users within the same business unit.
+3.2. Security Role Matrix
+EntityRoleReadWriteCreateDeleteExceptionInternal Transfer ProcessorYesYesNoNoExceptionApplication AdministratorYesYesYesYesExceptionIT/System SupportYesNoNoNoApplication SettingsApplication AdministratorYesYesYesNoException ReportsInternal Transfer ProcessorYesNoNoNoException ReportsIT/System SupportYesNoNoNo
+4. Metadata Generation Checklist
+Step NumberChecklist ItemDescriptionConfigured (Yes/No/NA)1Create Exception EntityDefine schema name, display name, ownership type, and primary attribute.2Enable Notes/AttachmentsAllow users to add notes or attachments to exception records.3Enable AuditingTrack changes to exception records for compliance.4Configure Duplicate DetectionPrevent duplicate exception records from being created.5Define Exception ViewsCreate "Completed", "Exceptions", and "All Documents" views.6Configure Exception FormAdd fields for error details, status, and resolution notes.7Create Application Settings EntityDefine schema name, display name, and ownership type.8Enable Quick Create for ExceptionsAllow quick creation of exception records.9Set Field-Level SecurityRestrict access to sensitive fields in exception records.10Enable Searchability for Key AttributesEnsure key attributes are searchable in global search.
+5. Plugin Registration Checklist
+Step NumberChecklist ItemDescriptionConfigured (Yes/No/NA)1Register Plugin AssemblyUpload the plugin assembly to the Plugin Registration Tool.2Add Step for Exception HandlingConfigure the step with message, entity, and execution pipeline stage.3Configure Filtering AttributesSpecify attributes to trigger the plugin (if applicable).4Register Pre-/Post-ImagesAdd pre-/post-images to capture record snapshots.5Configure Secure/Unsecure ConfigurationAdd secure/unsecure configuration if required.6Enable/Disable StepsEnable the plugin step after configuration.7Set Step OrderDefine the execution order of the plugin step.8Set Execution ModeChoose synchronous or asynchronous execution mode.9Assign Security RolesRestrict plugin execution to specific security roles (if needed).
+6. Glossary
+6.1. Exception
+A record representing a failed or problematic internal transfer that requires manual intervention.
+6.2. Hostbridge
+An external service platform used for real-time data validation and transaction execution.
+6.3. Internal Transfer Processor
+A user responsible for investigating and resolving exceptions in internal transfers.
+6.4. Completed Transfer
+A transfer that has been successfully processed and marked as completed.
+6.5. Agent
+An automated process responsible for parsing files, processing records, or handling background logic.
+
+
+                                                          
+
+
+
+                                                                                             This is an AI generated Technical Design Document
+
+
+
+
+
