@@ -1,0 +1,114 @@
+Functional Design Document (FDD)
+
+Functional Design Document
+Workitem ID : 1195252.
+
+
+Functional Design Document (FDD)
+
+1.1.1.1. Introduction
+This Functional Design Document (FDD) outlines the requirements for the Sales Call and Journey Planning system. The system is designed to optimize sales call scheduling, journey planning, and reporting for Account Sales Managers (ASMs) and their respective teams. It incorporates automated and manual processes, integration with external systems, and mobile/offline capabilities to ensure seamless operations and enhanced productivity.
+
+1.1.1.2. Scope
+1.1.1.2.1. In Scope
+• Automated creation of sales call schedules based on customer tiering.
+• Manual creation and adjustment of sales calls by ASMs.
+• Journey planning, including route optimization and integration with navigation tools.
+• Management reporting for tracking planned and actual calls.
+• Integration with CRM, Outlook, and mobile navigation apps.
+• Mobile and offline access for ASMs.
+1.1.1.2.2. Out of Scope
+• Development of new CRM platforms (only integration with existing Dynamics CRM).
+• Custom development of navigation tools (only integration with existing apps like Google Maps).
+• Non-sales-related activities (e.g., non-customer-related tasks).
+
+1.1.1.3. Actors/Roles
+• Account Sales Manager (ASM): Responsible for managing customer relationships, scheduling calls, and executing journey plans.
+• Regional Sales Manager (RSM): Oversees ASMs and reviews their journey plans and performance.
+• Regional Sales Director (RSD): Provides strategic oversight and ensures alignment with business goals.
+• Sales Director (SD): Monitors overall sales performance and reporting.
+• System Administrator: Manages system configurations, integrations, and user access.
+
+1.1.1.4. Assumptions and Inferred Requirements
+• Assumptions:
+• ASMs will have access to mobile devices with internet connectivity for real-time updates.
+• Customer tiering data will be available and updated regularly in the CRM system.
+• Integration with Outlook and navigation apps will be seamless and require minimal user intervention.
+• ASMs will adhere to the minimum and maximum daily call requirements.
+• Inferred Requirements:
+• The system must account for holidays, customer availability, and ASM planned leaves when creating schedules.
+• Journey plans must include walking, public transport, and private transport options based on region-specific needs.
+• Visual representation of journey plans must be intuitive and easy to interpret.
+• Offline functionality must ensure data synchronization once connectivity is restored.
+
+1.1.1.5. Functional Requirements
+Req IDTitleDescriptionStep-by-Step User InteractionExpected System BehaviorEdge Cases & Validation RulesFR001System-created call based on tieringAutomatically create sales calls for existing customers based on tiering (e.g., Tier 1 = bi-weekly, Tier 2 = monthly).1. ASM logs into the system.
+2. System retrieves customer tiering data.
+3. System generates call schedule based on tiering rules.
+4. ASM reviews and confirms the schedule.System generates call schedules based on tiering rules and displays them to the ASM for review.Validate tiering data before schedule creation.
+Handle missing tiering data gracefully.
+Ensure schedules do not overlap with holidays or planned leaves.FR002Manually created callASMs can manually add or adjust sales calls for prospect customers or existing customers based on availability.1. ASM selects "Create Call" option.
+2. ASM enters customer details, date, and time.
+3. ASM confirms the call.
+4. System updates the schedule.System allows manual creation and adjustment of calls, ensuring no conflicts with existing schedules.Validate customer availability before scheduling.
+Ensure manual calls adhere to daily call limits.FR003Capability to schedule 7 calls per dayASMs must schedule a minimum of 7 and a maximum of 9 calls per day.1. ASM reviews daily schedule.
+2. ASM adds or adjusts calls to meet the minimum and maximum requirements.
+3. System validates the schedule.System enforces daily call limits and alerts ASM if the limits are not met.Validate call count before finalizing the schedule.
+Handle exceptions for holidays or unforeseen circumstances.FR004Journey planning with holidays and hoursSystem considers bank holidays, opening hours, planned holidays, and meeting hours for journey planning.1. ASM enters journey planning mode.
+2. System retrieves relevant data (e.g., holidays, opening hours).
+3. System generates optimized journey plan.
+4. ASM reviews and confirms the plan.System generates journey plans that account for holidays, opening hours, and ASM availability.Validate holiday and opening hour data before journey plan creation.
+Handle missing or incorrect data gracefully.FR005Circular or optimized journeysSystem creates circular or optimized journeys to minimize travel time and distance.1. ASM selects "Optimize Journey" option.
+2. System calculates routes based on start and end locations.
+3. System displays optimized journey plan.
+4. ASM confirms the plan.System generates optimized routes and displays them on a visual map.Validate start and end locations before route calculation.
+Handle exceptions for remote or inaccessible locations.FR006Visual map of journey planASMs can view their journey plans on a visual map.1. ASM selects "View Map" option.
+2. System displays journey plan on a map.
+3. ASM reviews and adjusts the plan if needed.System integrates with mapping tools to display journey plans visually.Ensure map data is accurate and up-to-date.
+Handle missing or incorrect location data gracefully.FR007Integration with CRMSystem integrates with Dynamics CRM to retrieve customer data and update call schedules.1. System connects to Dynamics CRM.
+2. System retrieves customer data.
+3. System updates call schedules based on CRM data.
+4. ASM reviews and confirms updates.System ensures seamless integration with Dynamics CRM and updates schedules in real-time.Validate CRM data before updating schedules.
+Handle integration failures gracefully.FR008Offline accessASMs can access journey plans and customer data offline, with data synchronization upon connectivity restoration.1. ASM enters offline mode.
+2. ASM accesses journey plans and customer data.
+3. ASM makes updates offline.
+4. System synchronizes data once connectivity is restored.System ensures offline functionality and synchronizes data seamlessly upon connectivity restoration.Validate offline data before synchronization.
+Handle conflicts between offline and online data gracefully.
+The next prompt will focus on Section 6: Data Model and Reporting Requirements.Below is the reconstructed Functional Design Document (FDD) from section 6 onward, following the provided instructions:
+
+1.1.2. User Stories
+User Story Summary Table
+User Story IDSummaryPrimary ActorGoalAcceptance CriteriaUS-01System-created call based on tieringSystemAutomatically generate sales call schedules based on customer tieringSales call schedules are created for each tier (e.g., Tier 1 = bi-weekly, Tier 2 = monthly, etc.)US-02Manually created callAccount ManagerAdd or amend sales calls manuallyAccount Manager can add prospect calls and adjust existing customer callsUS-03Capability to schedule 7 calls per dayAccount ManagerEnsure daily call targets are metMinimum 7 calls and maximum 9 calls scheduled per dayUS-04Journey planning considering holidays and working hoursSystemOptimize journey plans based on holidays, opening hours, and planned absencesJourney plans exclude non-working days and align with account opening hoursUS-05Define home locations for journey planningAccount ManagerSet start and end locations for journeysHome location is defined for each Account ManagerUS-06Include contact types in journey plansSystemEnsure prospect calls are included in daily plansAt least 2 prospect calls included in daily journey plansUS-07Optimized circular journeysSystemMinimize travel time and distanceJourney plans are circular, starting and ending at the home locationUS-08Journey plans with alternate transport modesSystemSupport region-specific transport optionsJourney plans include walking, public transport, and private transport optionsUS-09Visual map of route plansAccount ManagerReview journey plans visuallyJourney plans are displayed on a map for daily and weekly viewsUS-10Monthly journey plan creationSystemGenerate journey plans for a 4-week periodJourney plans are created monthly for each ASMUS-11Daily update and refresh of plansSystemAdjust plans based on changesPlans are refreshed daily to reflect updates or cancellationsUS-12Confirmed and walk-in appointmentsAccount ManagerManage confirmed and walk-in appointmentsConfirmed appointments are communicated for rescheduling if neededUS-13Call duration managementAccount ManagerAllocate appropriate time for callsCall durations are set between 60-90 minutes based on objectivesUS-14Detailed travel directionsSystemProvide travel directions for journey routesTravel directions are available nativelyUS-15Integration with mobile navigation appsSystemEnable navigation via mobile appsJourney plans integrate with Google Maps, Waze, etc.US-16Weekly and rolling monthly view of plansAccount ManagerView scheduled calls for planningWeekly and monthly views of calls are accessibleUS-17Plans visible to managersSystemProvide visibility to managersPlans are visible to RSM, RSD, SD, and filtered by ASMUS-18Automated route planningSystemOptimize travel routesRoutes minimize travel time and maximize customer interaction timeUS-19Call objectives visibilityAccount ManagerUnderstand call objectivesObjectives are displayed for each callUS-20Ability to reschedule callsAccount ManagerAdjust call schedulesCalls can be rescheduled with reason codesUS-21Suggest additional walk-ins for cancellationsSystemFill gaps in schedulesNearby prospects are suggested for walk-insUS-22System-created next call based on tieringSystemAutomate next call schedulingNext call dates are generated based on tieringUS-23Manually created next callAccount ManagerAdjust next call datesAccount Manager can manually set next call datesUS-24Track actual callsSystemMeasure call performanceReports track average calls per day by individual and teamUS-25Track planned callsSystemMeasure planned call performanceReports track average planned calls per day by individual and teamUS-26Reason code report for rescheduled callsSystemAnalyze rescheduling trendsReports show rescheduled calls with reason codesUS-27Mobile access to journey plansAccount ManagerAccess plans on mobile devicesJourney plans are accessible via mobile devicesUS-28Offline access to journey plansAccount ManagerAccess plans without internetJourney plans and customer data are accessible offline
+1.1.3. Integration/Data Migration/Import
+Integration IDIntegration DescriptionSystem/ToolPurposeINT-01Integration with Dynamics CRMDynamics CRMSync journey plans and customer dataINT-02Integration with OutlookOutlookSync calendar for scheduled callsINT-03Integration with mobile navigation appsGoogle Maps, Bing Maps, WazeProvide navigation for journey plans
+1.1.4. Reporting
+Report IDReport TitleDescriptionFrequencyREP-01Actual Calls ReportTracks average calls per day by individual and teamWeekly, MonthlyREP-02Planned Calls ReportTracks average planned calls per day by individual and teamWeekly, MonthlyREP-03Rescheduled Calls ReportTracks rescheduled calls with reason codesWeekly, Monthly
+1.1.5. Design Inventory
+Design Inventory Table
+User StoryType of ComponentName of EntityComponent NameDescriptionUS-01EntityAccountTiering SystemAutomates tiering based on sales, volume, and marginUS-02EntityActivityManual Call SchedulerAllows manual addition and adjustment of callsUS-03Business RuleActivityDaily Call Limit RuleEnforces minimum 7 and maximum 9 calls per dayUS-04Power AutomateCalendarHoliday Exclusion WorkflowExcludes holidays and non-working hours from plansUS-05EntityUserHome Location SetupDefines home location for journey planningUS-06EntityContactProspect Inclusion RuleEnsures prospect calls are included in daily plansUS-07PluginRoute OptimizationCircular Journey PlannerOptimizes routes for circular journeysUS-08EntityTransport ModeAlternate Transport PlannerIncludes walking, public transport, and private transport optionsUS-09DashboardMap VisualizationJourney Map ViewerDisplays journey plans on a visual mapUS-10Power AutomateActivityMonthly Journey Plan GeneratorCreates journey plans for a 4-week periodUS-11PluginActivityDaily Plan RefreshUpdates plans daily based on changesUS-12EntityAppointmentConfirmed Appointment ManagerManages confirmed and walk-in appointmentsUS-13Business RuleActivityCall Duration RuleSets call durations between 60-90 minutesUS-14Native FeatureNavigationTravel DirectionsProvides travel directions nativelyUS-15IntegrationNavigation AppMobile Navigation IntegrationIntegrates with Google Maps, Waze, etc.US-16DashboardActivityWeekly and Monthly ViewDisplays weekly and monthly views of callsUS-17DashboardActivityManager Visibility DashboardProvides visibility to managersUS-18PluginRoute OptimizationAutomated Route PlannerReduces travel time and maximizes customer interaction timeUS-19EntityActivityCall Objective ViewerDisplays objectives for each callUS-20EntityActivityReschedule ManagerAllows rescheduling of callsUS-21PluginProspect ListWalk-in Suggestion EngineSuggests nearby prospects for walk-insUS-22Power AutomateActivityNext Call SchedulerAutomates next call scheduling based on tieringUS-23EntityActivityManual Next Call SchedulerAllows manual adjustment of next call datesUS-24ReportActivityActual Calls ReportTracks average calls per dayUS-25ReportActivityPlanned Calls ReportTracks average planned calls per dayUS-26ReportActivityRescheduled Calls ReportTracks rescheduled calls with reason codesUS-27Mobile AppActivityMobile Journey Plan ViewerProvides mobile access to journey plansUS-28Offline CapabilityActivityOffline Journey Plan ViewerProvides offline access to journey plans
+This document ensures comprehensive coverage of functional requirements, user stories, integration, reporting, and design inventory.### Functional Design Document (FDD)
+
+1.1.5.1. OOB Fitment/Customization/Gaps Analysis
+This section analyzes the fitment of the requirements against the Dynamics 365 modules, identifies gaps, and provides recommendations for customization or alternative solutions.
+Dynamics 365 Module Fitment Table
+User Story IDUser Story TitleBest Fit ModulePercentage of FitnessNot Fit to Any ModuleDiscrepancy/Gaps/NotesQuery for StakeholdersCRM1.1System created call - Based on TieringSales80%NoRequires customization for tiering logic and call schedule automation.What are the exact tiering criteria and calculation logic?CRM1.2Manually created callSales90%NoMinor customization for manual call creation interface.Should manual calls be tracked separately from system-generated calls?CRM1.3Capability to schedule 7 calls per daySales70%NoRequires customization for call scheduling limits.Should the system enforce the minimum/maximum call limits?CRM1.4Considering bank holiday, opening hours, planned holidays, meeting hours for journey planningField Service75%NoRequires integration with Outlook calendar and account opening hours.Should holidays be imported from a centralized calendar?CRM1.5Definition of home locations, start and end locationsField Service85%NoRequires configuration for journey planning.Should home locations be predefined or user-configurable?CRM1.6Including contact type - Accounts and ProspectsSales90%NoMinor customization for prospect prioritization.Should prospect calls be weighted differently than account calls?CRM1.7Circular or optimized journeys from start and end locationsField Service80%NoRequires route optimization logic.Should optimization prioritize time or distance?CRM1.8Considering journey plans including walking, public transport, and private transportField Service70%NoRequires integration with external navigation APIs.Should transport modes be user-selectable or system-determined?CRM1.9Visual Map of the route plan by day and by weekField Service85%NoRequires map visualization integration.Should the map display real-time traffic data?CRM1.10JP for every ASM to be created for 4-week period on a monthly basisField Service75%NoRequires automation for rolling journey plans.Should the plan be editable after creation?CRM1.11Daily update and refresh for the planField Service80%NoRequires real-time refresh capability.Should updates trigger notifications to ASMs?CRM1.12Confirmed and Walk-in appointmentsSales85%NoRequires appointment rescheduling logic.Should walk-ins be prioritized based on proximity or urgency?CRM1.13The call duration (visit to a client) to be 60 to 90 minutesSales90%NoMinor customization for call duration tracking.Should call duration be adjustable during the visit?CRM1.14Detailed directions for travel on the Journey routeField Service80%NoRequires integration with navigation APIs.Should directions include alternate routes?CRM1.15Ability to integrate with mobile app for travelField Service85%NoRequires mobile app integration.Should the integration support offline navigation?CRM2.1Weekly & 4-week rolling plan createdField Service75%NoRequires automation for rolling plans.Should the rolling plan be visible to all stakeholders?CRM2.2Plans to be visible to account manager & line managerSales90%NoMinor customization for role-based visibility.Should visibility be restricted to specific roles?CRM2.3Prospect calls included in daily journey planSales85%NoRequires blending logic for prospect and account calls.Should prospect calls have a fixed quota per day?CRM2.4Route planningField Service80%NoRequires route optimization logic.Should route planning consider traffic conditions?CRM2.5Call objectivesSales90%NoMinor customization for call objective tracking.Should objectives be editable during the call?CRM3.1Ability to re-schedule the callSales85%NoRequires rescheduling interface.Should rescheduling require approval from the line manager?CRM3.2Rescheduled reason codeSales90%NoMinor customization for reason code tracking.Should reason codes be predefined or user-configurable?CRM3.3Ability to suggest additional walk-ins for the day from the cancellationSales80%NoRequires walk-in suggestion logic.Should suggestions prioritize proximity or customer tier?CRM4.1System creates next call - Based on TieringSales80%NoRequires automation for next call scheduling.Should next call scheduling consider holidays?CRM4.2Manually created next callSales90%NoMinor customization for manual scheduling.Should manual scheduling override system-generated calls?CRM5.1Track actual calls - by individual & teamSales85%NoRequires reporting customization.Should reports include call duration metrics?CRM5.2Track planned calls - by individual & teamSales85%NoRequires reporting customization.Should reports include planned vs. actual metrics?CRM5.3Reason code report for re-scheduled callsSales90%NoMinor customization for reason code reporting.Should reports include trends over time?CRM6.1Integration with CRMSales95%NoNative functionality.Are there any additional CRM integration requirements?CRM6.2Integration with OutlookSales90%NoRequires calendar sync configuration.Should calendar sync include reminders?CRM6.3Integration with native mobile navigation appField Service85%NoRequires mobile app integration.Should navigation apps be user-selectable?CRM7.1Mobile AccessSales90%NoRequires mobile interface optimization.Should mobile access include offline functionality?CRM8.1Offline AccessSales85%NoRequires offline data caching.Should offline access include all customer data or only essential data?
+1.1.5.2. Non-Functional Requirements
+This section outlines the non-functional requirements necessary for the solution's success.
+Non-Functional Requirements Table
+RequirementAssumptionsSystem performance must support up to 500 concurrent users.Assumes average user activity during peak hours.Data synchronization with Outlook must occur within 5 minutes.Assumes stable internet connectivity.Offline functionality must support up to 7 days of data caching.Assumes ASMs will sync data weekly.Mobile access must be optimized for iOS and Android devices.Assumes ASMs use company-provided devices.Route optimization must process within 30 seconds.Assumes standard internet speed of 10 Mbps.Visual map rendering must occur within 10 seconds.Assumes integration with Google Maps API.System uptime must be 99.9% during business hours.Assumes robust cloud infrastructure.Data security must comply with GDPR and local regulations.Assumes customer data is stored in EU-based servers.Integration with third-party navigation apps must support real-time updates.Assumes navigation apps provide APIs for integration.
+1.1.5.3. Glossary
+This section defines key terms used in the document.
+TermDefinitionASMArea Sales Manager responsible for managing customer accounts and sales calls.RSMRegional Sales Manager overseeing ASMs within a specific region.RSDRegional Sales Director responsible for strategic sales planning and execution.SDSales Director responsible for overall sales strategy and performance.TieringCategorization of customers based on sales volume, margin, and potential.Journey Plan (JP)A schedule of sales calls and visits planned for ASMs.Walk-inAn unscheduled customer visit added to the journey plan.Route OptimizationProcess of determining the most efficient travel route for ASMs.Offline AccessFunctionality allowing ASMs to access data without internet connectivity.Visual MapA graphical representation of the journey plan on a map interface.
+This document provides a detailed analysis of requirements, fitment with Dynamics 365 modules, non-functional considerations, and a glossary for clarity. Further stakeholder input is required to address identified gaps and finalize the solution design.
+
+
+                                                          
+
+
+
+                                                                                             This is an AI generated Technical Design Document
+
+
+
+
+
