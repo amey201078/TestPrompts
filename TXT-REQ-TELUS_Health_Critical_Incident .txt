@@ -1,4 +1,8 @@
-SummaryDescriptionCustom field (Acceptance Criteria)Account Flagging - Security Role (Visibility and access of Mark/Unmark as Special Contract button)h2. User Story Summary
+Summary
+Description
+Custom field (Acceptance Criteria)
+Account Flagging - Security Role (Visibility and access of Mark/Unmark as Special Contract button)
+h2. User Story Summary
 
 As a CI Supervisor or CI Leadership, I want to be able to enable and disable the Special Contract flag on an account so that I can set or remove the flag when necessary. 
 
@@ -10,7 +14,7 @@ Given I am a user with the CI Supervisor or the CI Leadership security role
 
 When I need to set an account as Special Contract
 
-Then I am able to see and click the button ëMark as Special Contractí in the ribbon of a CI account
+Then I am able to see and click the button ‚ÄòMark as Special Contract‚Äô in the ribbon of a CI account
 
 
 
@@ -20,7 +24,10 @@ Given I am a user with the CI Supervisor or the CI Leadership security role
 
 When I need to remove the Special Contract flag from an account
 
-Then I am able to see and click the button ëUnmark as Special Contract' in the ribbon of a CI account†Account Flagging - Flag Creation - Special Contractsh2. *User story summary* 
+Then I am able to see and click the button ‚ÄòUnmark as Special Contract' in the ribbon of a CI account
+¬†
+Account Flagging - Flag Creation - Special Contracts
+h2. *User story summary* 
 
 As a CI team member, when I navigate to an account that is flagged as Special Contract, 
 
@@ -87,15 +94,18 @@ Given I am a CI User
 
 When I navigate to an account that is not flagged Special Contract
 
-Then I do not see the Special Contract field as it is hidden†Account Flagging - Unmark as Special Contracth2. User Story Summary
+Then I do not see the Special Contract field as it is hidden
+¬†
+Account Flagging - Unmark as Special Contract
+h2. User Story Summary
 
 As a CI supervisor user or CI Leadership user or higher on an account that is flagged as special contract
 
-I want to be able to see and click a button called ëUnmark as Special Contractí in the accountís ribbon
+I want to be able to see and click a button called ‚ÄòUnmark as Special Contract‚Äô in the account‚Äôs ribbon
 
 So that when I click it, I am prompted to confirm (Message below) and the account I am on is no longer flagged as Special Contract. The flag should also be removed from any child accounts, related Cases and related Work Orders.
 
-The ëMark as Special Contractí button should be placed to the right of ëMark as Code Redí
+The ‚ÄòMark as Special Contract‚Äô button should be placed to the right of ‚ÄòMark as Code Red‚Äô
 
 
 
@@ -112,7 +122,7 @@ h2. French Translation:
 |Unmark as Special Contract|Enlever le Contrat particulier|
 |_Are you sure you want to unmark {{Account Name}} as Special Contract?_
 _This will remove the Special Contract flag from this account and its child accounts._
-_Confirm or Cancel_| tes-vous s˚r de vouloir enlever le Contrat particulier
+_Confirm or Cancel_|√ätes-vous s√ªr de vouloir enlever le Contrat particulier
  de {{Account Name}} ? Cela retirera le drapeau Contrat particulier de ce compte et de ses comptes enfants.
 Confirmer - Annuler|
 
@@ -124,7 +134,7 @@ Given I am a user with the CI Supervisor or CI Leadership security role
 
 When I navigate to a CI account that does have the special contract flag
 
-Then I can see the ëUnmark as Special Contractí button in the account ribbon
+Then I can see the ‚ÄòUnmark as Special Contract‚Äô button in the account ribbon
 
 And when I click it, I see the following message: 
 
@@ -134,17 +144,20 @@ _This will remove the Special Contract flag from this account and its children a
 And I see two options:
 
 * _Confirm_: When I click confirm, then the Special Contract flag is removed from the account, its child account and all related Cases and Work Orders
-* _Cancel_: When I click cancel, nothing happens†Account Flagging - Mark as Special Contracth2. User Story Summary
+* _Cancel_: When I click cancel, nothing happens
+¬†
+Account Flagging - Mark as Special Contract
+h2. User Story Summary
 
 Setting Special Contract flag
 
-As a CI supervisor user or CI Leadership on an account that is not flagged as ëSpecial Contractí
+As a CI supervisor user or CI Leadership on an account that is not flagged as ‚ÄòSpecial Contract‚Äô
 
-I want to be able to see and click a button called ëMark as Special Contractí in the account ribbon
+I want to be able to see and click a button called ‚ÄòMark as Special Contract‚Äô in the account ribbon
 
 So that when I click it, I am prompted to confirm that I want to set the account as special contract (See message below) and the account I am on is flagged as special contract as well as any child account this account has as well as related Cases and Work Orders of the account and the child accounts
 
-The ëMark as Special Contractí button should be placed to the right of ëMark as Code Redí
+The ‚ÄòMark as Special Contract‚Äô button should be placed to the right of ‚ÄòMark as Code Red‚Äô
 
 _Message:_
 
@@ -161,7 +174,7 @@ h2. French Translation:
 |Mark as Special Contract|Marquez comme Contrat particulier|
 |_Are you sure you want to mark {{Account Name}} as Special Contract?_
 _This will alert the team that this account needs special handling._
-Confirm - Cancel| tes-vous s˚r de vouloir marquer {{Account Name}} comme Contrat particulier? Cela alertera l'Èquipe que ce compte nÈcessite une Manutention spÈciale.
+Confirm - Cancel|√ätes-vous s√ªr de vouloir marquer {{Account Name}} comme Contrat particulier? Cela alertera l'√©quipe que ce compte n√©cessite une Manutention sp√©ciale.
 Confirmer - Annuler|
 
 h2. Acceptance Criteria
@@ -172,7 +185,7 @@ Given I am a user with the CI Supervisor or CI Leadership security role
 
 When I navigate to a CI account that does not have the special contract flag
 
-Then I can see the ëMark as Special contractí button in the ribbon
+Then I can see the ‚ÄòMark as Special contract‚Äô button in the ribbon
 
 And when I click it, I see the following message: 
 
@@ -182,40 +195,49 @@ _This will alert the team that this account needs special handling._
 And I see two options:
 
 * _Confirm_: When I click confirm, then the special contract flag is set and cascaded to all child accounts as well as related Cases and Work Orders 
-* _Cancel_: When I click cancel, nothing happens†CI Agent Intake - Service Location Prod Name UpdateAs a CI User
+* _Cancel_: When I click cancel, nothing happens
+¬†
+CI Agent Intake - Service Location Prod Name Update
+As a CI User
 
 I want the Active Service Location currently in production to be updated
 
-so that the Service Location Name shows the value of ëStreet1í
+so that the Service Location Name shows the value of ‚ÄòStreet1‚Äô
 
 
 
-* This is the story to update exisintg Service Location in produdctionGiven I am a CI User in Production
+* This is the story to update exisintg Service Location in produdction
+Given I am a CI User in Production
 
 When I look up active Service Location records
 
-The all Service Location names shows the value of ëStreet1íCI Agent Intake (High) - Send Task to CR TeamAs a CI user on a CI Work Order
+The all Service Location names shows the value of ‚ÄòStreet1‚Äô
+CI Agent Intake (High) - Send Task to CR Team
+As a CI user on a CI Work Order
 
-I want the Send Task to CR toggle to be not visible anymore and to be set to Yes automatically when the{color:#0747a6} Status Reason become ëIn Progressí{color}
+I want the Send Task to CR toggle to be not visible anymore and to be set to Yes automatically when the{color:#0747a6} Status Reason become ‚ÄòIn Progress‚Äô{color}
 
 So that I do not have to manually trigger it
 
 Notes:
 
 * Send Task to CR Team should not be visible on the CI Work Order form
-* Send Task to CR Team should be automatically triggered (Once) when the Status Reason = In ProgressGiven I am a CI User on a CI Work Order
+* Send Task to CR Team should be automatically triggered (Once) when the Status Reason = In Progress
+Given I am a CI User on a CI Work Order
 
-{color:#0747a6}When the Status Reason of the Work Order becomes ëIn Progress'{color}
+{color:#0747a6}When the Status Reason of the Work Order becomes ‚ÄòIn Progress'{color}
 
 Then, I want the Send Task to CR Team to be set to yes automatically
 
-And I want the Send Task to CR Team to never be visible on the CI Work Order formCI Agent Intake (Low) - Agent Summary*Priority - Low/Nice to have*
+And I want the Send Task to CR Team to never be visible on the CI Work Order form
+CI Agent Intake (Low) - Agent Summary
+*Priority - Low/Nice to have*
 
 As a CI User on a CI Case
 
 I want to be able to see a summary of the case
 
-So I donít have to create one myself
+So I don‚Äôt have to create one myself
 
 +*Summary template:*+
 
@@ -227,7 +249,7 @@ Case summary Sent: *[Timestamp]*
 Request for *[Modality]* on *[Date & Time of requested Intervention]*
 Sourcing Began at {color:#bf2600}*[First Referral Timestamp]*{color}
 Sourcing attempts made:  
-*[List of all Providers ìreferredî]* + Status (e.g. Declined with timestamp)
+*[List of all Providers ‚Äúreferred‚Äù]* + Status (e.g. Declined with timestamp)
 Assigned to *[Provider Name]* at *[Booking Timestamp]*, for *[Intervention Date & Times (Start & End)]*
 Request to Assignment time elapsed: *[Duration] Case Creation to Booking Created*
 
@@ -242,17 +264,20 @@ Overall Case Duration *[Duration from Case Creation to Case Resolution]*
 
 Notes:
 
-* This is a nice to have. Ideally, the existing AI Summary would be modified to handle the template already in use for summary of case. Otherwise, a ribbon button ëCreate Summaryí could also work.Given I am a CI User
+* This is a nice to have. Ideally, the existing AI Summary would be modified to handle the template already in use for summary of case. Otherwise, a ribbon button ‚ÄòCreate Summary‚Äô could also work.
+Given I am a CI User
 
 When I need to get a summary of a CI Case
 
-Then I can use the AI Summary/ribbon button to create oneCI Agent Intake (Medium) - AU Service Tab updates*Priority - Medium*
+Then I can use the AI Summary/ribbon button to create one
+CI Agent Intake (Medium) - AU Service Tab updates
+*Priority - Medium*
 
-*Step #1*: As a CI User creating a CI Case with subtype ëCritical Incidentí in Australia Instance
+*Step #1*: As a CI User creating a CI Case with subtype ‚ÄòCritical Incident‚Äô in Australia Instance
 
 When a CI Case is created, I want a Work Order to be automatically created and relate it to the Case.
 
-The Work Order should be of Incident type ëTrauma Consultationí and pull the required fields from the case
+The Work Order should be of Incident type ‚ÄòTrauma Consultation‚Äô and pull the required fields from the case
 
 The Service Location for the Work Order should be +the same as the Service address on the root account+
 
@@ -266,29 +291,30 @@ and it should be automatically booked to the Dummy Provider called _Case Open (S
 
 *Step #2*: As a CI User on a CI Case in the Australia Instance
 
-When I create Work Orders of type ëCritical Incidentí, 
+When I create Work Orders of type ‚ÄòCritical Incident‚Äô, 
 
 * I want the Scoping and Intake Hours (under the Service Tab) to be left blank
 * I want Delivery Hours  (under the Service Tab) to be auto-populated to the time difference between the Client Requested Start Time and the Client Requested End Time (i,e, Start time is 8AM and End time is 5pm, the delivery hours would be 9h)
 
-*Step #3*: As a CI User on a CI Work Order of Type ëCritical Incidentí in the Australia Instance
+*Step #3*: As a CI User on a CI Work Order of Type ‚ÄòCritical Incident‚Äô in the Australia Instance
 
 When the Work Order is scheduled 
 
 If the Service is In Person
 
-* I want the Travel Hours (under the Service Tab) to be autopopulated from the bookingís Duration (Yet to be build as part of New Scheduled Board - [[AVAN-59] TH365 | CI | New Schedule Board Appointment Confirmation Book Button Behaviour - JIRA|https://workivate.atlassian.net/browse/AVAN-59] )
+* I want the Travel Hours (under the Service Tab) to be autopopulated from the booking‚Äôs Duration (Yet to be build as part of New Scheduled Board - [[AVAN-59] TH365 | CI | New Schedule Board Appointment Confirmation Book Button Behaviour - JIRA|https://workivate.atlassian.net/browse/AVAN-59] )
 * Else I want the Travel Hours to be set to 0h
 
 
 
-Note: To develop this story, we need to use the Environment Variable ëRegioní*AC#1:* Given I am a CI User in the Australia instance
+Note: To develop this story, we need to use the Environment Variable ‚ÄòRegion‚Äô
+*AC#1:* Given I am a CI User in the Australia instance
 
 When I create a CI Case
 
 Then a Work Order is automatically created in the related Work Orders
 
-And the Type is set to ëTrauma Consultationí 
+And the Type is set to ‚ÄòTrauma Consultation‚Äô 
 
 And the Service Location should be the service address of the Root Account
 
@@ -300,7 +326,7 @@ And the Work Order should be scheduled to the Dummy Provider called Case Open (S
 
 *AC#2:* Given I am a CI User on a CI Case with Sub-Type Critical Incident in the Australia instance
 
-When I create a Work Order of Type ëCritical Incidentí
+When I create a Work Order of Type ‚ÄòCritical Incident‚Äô
 
 Then, in the Service Tab, I want the Scoping and Intake hours to be left blank
 
@@ -310,11 +336,13 @@ And I want the Delivery Hours to be auto-populated with the difference between C
 
 *AC#3:* Given I am a CI User on a Work Order in the Austrlia Instance
 
-When a Work Order of type ëCritical Incidentí is scheduled
+When a Work Order of type ‚ÄòCritical Incident‚Äô is scheduled
 
-Then, if the service in In Person, I want the Travel Hours (under the Services tab) to be auto-populated based on the bookingís Duration
+Then, if the service in In Person, I want the Travel Hours (under the Services tab) to be auto-populated based on the booking‚Äôs Duration
 
-Else, I want the Travel Hours to be set to 0hCI Agent Intake (Low) - Case Timeline updates*Priority - Low*
+Else, I want the Travel Hours to be set to 0h
+CI Agent Intake (Low) - Case Timeline updates
+*Priority - Low*
 
 As a CI user on a CI case
 
@@ -322,18 +350,19 @@ I want to see the following updates on the CI Case timeline
 
 So that I can easily find the information I need
 
-* I should see ëCreated Oní at the top of a note record
-* I should see ëCreated Byí below ëCreated Oní
-* I should see ëModified Oní at the bottom of a note record
-* ëCreated byí should no change when another user modifies the note (It should stay as the original user who created the note)
-* The notes should be displayed in order of ëCreated oní (Most recent to less recent)
+* I should see ‚ÄòCreated On‚Äô at the top of a note record
+* I should see ‚ÄòCreated By‚Äô below ‚ÄòCreated On‚Äô
+* I should see ‚ÄòModified On‚Äô at the bottom of a note record
+* ‚ÄòCreated by‚Äô should no change when another user modifies the note (It should stay as the original user who created the note)
+* The notes should be displayed in order of ‚ÄòCreated on‚Äô (Most recent to less recent)
 * Only the Created By user or a user with the CI Leadership role should be able to modify a note
 
 
 
 MS resource: [https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/set-up-timeline-control|https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/set-up-timeline-control|smart-link] 
 
-!image-20250606-172926.png|width=608,height=291,alt="image-20250606-172926.png"!*AC#1:*
+!image-20250606-172926.png|width=608,height=291,alt="image-20250606-172926.png"!
+*AC#1:*
 
 Given I am a CI User on a CI Case
 
@@ -371,7 +400,9 @@ Given I am a CI Leadership user on a CI Case
 
 When I try to modify a note on the timeline
 
-Then I can modify notes created by me AND notes created by other CI UsersCI Agent Intake - CI Leadership Dashboard Updatesh2. User story summary
+Then I can modify notes created by me AND notes created by other CI Users
+CI Agent Intake - CI Leadership Dashboard Updates
+h2. User story summary
 
 *Leadership Dashboard*
 
@@ -406,7 +437,7 @@ _Focus is on agent productivity and metrics, ability to change date filters (dai
 *Case view Component*
 
 * View 1 (Default) - CI Cases Untoggled Notifications - New View
-** {color:#0747a6}CI Cases where Status = Resolved{color} AND ëSend Notification Emailí = No OR Send Summary Email' = No 
+** {color:#0747a6}CI Cases where Status = Resolved{color} AND ‚ÄòSend Notification Email‚Äô = No OR Send Summary Email' = No 
 
 ||*Case ID*||*Priority*||*Code Red*||*Escalated*||*Account*||*Send Notification Email*||*Send Summary Email*||*Owner*||*Status Reason*||*Created On*||
 | | | | | | | | | | |
@@ -419,7 +450,7 @@ _Focus is on agent productivity and metrics, ability to change date filters (dai
 *Work Order view component*
 
 * View 1 (Default) - {color:#0747a6}CI Work Order Untoggled Notifications{color} - New View
-** Filter Work Order where Status = Scheduled AND ëSend Confirmation email to - Provider Confirmation' = No OR Send Confirmation Email to - On Site Contact = No
+** Filter Work Order where Status = Scheduled AND ‚ÄòSend Confirmation email to - Provider Confirmation' = No OR Send Confirmation Email to - On Site Contact = No
 !image-20250609-185129.png|width=419,height=201,alt="image-20250609-185129.png"!
 
 ||*Work Order Number*||*Priority*||*Code Red*||*Account*||*Send Booking Confirmation (Provider Confirmation)*||*Send Booking Confirmation (On-Site Contact)*||*Service Location*||{color:#0747a6}*City*{color}||{color:#0747a6}*Modality*{color}||*Owner*||*Status Reason*||*Created On*||
@@ -433,15 +464,18 @@ _Focus is on agent productivity and metrics, ability to change date filters (dai
 *Columns for views:*
 
 ||*Work Order Number*||*Priority*||*Code Red*||*Account*||*Service Location*||{color:#0747a6}*City*{color}||{color:#0747a6}*Modality*{color}||*Owner*||*Status Reason*||*Created On*||
-|†|†|†|†|†| | | |†| |AC#1
+|¬†|¬†|¬†|¬†|¬†| | | |¬†| |
+AC#1
 
 Given I am a user that has access to the Leadership Dashboard
 
 When I open the dashboard
 
-Then I see the updated version of the DB containing the above componentsCI Agent Intake - CI Coordinator Dashboard Updatesh2. User Story Summary
+Then I see the updated version of the DB containing the above components
+CI Agent Intake - CI Coordinator Dashboard Updates
+h2. User Story Summary
 
-*Critical Incidents Coordinator*†
+*Critical Incidents Coordinator*¬†
 
 (existing Dashboard)
 
@@ -459,7 +493,7 @@ _Focus is on active cases and worklist_
 *Columns for Views:*
 
 ||*Case ID*||*Priority*||*Code Red*||*Escalated*||*Account*||{color:#0747a6}*Follow Up Notes*{color}||{color:#0747a6}*Follow Up Date*{color}||*Owner*||*Status Reason*||*Created On*||
-| | | | | | | |Note: Owner column should be removed on ëMy Casesí view| | |
+| | | | | | | |Note: Owner column should be removed on ‚ÄòMy Cases‚Äô view| | |
 
 *COMPONENT 2: Work Order views component*
 
@@ -473,11 +507,11 @@ _Focus is on active cases and worklist_
 *Columns for views:*
 
 ||*Work Order Number*||*Priority*||*Code Red*||*Account*||*Service Location*||{color:#0747a6}*City*{color}||{color:#0747a6}*Modality*{color}||*Owner*||*Status Reason*||*Created On*||
-| | | | | | | |Remove Owner Column for ëMy Work Ordersí View| | |
+| | | | | | | |Remove Owner Column for ‚ÄòMy Work Orders‚Äô View| | |
 
 *COMPONENT 3: Email Queue Item views component - All new Views*
 
-* Add a dropdown to go between mailboxes (Default should be ëServicesí)
+* Add a dropdown to go between mailboxes (Default should be ‚ÄòServices‚Äô)
 ** Canada Instance email inboxes to appear on dashboard (with toggle):
 *** View 1 (Default): CI Service Inbox - Canada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
 *** View 2: CI Administrator [ci.administrator@telushealth.com|mailto:ci.administrator@telushealth.com]
@@ -487,7 +521,7 @@ _Focus is on active cases and worklist_
 *** View 2: CI Administrator - US [Ci-US.Administrator@telushealth.com|mailto:Ci-US.Administrator@telushealth.com]
 *** View 3: My Emails (Where Owner = Current User)
 ** AUS Instance email inboxes to appear on dashboard (with toggle):
-*** View 1 (Default): CI Service Inbox ñ AU †[aus_ciservicerequests@telushealth.com|mailto:aus_ciservicerequests@telushealth.com]
+*** View 1 (Default): CI Service Inbox ‚Äì AU ¬†[aus_ciservicerequests@telushealth.com|mailto:aus_ciservicerequests@telushealth.com]
 *** View 2: CI Administrator - AU [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
 *** View 3: My Emails (Where Owner = Current User)
 ** UK Intance email inboxes to appear on dashboard (with toggle):
@@ -496,7 +530,7 @@ _Focus is on active cases and worklist_
 *** View 3: My Emails (Where Owner = Current User)
 * *Filter for all*: Emails where Status Reason is NOT Cancelled OR Completed
 * *Sort for all* should be Created On
-†
+¬†
 
 *Columns*
 
@@ -521,14 +555,17 @@ Default sort on Created On
 
 h2. Fulfillment notes:
 
-* {color:#bf2600}Requirement to have a ëClient of Interestí flag - This would be a CR{color}
-* Requirement to have a ëSpecial Contractí flag - This will be part of Special Contracts stream [~accountid:712020:6e08a0ed-e1d5-4e94-9369-872aeed28821] (FYI - [~accountid:63c07f150a1b5442166b0995])AC#1
+* {color:#bf2600}Requirement to have a ‚ÄòClient of Interest‚Äô flag - This would be a CR{color}
+* Requirement to have a ‚ÄòSpecial Contract‚Äô flag - This will be part of Special Contracts stream [~accountid:712020:6e08a0ed-e1d5-4e94-9369-872aeed28821] (FYI - [~accountid:63c07f150a1b5442166b0995])
+AC#1
 
 Given I am a user that has access to the Critical Incident Coordinator Dashboard
 
 When I open the dashboard
 
-Then I see the updated version of the DB containing the above componentsCI SMS Set Up To set up a new SMS provider for the Customer Insights - Journeys app: (sourced from Microsoft Learn: [https://learn.microsoft.com/en-us/dynamics365/customer-insights/journeys/real-time-marketing-text-messaging-setup#set-up-your-provider-in-the-customer-insights---journeys-app|https://learn.microsoft.com/en-us/dynamics365/customer-insights/journeys/real-time-marketing-text-messaging-setup#set-up-your-provider-in-the-customer-insights---journeys-app|smart-link] 
+Then I see the updated version of the DB containing the above components
+CI SMS Set Up 
+To set up a new SMS provider for the Customer Insights - Journeys app: (sourced from Microsoft Learn: [https://learn.microsoft.com/en-us/dynamics365/customer-insights/journeys/real-time-marketing-text-messaging-setup#set-up-your-provider-in-the-customer-insights---journeys-app|https://learn.microsoft.com/en-us/dynamics365/customer-insights/journeys/real-time-marketing-text-messaging-setup#set-up-your-provider-in-the-customer-insights---journeys-app|smart-link] 
 
 # Go to *Settings* in the area switcher menu. Then go to *Customer engagement* > *SMS providers* and select *+New* in the top menu.
 # Select the provider you want to set up and then add an internal name and description, along with the business unit it should belong.
@@ -538,13 +575,14 @@ Then I see the updated version of the DB containing the above componentsCI SMS 
 !image-20250627-191652.png|width=1948,height=1015,alt="image-20250627-191652.png"!
 # After adding the numbers, select the *Next* button to review the setup details and then select *Done* to complete it.
 # To receive SMS replies through the providers using the numbers you set up, you also need to specify and set up the *Callback URL*.
-For Azure Communication Services, navigate to your resource group through *Subscriptions* > *Resource group name* and create an Event Grid System Topic for your Communication Service resource. Select it and then select *+ Event Subscription*. To set up the *Delivery report Callback URL*, select ì*SMS Delivery report received*î in the *Event type* and *Webhook* in the *Endpoint type*, pasting the relevant URL you see in the Customer Insights ñ Journeys setup wizard. To set up the *Incoming Message Callback URL*, select ì*SMS received*î in the *Event type* and *Webhook* in the *Endpoint* type, pasting the relevant URL you see in the Customer Insights ñ Journeys setup wizard.
+For Azure Communication Services, navigate to your resource group through *Subscriptions* > *Resource group name* and create an Event Grid System Topic for your Communication Service resource. Select it and then select *+ Event Subscription*. To set up the *Delivery report Callback URL*, select ‚Äú*SMS Delivery report received*‚Äù in the *Event type* and *Webhook* in the *Endpoint type*, pasting the relevant URL you see in the Customer Insights ‚Äì Journeys setup wizard. To set up the *Incoming Message Callback URL*, select ‚Äú*SMS received*‚Äù in the *Event type* and *Webhook* in the *Endpoint* type, pasting the relevant URL you see in the Customer Insights ‚Äì Journeys setup wizard.
 For Twilio, copy the *Callback URL* from the Customer Insights - Journeys app and paste it into the [numbers' configuration page|https://console.twilio.com/us1/develop/phone-numbers/manage/incoming] in the *"A MESSAGE COMES IN"* field.
 !image-20250627-191752.png|width=900,height=452,alt="image-20250627-191752.png"!
 
 For Infobip, LINK Mobility, Telesign, and Vibes, you'll need to contact customer support to set this up for you.
 
-For additional information on sign up and configuration steps: [Set up outbound text messaging - Dynamics 365 Customer Insights | Microsoft Learn|https://learn.microsoft.com/en-us/dynamics365/customer-insights/journeys/real-time-marketing-text-messaging-setup#set-up-your-provider-in-the-customer-insights---journeys-app]*GIVEN* - I am a marketer 
+For additional information on sign up and configuration steps: [Set up outbound text messaging - Dynamics 365 Customer Insights | Microsoft Learn|https://learn.microsoft.com/en-us/dynamics365/customer-insights/journeys/real-time-marketing-text-messaging-setup#set-up-your-provider-in-the-customer-insights---journeys-app]
+*GIVEN* - I am a marketer 
 
 *WHEN* - I navigate to the marketing app in the Microsoft D365 environment
 
@@ -554,30 +592,35 @@ I go to text messages from the left side pane.
 
 I create a new text message 
 
-I am able to select the enabled phone number from the ëText message senderí drop down menu. 
+I am able to select the enabled phone number from the ‚ÄòText message sender‚Äô drop down menu. 
 
-!image-20250627-192101.png|width=1708,height=897,alt="image-20250627-192101.png"!Change 'Send Emails' to 'Send Communications'As a CI user on an account that has affiliate providers
+!image-20250627-192101.png|width=1708,height=897,alt="image-20250627-192101.png"!
+Change 'Send Emails' to 'Send Communications'
+As a CI user on an account that has affiliate providers
 
 I want to see a button labelled 'Send Communications' in place of the 'Send Email' button.
 
-†When I click on the button it will send communication via SMS to the selected affiliate providers. _(don't know if I need to include)_
+¬†When I click on the button it will send communication via SMS to the selected affiliate providers. _(don't know if I need to include)_
 
 The 'Send Communications' button should be in the same place as the current 'Send Email' button.
 
-(Insert screenshot to identify where the button is)*GIVEN* - I am a CI coordinator
+(Insert screenshot to identify where the button is)
+*GIVEN* - I am a CI coordinator
 
 *WHEN* - I navigate to an organization (account)
 
-*THEN* - I should see the 'Send Communications' in place of the 'Send Email' button.CI SMS Referral Window Closed Notification - US{color:#0747a6}*NARRATIVE:*{color}
+*THEN* - I should see the 'Send Communications' in place of the 'Send Email' button.
+CI SMS Referral Window Closed Notification - US
+{color:#0747a6}*NARRATIVE:*{color}
 As an Affiliate Provider, I want to receive a notification that the referral window has been closed via SMS, so that I know not the respond the referral request if I have not yet submit it.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 
 *GIVEN* - I am CI Coordinator
-*WHEN* - I click the ëClose Referralí button within the ëReferralí section of the schedule board (custom) where:
+*WHEN* - I click the ‚ÄòClose Referral‚Äô button within the ‚ÄòReferral‚Äô section of the schedule board (custom) where:
 
-*  an affiliate provider that had received the initial referral request has Contact - ëNew Referral Contact Methodí = ìSMSî
-* The Affiliate Providerís response is ìNo Answerî or ìAcceptedî
+*  an affiliate provider that had received the initial referral request has Contact - ‚ÄòNew Referral Contact Method‚Äô = ‚ÄúSMS‚Äù
+* The Affiliate Provider‚Äôs response is ‚ÄúNo Answer‚Äù or ‚ÄúAccepted‚Äù
 * the Dynamics environment is the United States environment.
 
 
@@ -608,16 +651,19 @@ TELUS Health Critical Incident team
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Window Closed Notification - EU{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Window Closed Notification - EU
+{color:#0747a6}*NARRATIVE:*{color}
 As an Affiliate Provider, I want to receive a notification that the referral window has been closed via SMS, so that I know not the respond the referral request if I have not yet submit it.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 
 *GIVEN* - I am CI Coordinator
-*WHEN* - I click the ëClose Referralí button within the ëReferralí section of the schedule board (custom) where:
+*WHEN* - I click the ‚ÄòClose Referral‚Äô button within the ‚ÄòReferral‚Äô section of the schedule board (custom) where:
 
-*  an affiliate provider that had received the initial referral request has Contact - ëNew Referral Contact Methodí = ìSMSî
-* The Affiliate Providerís response is ìNo Answerî or ìAcceptedî
+*  an affiliate provider that had received the initial referral request has Contact - ‚ÄòNew Referral Contact Method‚Äô = ‚ÄúSMS‚Äù
+* The Affiliate Provider‚Äôs response is ‚ÄúNo Answer‚Äù or ‚ÄúAccepted‚Äù
 * the Dynamics environment is the European environment.
 
 
@@ -648,16 +694,19 @@ TELUS Health Critical Incident team
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Window Closed Notification - AU{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Window Closed Notification - AU
+{color:#0747a6}*NARRATIVE:*{color}
 As an Affiliate Provider, I want to receive a notification that the referral window has been closed via SMS, so that I know not the respond the referral request if I have not yet submit it.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 
 *GIVEN* - I am CI Coordinator
-*WHEN* - I click the ëClose Referralí button within the ëReferralí section of the schedule board (custom) where:
+*WHEN* - I click the ‚ÄòClose Referral‚Äô button within the ‚ÄòReferral‚Äô section of the schedule board (custom) where:
 
-*  an affiliate provider that had received the initial referral request has Contact - ëNew Referral Contact Methodí = ìSMSî
-* The Affiliate Providerís response is ìNo Answerî or ìAcceptedî
+*  an affiliate provider that had received the initial referral request has Contact - ‚ÄòNew Referral Contact Method‚Äô = ‚ÄúSMS‚Äù
+* The Affiliate Provider‚Äôs response is ‚ÄúNo Answer‚Äù or ‚ÄúAccepted‚Äù
 * the Dynamics environment is the Australian environment.
 
 
@@ -667,7 +716,7 @@ As an Affiliate Provider, I want to receive a notification that the referral win
 
 Hi {{RecipientFullname}} _(Source Contact)_,  
 
-Please note the below Incident Management†intervention referral has been assigned and is no longer available.
+Please note the below Incident Management¬†intervention referral has been assigned and is no longer available.
 
 Customer: {{#if ParentAndRoot}}{{Root Account}}, {{ParentAccount}}, {{Account}} {{else if ParentNORoot}} {{RootAccount}}, {{Account}} {{else if NOParent}}{{Account}}{{/if}} _(Source Case)_ 
 Incident type: {{NatureofIncident}} _(Source Work Order)_
@@ -689,16 +738,19 @@ TELUS Health Incident Management team
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Window Closed Notification - CA - FR{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Window Closed Notification - CA - FR
+{color:#0747a6}*NARRATIVE:*{color}
 As an Affiliate Provider, I want to receive a notification that the referral window has been closed via SMS, so that I know not the respond the referral request if I have not yet submit it.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 
 *GIVEN* - I am CI Coordinator
-*WHEN* - I click the ëClose Referralí button within the ëReferralí section of the schedule board (custom) where:
+*WHEN* - I click the ‚ÄòClose Referral‚Äô button within the ‚ÄòReferral‚Äô section of the schedule board (custom) where:
 
-*  an affiliate provider that had received the initial referral request has Contact - ëNew Referral Contact Methodí = ìSMSî
-* The Affiliate Providerís response is ìNo Answerî or ìAcceptedî
+*  an affiliate provider that had received the initial referral request has Contact - ‚ÄòNew Referral Contact Method‚Äô = ‚ÄúSMS‚Äù
+* The Affiliate Provider‚Äôs response is ‚ÄúNo Answer‚Äù or ‚ÄúAccepted‚Äù
 * the Dynamics environment is the Canadian environment.
 
 
@@ -710,19 +762,19 @@ _IF, Language of Service_ +_equals_+ _French (France)_ +_or_+ _French (Canada)_
 
 ----
 
-Bonjour {{RecipientFullname}} _(Source Contact)_, veuillez noter que la demande de service d'Intervention Critique ci-dessous a ÈtÈ attribuÈe et n'est plus disponible. 
+Bonjour {{RecipientFullname}} _(Source Contact)_, veuillez noter que la demande de service d'Intervention Critique ci-dessous a √©t√© attribu√©e et n'est plus disponible. 
 
-Client†: {{#if ParentAndRoot}}{{Root Account}}, {{ParentAccount}}, {{Account}} {{else if ParentNORoot}} {{RootAccount}}, {{Account}} {{else if NOParent}}{{Account}}{{/if}} _(Source Case)_
-CatÈgorie díincident: {{IncidentCategoryFR}} _(Source Work Order)_
-Date et heure de dÈbut†: {{ClientRequestedStart}} _(Source Work Order)_
+Client¬†: {{#if ParentAndRoot}}{{Root Account}}, {{ParentAccount}}, {{Account}} {{else if ParentNORoot}} {{RootAccount}}, {{Account}} {{else if NOParent}}{{Account}}{{/if}} _(Source Case)_
+Cat√©gorie d‚Äôincident: {{IncidentCategoryFR}} _(Source Work Order)_
+Date et heure de d√©but¬†: {{ClientRequestedStart}} _(Source Work Order)_
 
-Date et heure de fin†: {{ClientRequestedEnd}} _(Source Work Order)_
-Fuseau horaire†: {{TimeZone}} _(Source Timezone vairable)_
-ModalitÈ†: {{#if InPerson}}En personne {{else if Online}}Virtuelle{{else if Telephonic}}TÈlÈphonique{{/if}} _(Source Work Order)_
+Date et heure de fin¬†: {{ClientRequestedEnd}} _(Source Work Order)_
+Fuseau horaire¬†: {{TimeZone}} _(Source Timezone vairable)_
+Modalit√©¬†: {{#if InPerson}}En personne {{else if Online}}Virtuelle{{else if Telephonic}}T√©l√©phonique{{/if}} _(Source Work Order)_
 
 Si vous voulez discuter avec nous, veuillez appeler 1-888-326-6325.
 
-TELUS SantÈ Incident Critique
+TELUS Sant√© Incident Critique
 
 ----
 
@@ -732,26 +784,29 @@ TELUS SantÈ Incident Critique
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Request - US{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Request - US
+{color:#0747a6}*NARRATIVE:*{color}
 As an affiliate provider, I want the ability to receive a referral through SMS, so that I can quickly accept a request.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 *GIVEN* - I am a CI Coordinator
 
-*WHEN* - I navigate to the Work Order click ëBookí, the schedule board appears and I do the following:
+*WHEN* - I navigate to the Work Order click ‚ÄòBook‚Äô, the schedule board appears and I do the following:
 
 * Select the affiliate provider(s) I want to receive the referral
 * Click 'Initiate Referral' which navigates me back to the Work Order
 * Select the providers I want to receive the referral request
-* Click ëSend Emailsí  (ëReferral Actioní (lwrk_referralstatus) equals ìSend Emailsî)
-* _Check condition:_ Where the affiliate provider's ëContact - New Referral Contact Method is ëSMS'{color:#bf2600} {color}AND is triggered from the United States Dynamics Environment.
+* Click ‚ÄòSend Emails‚Äô  (‚ÄòReferral Action‚Äô (lwrk_referralstatus) equals ‚ÄúSend Emails‚Äù)
+* _Check condition:_ Where the affiliate provider's ‚ÄòContact - New Referral Contact Method is ‚ÄòSMS'{color:#bf2600} {color}AND is triggered from the United States Dynamics Environment.
 
 _Custom trigger mapping will be Referral Confirmed (Client)._
 * !image-20250605-125720 (1).png|width=1033,height=570,alt="image-20250605-125720 (1).png"!
 
 Hi {{RecipientFullName}} _(Source Contact)_, the details of the Critical Incident intervention referral are listed below.
 
-{{#if Critical}} Please respond within the hour†to advise if you are available to support this intervention. {{else if High}} Please respond within four hours†to advise if you are available to support this intervention. {{else if LowNormal}} Please respond at your earliest convenience.†to advise if you are available to support this intervention. {{/if}} _(Source Work Order - Priority)_
+{{#if Critical}} Please respond within the hour¬†to advise if you are available to support this intervention. {{else if High}} Please respond within four hours¬†to advise if you are available to support this intervention. {{else if LowNormal}} Please respond at your earliest convenience.¬†to advise if you are available to support this intervention. {{/if}} _(Source Work Order - Priority)_
 
 
 
@@ -783,26 +838,29 @@ Then the affiliate provider should be navigated to a survey as displayed below w
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Request - EU{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Request - EU
+{color:#0747a6}*NARRATIVE:*{color}
 As an affiliate provider, I want the ability to receive a referral through SMS, so that I can quickly accept a request.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 *GIVEN* - I am a CI Coordinator
 
-*WHEN* - I navigate to the Work Order click ëBookí, the schedule board appears and I do the following:
+*WHEN* - I navigate to the Work Order click ‚ÄòBook‚Äô, the schedule board appears and I do the following:
 
 * Select the affiliate provider(s) I want to receive the referral
 * Click 'Initiate Referral' which navigates me back to the Work Order
 * Select the providers I want to receive the referral request
-* Click ëSend Emailsí  (ëReferral Actioní (lwrk_referralstatus) equals ìSend Emailsî)
-* _Check condition:_ Where the affiliate provider's ëContact - New Referral Contact Method is ëSMS'{color:#bf2600} {color}AND is triggered from the European Dynamics Environment.
+* Click ‚ÄòSend Emails‚Äô  (‚ÄòReferral Action‚Äô (lwrk_referralstatus) equals ‚ÄúSend Emails‚Äù)
+* _Check condition:_ Where the affiliate provider's ‚ÄòContact - New Referral Contact Method is ‚ÄòSMS'{color:#bf2600} {color}AND is triggered from the European Dynamics Environment.
 
 _Custom trigger mapping will be Referral Confirmed (Client)._
 * !image-20250605-125720 (1).png|width=1033,height=570,alt="image-20250605-125720 (1).png"!
 
 Hi {{RecipientFullName}} _(Source Contact)_, the details of the Critical Incident intervention referral are listed below.
 
-{{#if Critical}} Please respond within the hour†to advise if you are available to support this intervention. {{else if High}} Please respond within four hours†to advise if you are available to support this intervention. {{else if LowNormal}} Please respond at your earliest convenience.†to advise if you are available to support this intervention. {{/if}} _(Source Work Order - Priority)_
+{{#if Critical}} Please respond within the hour¬†to advise if you are available to support this intervention. {{else if High}} Please respond within four hours¬†to advise if you are available to support this intervention. {{else if LowNormal}} Please respond at your earliest convenience.¬†to advise if you are available to support this intervention. {{/if}} _(Source Work Order - Priority)_
 
 
 
@@ -835,26 +893,29 @@ The should be navigated to a survey as displayed below where they can accept or 
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Request - AU{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Request - AU
+{color:#0747a6}*NARRATIVE:*{color}
 As an affiliate provider, I want the ability to receive a referral through SMS, so that I can quickly accept a request.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 *GIVEN* - I am a CI Coordinator
 
-*WHEN* - I navigate to the Work Order click ëBookí, the schedule board appears and I do the following:
+*WHEN* - I navigate to the Work Order click ‚ÄòBook‚Äô, the schedule board appears and I do the following:
 
 * Select the affiliate provider(s) I want to receive the referral
 * Click 'Initiate Referral' which navigates me back to the Work Order
 * Select the providers I want to receive the referral request
-* Click ëSend Emailsí  (ëReferral Actioní (lwrk_referralstatus) equals ìSend Emailsî)
-* _Check condition:_ Where the affiliate provider's ëContact - New Referral Contact Method is ëSMS'{color:#bf2600} {color}AND is triggered from the Australian Dynamics Environment.
+* Click ‚ÄòSend Emails‚Äô  (‚ÄòReferral Action‚Äô (lwrk_referralstatus) equals ‚ÄúSend Emails‚Äù)
+* _Check condition:_ Where the affiliate provider's ‚ÄòContact - New Referral Contact Method is ‚ÄòSMS'{color:#bf2600} {color}AND is triggered from the Australian Dynamics Environment.
 
 _Custom trigger mapping will be Referral Confirmed (Client)._
 * !image-20250605-125720 (1).png|width=1033,height=570,alt="image-20250605-125720 (1).png"!
 
 Hi {{RecipientFullName}} _(Source Contact)_, the details of the Incident Management intervention referral are listed below.
 
-{{#if Critical}} Please respond within the hour†to advise if you are available to support this intervention. {{else if High}} Please respond within four hours†to advise if you are available to support this intervention. {{else if LowNormal}} Please respond at your earliest convenience.†to advise if you are available to support this intervention. {{/if}} _(Source Work Order - Priority)_
+{{#if Critical}} Please respond within the hour¬†to advise if you are available to support this intervention. {{else if High}} Please respond within four hours¬†to advise if you are available to support this intervention. {{else if LowNormal}} Please respond at your earliest convenience.¬†to advise if you are available to support this intervention. {{/if}} _(Source Work Order - Priority)_
 
 
 
@@ -888,19 +949,22 @@ Then the affiliate provider should be navigated to a survey as displayed below w
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Request - CA - EN{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Request - CA - EN
+{color:#0747a6}*NARRATIVE:*{color}
 As an affiliate provider, I want the ability to receive a referral through SMS, so that I can quickly accept a request.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 *GIVEN* - I am a CI Coordinator
 
-*WHEN* - I navigate to the Work Order click ëBookí, the schedule board appears and I do the following:
+*WHEN* - I navigate to the Work Order click ‚ÄòBook‚Äô, the schedule board appears and I do the following:
 
 * Select the affiliate provider(s) I want to receive the referral
 * Click 'Initiate Referral' which navigates me back to the Work Order
 * Select the providers I want to receive the referral request
-* Click ëSend Emailsí  (ëReferral Actioní (lwrk_referralstatus) equals ìSend Emailsî)
-* _Check condition:_ Where the affiliate provider's ëContact - New Referral Contact Method is ëSMS'{color:#bf2600} {color}AND is triggered from the Canadian Dynamics Environment.
+* Click ‚ÄòSend Emails‚Äô  (‚ÄòReferral Action‚Äô (lwrk_referralstatus) equals ‚ÄúSend Emails‚Äù)
+* _Check condition:_ Where the affiliate provider's ‚ÄòContact - New Referral Contact Method is ‚ÄòSMS'{color:#bf2600} {color}AND is triggered from the Canadian Dynamics Environment.
 
 _Custom trigger mapping will be Referral Confirmed (provider)._
 * !image-20250605-125720 (1).png|width=1033,height=570,alt="image-20250605-125720 (1).png"!
@@ -911,7 +975,7 @@ _IF Language of Service_ +_does not equal_+ _French (France)_ +_and_+ _French (C
 
 Hi {{RecipientFullName}} _(Source Contact)_, the details of the Critical Incident intervention referral are listed below. 
 
-{{#if Critical}} Please respond within the hour†to advise if you are available to support this intervention. {{else if High}} Please respond within four hours†to advise if you are available to support this intervention. {{else if LowNormal}} Please respond at your earliest convenience.†to advise if you are available to support this intervention. {{/if}} _(Source Work Order - Priority)_
+{{#if Critical}} Please respond within the hour¬†to advise if you are available to support this intervention. {{else if High}} Please respond within four hours¬†to advise if you are available to support this intervention. {{else if LowNormal}} Please respond at your earliest convenience.¬†to advise if you are available to support this intervention. {{/if}} _(Source Work Order - Priority)_
 
 
 
@@ -944,16 +1008,19 @@ Then the affiliate provider should be navigated to a survey as displayed below w
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Window Closed Notification - CA - EN{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Window Closed Notification - CA - EN
+{color:#0747a6}*NARRATIVE:*{color}
 As an Affiliate Provider, I want to receive a notification that the referral window has been closed via SMS, so that I know not the respond the referral request if I have not yet submit it.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 
 *GIVEN* - I am CI Coordinator
-*WHEN* - I click the ëClose Referralí button within the ëReferralí section of the schedule board (custom) where:
+*WHEN* - I click the ‚ÄòClose Referral‚Äô button within the ‚ÄòReferral‚Äô section of the schedule board (custom) where:
 
-*  an affiliate provider that had received the initial referral request has Contact - ëNew Referral Contact Methodí = ìSMSî
-* The Affiliate Providerís response is ìNo Answerî or ìAcceptedî
+*  an affiliate provider that had received the initial referral request has Contact - ‚ÄòNew Referral Contact Method‚Äô = ‚ÄúSMS‚Äù
+* The Affiliate Provider‚Äôs response is ‚ÄúNo Answer‚Äù or ‚ÄúAccepted‚Äù
 * the Dynamics environment is the Canadian environment.
 
 
@@ -987,19 +1054,22 @@ If you would like to speak to us, please call 1-888-326-6325. TELUS Health Criti
 * Purpose - Transactional
 * Topic - _None_
 
-!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!†CI SMS Referral Request - CA - FR{color:#0747a6}*NARRATIVE:*{color}
+!image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
+¬†
+CI SMS Referral Request - CA - FR
+{color:#0747a6}*NARRATIVE:*{color}
 As an affiliate provider, I want the ability to receive a referral through SMS, so that I can quickly accept a request.
 
 {color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
 *GIVEN* - I am a CI Coordinator
 
-*WHEN* - I navigate to the Work Order click ëBookí, the schedule board appears and I do the following:
+*WHEN* - I navigate to the Work Order click ‚ÄòBook‚Äô, the schedule board appears and I do the following:
 
 * Select the affiliate provider(s) I want to receive the referral
 * Click 'Initiate Referral' which navigates me back to the Work Order
 * Select the providers I want to receive the referral request
-* Click ëSend Emailsí  (ëReferral Actioní (lwrk_referralstatus) equals ìSend Emailsî)
-* _Check condition:_ Where the affiliate provider's ëContact - New Referral Contact Method is ëSMS' AND is triggered from the Canadian Dynamics Environment.{color:#bf2600} {color}
+* Click ‚ÄòSend Emails‚Äô  (‚ÄòReferral Action‚Äô (lwrk_referralstatus) equals ‚ÄúSend Emails‚Äù)
+* _Check condition:_ Where the affiliate provider's ‚ÄòContact - New Referral Contact Method is ‚ÄòSMS' AND is triggered from the Canadian Dynamics Environment.{color:#bf2600} {color}
 
 _Custom trigger mapping will be Referral Confirmed (Client).  NOTE: Custom trigger to be confirmed with Eva, below is an example of how to navigate to it._
 * !image-20250605-125720 (1).png|width=1033,height=570,alt="image-20250605-125720 (1).png"!
@@ -1008,19 +1078,19 @@ _IF Language of Service_ +_equals_+ _French (France)_ +_or_+ _French (Canada)_
 
 ----
 
-SUBJECT: Veuillez rÈpondre ‡ l'intervention de support
+SUBJECT: Veuillez r√©pondre √† l'intervention de support
 
-Bonjour {{RecipientFullName}} _(Source Contact)_, les dÈtails de líintervention sont indiquÈs ci-dessous.
+Bonjour {{RecipientFullName}} _(Source Contact)_, les d√©tails de l‚Äôintervention sont indiqu√©s ci-dessous.
 
-{{#if Critical}} Veuillez rÈpondre dans un dÈlai díune heure afin de nous aviser si vous Ítes disponible pour effectuer cette intervention. {{else if High}} Veuillez rÈpondre dans un dÈlai de quatre heures afin de nous aviser si vous Ítes disponible pour effectuer cette intervention.{{else if LowNormal}} Veuillez rÈpondre dËs que possible afin de nous aviser si vous Ítes disponible pour effectuer cette intervention{{/if}} _(Source Work Order - Priority)_
+{{#if Critical}} Veuillez r√©pondre dans un d√©lai d‚Äôune heure afin de nous aviser si vous √™tes disponible pour effectuer cette intervention. {{else if High}} Veuillez r√©pondre dans un d√©lai de quatre heures afin de nous aviser si vous √™tes disponible pour effectuer cette intervention.{{else if LowNormal}} Veuillez r√©pondre d√®s que possible afin de nous aviser si vous √™tes disponible pour effectuer cette intervention{{/if}} _(Source Work Order - Priority)_
 
-Client : {{#if ParentAndRoot}}{{Root Account}}, {{ParentAccount}}, {{Account}} {{else if ParentNORoot}} {{RootAccount}}, {{Account}} {{else if NOParent}}{{Account}}{{/if}} _(Source Case)_ CatÈgorie díincident: {{IncidentCategoryFR}} _(Source Work Order)_ Date et heure de dÈbut : {{ClientRequestedStart}} _(Source Work Order)_ Date et heure de fin : {{ClientRequestedEnd}} _(Source Work Order)_  Fuseau horaire : {{TimeZone}} _(Source Timezone variable)_ ModalitÈ : {{#if InPerson}}En personne {{else if Online}}Virtuelle{{else if Telephonic}}TÈlÈphonique{{/if}} _(Source Work Order)_
+Client : {{#if ParentAndRoot}}{{Root Account}}, {{ParentAccount}}, {{Account}} {{else if ParentNORoot}} {{RootAccount}}, {{Account}} {{else if NOParent}}{{Account}}{{/if}} _(Source Case)_ Cat√©gorie d‚Äôincident: {{IncidentCategoryFR}} _(Source Work Order)_ Date et heure de d√©but : {{ClientRequestedStart}} _(Source Work Order)_ Date et heure de fin : {{ClientRequestedEnd}} _(Source Work Order)_  Fuseau horaire : {{TimeZone}} _(Source Timezone variable)_ Modalit√© : {{#if InPerson}}En personne {{else if Online}}Virtuelle{{else if Telephonic}}T√©l√©phonique{{/if}} _(Source Work Order)_
 
 Veuillez appuyer le lien pour accepter ou refuser cette demande : {{ReferralSurvey}} ?lang={{locale}} _(Source Survey variable)_
 
 Si vous voulez discuter avec nous, veuillez appeler 1-888-326-6325.
 
-TELUS SantÈ Incident Critique
+TELUS Sant√© Incident Critique
 
 ----
 
@@ -1041,9 +1111,16 @@ The SMS message will have the following categorizations:
 
 !image-20250620-120858.png|width=1244,height=553,alt="image-20250620-120858.png"!
 
-----†Enable Parent Account for CSMP{color:#0747a6}*Narrative:*{color}
-As a CI Specialist, I want the system to generate a CSMP intake form that I can share with a customer (when they have signed a contract for CSMP with the CSM), so that we have a method to intake CSMP requests from the client.†CSMP Fields for Parent Account{color:#0747a6}*Narrative:*{color}
-As a CI Specialist, I want to be able to mark that a parent account is now eligible for CSMP services (CSM has sold the account CSMP services), so that I know which accounts can receive CSMP services and I can generate the intake form specific to that CSMP account.*GIVEN* - I am a CI Specialist
+----
+¬†
+Enable Parent Account for CSMP
+{color:#0747a6}*Narrative:*{color}
+As a CI Specialist, I want the system to generate a CSMP intake form that I can share with a customer (when they have signed a contract for CSMP with the CSM), so that we have a method to intake CSMP requests from the client.
+¬†
+CSMP Fields for Parent Account
+{color:#0747a6}*Narrative:*{color}
+As a CI Specialist, I want to be able to mark that a parent account is now eligible for CSMP services (CSM has sold the account CSMP services), so that I know which accounts can receive CSMP services and I can generate the intake form specific to that CSMP account.
+*GIVEN* - I am a CI Specialist
 *WHEN* - I navigate to a parent account organization
 *THEN* - I see the following field on the account record:
 
@@ -1054,30 +1131,33 @@ Yes
 WHEN this field is toggled to "Yes" THEN the CSMP Intake form is populated with a Customer Voice link that capture the 'Root Account' in the case following submission|Used to generate the CSMP Intake form link|
 |CSMP Intake Form Link|Text (URL)| |Contains the CSMP intake form link|
 
-The fields should be displayed in the account form as shown below.  There should be a new section created called ëCSMPí.  The field should be displayed in the following order:
+The fields should be displayed in the account form as shown below.  There should be a new section created called ‚ÄòCSMP‚Äô.  The field should be displayed in the following order:
 
 
 * CSMP Enabled
 * CSMP Intake Form
 
 
-!CSMP Flag Location.jpg|width=1859,height=943,alt="CSMP Flag Location.jpg"!Send Authorization Confirmation Email - US{color:#0747a6}*NARRATIVE:*{color}
+!CSMP Flag Location.jpg|width=1859,height=943,alt="CSMP Flag Location.jpg"!
+Send Authorization Confirmation Email - US
+{color:#0747a6}*NARRATIVE:*{color}
 
 As a CI Coordinator, I want an authorization confirmation email sent to the authorization to the authorizer for an organization once an authorization has been captured, so that the other authorizers know that they do not need to give their authorization.
 
 {color:#0747a6}*SOLUTION:*{color}
 
-Send via Customer Insights Journey, leveraging a custom trigger from the ëCaseí entity.*GIVEN* - I am a CI Coordinator
+Send via Customer Insights Journey, leveraging a custom trigger from the ‚ÄòCase‚Äô entity.
+*GIVEN* - I am a CI Coordinator
 *WHEN* - the following is true:
-- ëAuthorized byí contains a value
-- ëAuthorization Statusí = ìApprovedî OR ìDeclinedî
-- ëSend Authorization Email' = ìYesî
+- ‚ÄòAuthorized by‚Äô contains a value
+- ‚ÄòAuthorization Status‚Äô = ‚ÄúApproved‚Äù OR ‚ÄúDeclined‚Äù
+- ‚ÄòSend Authorization Email' = ‚ÄúYes‚Äù
 *THEN -* The following email is sent to the following audience.
 
 +Audience 1: Authorizers:+
 Authorizer contacts related to the account.
 _Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî and Contact ëStatusí = ìActiveî.
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‚ÄòRole‚Äô = ‚ÄúAuthorizer‚Äù AND have a value in the Contact ‚ÄòEmail‚Äô field AND Account-Contact Role ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù and Contact ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù.
 
 !Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
 
@@ -1085,11 +1165,11 @@ Where Contacts related to the account for the case who have at least one Account
 CSM contacts within the Contract that is related to the organization (account) that is related to the Case. 
 
 _Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
+Where Customer Enablement Resource ‚ÄòStatus' = ‚ÄúActive‚Äù AND Contact - ‚ÄòEmail‚Äô contains data.
 
 !image (6).png|width=1052,height=587,alt="image (6).png"!
 
-_Template if Contact - ëPreferred Languageí = ìFrenchî_
+_Template if Contact - ‚ÄòPreferred Language‚Äô = ‚ÄúFrench‚Äù_
 {color:#bf2600}French translation required{color}
 
 
@@ -1104,11 +1184,11 @@ _Template if Contact - ëPreferred Languageí = ìFrenchî_
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * UAT:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * PROD:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
 ** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
 ** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
 ** Reply-to Canada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
@@ -1178,23 +1258,26 @@ For more information or for extra support, please contact the CI Support Team, a
 
 *CI support:* {{EAPAccessNumber}}
 
-If the Contact ëPreferred Languageí is ìFrenchîSend Authorization Confirmation Email - EU{color:#0747a6}*NARRATIVE:*{color}
+If the Contact ‚ÄòPreferred Language‚Äô is ‚ÄúFrench‚Äù
+Send Authorization Confirmation Email - EU
+{color:#0747a6}*NARRATIVE:*{color}
 
 As a CI Coordinator, I want an authorization confirmation email sent to the authorization to the authorizer for an organization once an authorization has been captured, so that the other authorizers know that they do not need to give their authorization.
 
 {color:#0747a6}*SOLUTION:*{color}
 
-Send via Customer Insights Journey, leveraging a custom trigger from the ëCaseí entity.*GIVEN* - I am a CI Coordinator
+Send via Customer Insights Journey, leveraging a custom trigger from the ‚ÄòCase‚Äô entity.
+*GIVEN* - I am a CI Coordinator
 *WHEN* - the following is true:
-- ëAuthorized byí contains a value
-- ëAuthorization Statusí = ìApprovedî OR ìDeclinedî
-- ëSend Authorization Email' = ìYesî
+- ‚ÄòAuthorized by‚Äô contains a value
+- ‚ÄòAuthorization Status‚Äô = ‚ÄúApproved‚Äù OR ‚ÄúDeclined‚Äù
+- ‚ÄòSend Authorization Email' = ‚ÄúYes‚Äù
 *THEN -* The following email is sent to the following audience.
 
 +Audience 1: Authorizers:+
 Authorizer contacts related to the account.
 _Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî and Contact ëStatusí = ìActiveî.
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‚ÄòRole‚Äô = ‚ÄúAuthorizer‚Äù AND have a value in the Contact ‚ÄòEmail‚Äô field AND Account-Contact Role ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù and Contact ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù.
 
 !Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
 
@@ -1202,11 +1285,11 @@ Where Contacts related to the account for the case who have at least one Account
 CSM contacts within the Contract that is related to the organization (account) that is related to the Case. 
 
 _Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
+Where Customer Enablement Resource ‚ÄòStatus' = ‚ÄúActive‚Äù AND Contact - ‚ÄòEmail‚Äô contains data.
 
 !image (6).png|width=1052,height=587,alt="image (6).png"!
 
-_Template if Contact - ëPreferred Languageí = ìFrenchî_
+_Template if Contact - ‚ÄòPreferred Language‚Äô = ‚ÄúFrench‚Äù_
 {color:#bf2600}French translation required{color}
 
 
@@ -1221,11 +1304,11 @@ _Template if Contact - ëPreferred Languageí = ìFrenchî_
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * UAT:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * PROD:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
 ** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
 ** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
 ** Reply-to Canada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
@@ -1295,23 +1378,26 @@ For more information or for extra support, please contact the CI Support Team, a
 
 *CI support:* {{#if AccountIsCoOp}}0800 169 1920 {{else}}{{EAPAccessNumber}}{{/if}}
 
-If the Contact ëPreferred Languageí is ìFrenchîSend Authorization Confirmation Email - CA - FR{color:#0747a6}*NARRATIVE:*{color}
+If the Contact ‚ÄòPreferred Language‚Äô is ‚ÄúFrench‚Äù
+Send Authorization Confirmation Email - CA - FR
+{color:#0747a6}*NARRATIVE:*{color}
 
 As a CI Coordinator, I want an authorization confirmation email sent to the authorization to the authorizer for an organization once an authorization has been captured, so that the other authorizers know that they do not need to give their authorization.
 
 {color:#0747a6}*SOLUTION:*{color}
 
-Send via Customer Insights Journey, leveraging a custom trigger from the ëCaseí entity.*GIVEN* - I am a CI Coordinator
+Send via Customer Insights Journey, leveraging a custom trigger from the ‚ÄòCase‚Äô entity.
+*GIVEN* - I am a CI Coordinator
 *WHEN* - the following is true:
-- ëAuthorized byí contains a value
-- ëAuthorization Statusí = ìApprovedî OR ìDeclinedî
-- ëSend Authorization Email' = ìYesî
+- ‚ÄòAuthorized by‚Äô contains a value
+- ‚ÄòAuthorization Status‚Äô = ‚ÄúApproved‚Äù OR ‚ÄúDeclined‚Äù
+- ‚ÄòSend Authorization Email' = ‚ÄúYes‚Äù
 *THEN -* The following email is sent to the following audience.
 
 +Audience 1: Authorizers:+
 Authorizer contacts related to the account.
 _Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî and Contact ëStatusí = ìActiveî.
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‚ÄòRole‚Äô = ‚ÄúAuthorizer‚Äù AND have a value in the Contact ‚ÄòEmail‚Äô field AND Account-Contact Role ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù and Contact ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù.
 
 !Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
 
@@ -1319,11 +1405,11 @@ Where Contacts related to the account for the case who have at least one Account
 CSM contacts within the Contract that is related to the organization (account) that is related to the Case. 
 
 _Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
+Where Customer Enablement Resource ‚ÄòStatus' = ‚ÄúActive‚Äù AND Contact - ‚ÄòEmail‚Äô contains data.
 
 !image (6).png|width=1052,height=587,alt="image (6).png"!
 
-_Template if Contact - ëPreferred Languageí = ìFrenchî_
+_Template if Contact - ‚ÄòPreferred Language‚Äô = ‚ÄúFrench‚Äù_
 {color:#bf2600}French translation required{color}
 
 
@@ -1338,11 +1424,11 @@ _Template if Contact - ëPreferred Languageí = ìFrenchî_
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * UAT:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * PROD:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
 ** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
 ** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
 ** Reply-to Canada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
@@ -1353,7 +1439,7 @@ _Subject:_
 
 !image-20250627-182535.png|width=386,height=52,alt="image-20250627-182535.png"!
 
-*Subject: LíIntervention Critique* {{CaseID}}a ÈtÈ {{AuthorizationStatus}} par {{AuthorizedBy}}
+*Subject: L‚ÄôIntervention Critique* {{CaseID}}a √©t√© {{AuthorizationStatus}} par {{AuthorizedBy}}
 
 ----
 
@@ -1368,67 +1454,70 @@ _Body:_
 
 Bonjour {{RecipientFullName}} _(Source Contact)_,
 
-Veuillez notre líIntervention Critique ci-dessous a ÈtÈ {{Authorization Status}} par {{Authorized by}}. Accune autre action níest nÈcessaire.
+Veuillez notre l‚ÄôIntervention Critique ci-dessous a √©t√© {{Authorization Status}} par {{Authorized by}}. Accune autre action n‚Äôest n√©cessaire.
 
 ----
 
-*Renseignments sur líincident*
+*Renseignments sur l‚Äôincident*
 
 *Client* _(Source Case)_
 {{RootAccount}}
 {{ParentAccount}}
 {{Account}}
 
-*NumÈro díinciden*t _(Source Case)_
+*Num√©ro d‚Äôinciden*t _(Source Case)_
 {{CaseID}}
 
-*Incident reportÈ le* _(Source Case)_
+*Incident report√© le* _(Source Case)_
 {{CreatedOn}}
 
-*Date de líincident* _(Source Case)_
+*Date de l‚Äôincident* _(Source Case)_
 {{IncidentDate}}
 
-*CatÈgorie díincident* _(Source Case)_
+*Cat√©gorie d‚Äôincident* _(Source Case)_
 {{IncidentCategory}}
 
-*Nombre de personnes touchÈes (environ*) _(Source Case)_
+*Nombre de personnes touch√©es (environ*) _(Source Case)_
 {{ImpactedEmployeesTotal}}
 
 ----
 
-*CoordonnÈes*
+*Coordonn√©es*
 
 *Demandeur* _(Source Contact -  Requested by)_
 {{CaseContactFullName}}
 
-*NumÈro de tÈlÈphone* _(Source Contact -  Requested by)_
+*Num√©ro de t√©l√©phone* _(Source Contact -  Requested by)_
 {{CaseContactPhone}}
 
 ----
 
-Nous sommes l‡ pour vous aider tout au long de ce mandat, níh*È*sitez donc pas ‡ communiquer avec nous si vous avez des questions. 
+Nous sommes l√† pour vous aider tout au long de ce mandat, n‚Äôh*√©*sitez donc pas √† communiquer avec nous si vous avez des questions. 
 
-Pour obtenir de plus amples reseignments ou de soutien suppl*È*mentaire, veuillez contacter lí*È*quipe de soutien Intervention Critique, qui est ‡  votre disposition 24 heures sur 24, 7 jours sur 7.
+Pour obtenir de plus amples reseignments ou de soutien suppl*√©*mentaire, veuillez contacter l‚Äô*√©*quipe de soutien Intervention Critique, qui est √†  votre disposition 24 heures sur 24, 7 jours sur 7.
 
 *Soutien IC:* {{EAPAccessNumber}}
 
-If the Contact ëPreferred Languageí is ìFrenchîSend Authorization Confirmation Email - CA - EN{color:#0747a6}*NARRATIVE:*{color}
+If the Contact ‚ÄòPreferred Language‚Äô is ‚ÄúFrench‚Äù
+Send Authorization Confirmation Email - CA - EN
+{color:#0747a6}*NARRATIVE:*{color}
 
 As a CI Coordinator, I want an authorization confirmation email sent to the authorization to the authorizer for an organization once an authorization has been captured, so that the other authorizers know that they do not need to give their authorization.
 
 {color:#0747a6}*SOLUTION:*{color}
 
-Send via Customer Insights Journey, leveraging a custom trigger from the ëCaseí entity.*GIVEN* - I am a CI Coordinator
+Send via Customer Insights Journey, leveraging a custom trigger from the ‚ÄòCase‚Äô entity.
+*GIVEN* - I am a CI Coordinator
 *WHEN* - the following is true:
-- ëAuthorized byí contains a value
-- ëAuthorization Statusí = ìApprovedî OR ìDeclinedî
-- ëSend Authorization Email' = ìYesî
+- ‚ÄòAuthorized by‚Äô contains a value
+- ‚ÄòAuthorization Status‚Äô = ‚ÄúApproved‚Äù OR ‚ÄúDeclined‚Äù
+- ‚ÄòSend Authorization Email' = ‚ÄúYes‚Äù
 *THEN -* The following email is sent to the following audience.
 
 +Audience 1: Authorizers:+
 Authorizer contacts related to the account.
 _Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî and Contact ëStatusí = ìActiveî.
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‚ÄòRole‚Äô = ‚ÄúAuthorizer‚Äù AND have a value in the Contact ‚ÄòEmail‚Äô field AND Account-Contact Role ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù and Contact ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù.
 
 !Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
 
@@ -1436,11 +1525,11 @@ Where Contacts related to the account for the case who have at least one Account
 CSM contacts within the Contract that is related to the organization (account) that is related to the Case. 
 
 _Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
+Where Customer Enablement Resource ‚ÄòStatus' = ‚ÄúActive‚Äù AND Contact - ‚ÄòEmail‚Äô contains data.
 
 !image (6).png|width=1052,height=587,alt="image (6).png"!
 
-_Template if Contact - ëPreferred Languageí = ìFrenchî_
+_Template if Contact - ‚ÄòPreferred Language‚Äô = ‚ÄúFrench‚Äù_
 {color:#bf2600}French translation required{color}
 
 
@@ -1455,11 +1544,11 @@ _Template if Contact - ëPreferred Languageí = ìFrenchî_
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * UAT:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * PROD:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
 ** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
 ** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
 ** Reply-to Canada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
@@ -1529,23 +1618,26 @@ For more information or for extra support, please contact the CI Support Team, a
 
 *CI support:* {{EAPAccessNumber}}
 
-If the Contact ëPreferred Languageí is ìFrenchîSend Authorization Confirmation Email - AU{color:#0747a6}*NARRATIVE:*{color}
+If the Contact ‚ÄòPreferred Language‚Äô is ‚ÄúFrench‚Äù
+Send Authorization Confirmation Email - AU
+{color:#0747a6}*NARRATIVE:*{color}
 
 As a CI Coordinator, I want an authorization confirmation email sent to the authorization to the authorizer for an organization once an authorization has been captured, so that the other authorizers know that they do not need to give their authorization.
 
 {color:#0747a6}*SOLUTION:*{color}
 
-Send via Customer Insights Journey, leveraging a custom trigger from the ëCaseí entity.*GIVEN* - I am a CI Coordinator
+Send via Customer Insights Journey, leveraging a custom trigger from the ‚ÄòCase‚Äô entity.
+*GIVEN* - I am a CI Coordinator
 *WHEN* - the following is true:
-- ëAuthorized byí contains a value
-- ëAuthorization Statusí = ìApprovedî OR ìDeclinedî
-- ëSend Authorization Email' = ìYesî
+- ‚ÄòAuthorized by‚Äô contains a value
+- ‚ÄòAuthorization Status‚Äô = ‚ÄúApproved‚Äù OR ‚ÄúDeclined‚Äù
+- ‚ÄòSend Authorization Email' = ‚ÄúYes‚Äù
 *THEN -* The following email is sent to the following audience.
 
 +Audience 1: Authorizers:+
 Authorizer contacts related to the account.
 _Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî and Contact ëStatusí = ìActiveî.
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‚ÄòRole‚Äô = ‚ÄúAuthorizer‚Äù AND have a value in the Contact ‚ÄòEmail‚Äô field AND Account-Contact Role ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù and Contact ‚ÄòStatus‚Äô = ‚ÄúActive‚Äù.
 
 !Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
 
@@ -1553,11 +1645,11 @@ Where Contacts related to the account for the case who have at least one Account
 CSM contacts within the Contract that is related to the organization (account) that is related to the Case. 
 
 _Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
+Where Customer Enablement Resource ‚ÄòStatus' = ‚ÄúActive‚Äù AND Contact - ‚ÄòEmail‚Äô contains data.
 
 !image (6).png|width=1052,height=587,alt="image (6).png"!
 
-_Template if Contact - ëPreferred Languageí = ìFrenchî_
+_Template if Contact - ‚ÄòPreferred Language‚Äô = ‚ÄúFrench‚Äù_
 {color:#bf2600}French translation required{color}
 
 
@@ -1572,11 +1664,11 @@ _Template if Contact - ëPreferred Languageí = ìFrenchî_
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * UAT:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
 ** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
 * PROD:
 ** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Sender FR: TELUS Sant√© Incident Critique¬†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
 ** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
 ** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
 ** Reply-to Canada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
@@ -1631,1297 +1723,4 @@ Please note the below Incident Management intervention has been {{Authorization 
 *Number of individuals affected* _(Source Case)_
 {{ImpactedEmployeesTotal}}
 
-----
 
-*Contact information*
-
-*Reported by contact* _(Source Contact -  Requested by)_
-{{CaseContactFullName}}
-
-*Phone number* _(Source Contact -  Requested by)_
-{{CaseContactPhone}}
-
-----
-
-We are here to support you throughout this engagement, so please reach out to us if you have any questions.
-
-For more information or for extra support, please contact the IM Support Team, available 24 hours a day, 7 days a week.
-
-*IM support:* {{EAPAccessNumber}}
-
-If the Contact ëPreferred Languageí is ìFrenchîSend Authorization Email to a Set of Authorizers - US{color:#0747a6}*NARRATIVE:*{color}
-As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
-
-----
-
-{color:#0747a6}*SOLUTION NOTES:*{color}
-
-Must be built in CI-J
-Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
-
-----
-
-{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
-*GIVEN* - I am a CI Coordinator
-*WHEN* - a case has been created where ëCase Typeí = ìServiceî AND ëCase Sub-typeí = ìCritical Incidentî where the associated organization has an authorizer contact and the requestor is NOT the authorizer
-*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
-
-To do this, I should see a toggle called ëSend Authorization Emailí that should send a templated email to all contacts related to the organization where their Account-Contact Role - ëRole' value is ëAuthorizerí AND the status of the contact is ëActiveí AND status of the Account-Contact Role ëStatusí = ìActiveî.
-
-This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ëRole' = ìAuthorizer'.
-
-When the ëSend Authorization Emailí toggle (Yes/No) is set to ìYesî, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ëAuthorization Statusí should be set to ìAuthorization Request Sentî.
-
-Filters for Contact Recipients:
-
-+Audience 1: Authorizers:+
-Authorizer contacts related to the account.
-_Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî AND Contact ëStatusí = ìActiveî.
-
-!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
-
-+Audience 2: CSMs:+
-CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
-
-_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
-
-
-
-!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
-
-*Email template logic:*
-_Trigger_ - ëSend Authorization Emailí = ìYesî (toggle that exists on Case) where the Dynamics environment is US.
-
-This logic will go through a CI-J Journey.
-
-This can be triggered multiple times.
-
-+Sender and Reply To Details:+ 
-
-* DEV:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* DEV TEST:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* UAT:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* PROD:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
-** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
-** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
-** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
-Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
-
-_Subject:_
-
-!image-20250626-183301.png|width=458,height=55,alt="image-20250626-183301.png"!
-
-Subject line: Please authorize Critical Incident intervention {{CaseID}}
-
-_Body:_
-
-
-!image-20250626-183339.png|width=242,height=477,alt="image-20250626-183339.png"!
-
-+Text Version:+
-*Critical Incident case authorization*
-
-Hi {{RecipientFullName}} _(Source Contact)_,
-
-Thank you for choosing TELUS Health for your Critical Incident intervention.
-
- Weíve received a request for Critical Incident services and are seeking authorization to start coordinating support.
-
-Please reply back to this email with your approval for the Critical Incident services listed below.
-
-----
-
-*Incident information*
-
-*Customer* _(Source Case)_
-{{RootAccount}}
-{{ParentAccount}}
-{{Account}}
-
-*Case ID* _(Source Case)_
-{{CaseID}}
-
-*Incident reported on* _(Source Case)_
-{{CreatedOn}}
-
-*Incident date* _(Source Case)_
-{{IncidentDate}}
-
-*Incident category* _(Source Case)_
-{{IncidentCategory}}
-
-*Impacted Individuals (approximate)* _(Source Case)_
-{{ImpactedEmployeesTotal}}
-
-----
-
-*Contact information*
-
-*Reported by contact* _(Source Contact - Requested by)_
-{{CaseContactFullName}}
-
-*Phone number* _(Source Contact - Requested by)_
-{{CaseContactPhone}}
-
-----
-
-We are here to support you throughout this engagement, so please reach out to us if you have any questions.
-
-For more information or for extra support, please contact the CI Support Team, available 24 hours a day, 7 days a week.
-
-*CI support:* {{EAPAccessNumber}}
-
-PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ëAuthorized byí field to allow the work on the critical incident can proceed.†Send Authorization Email to a Set of Authorizers - EU{color:#0747a6}*NARRATIVE:*{color}
-As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
-
-----
-
-{color:#0747a6}*SOLUTION NOTES:*{color}
-
-Must be built in CI-J
-Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
-
-----
-
-{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
-*GIVEN* - I am a CI Coordinator
-*WHEN* - a case has been created where ëCase Typeí = ìServiceî AND ëCase Sub-typeí = ìCritical Incidentî where the associated organization has an authorizer contact and the requestor is NOT the authorizer
-*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
-
-To do this, I should see a toggle called ëSend Authorization Emailí that should send a templated email to all contacts related to the organization where their Account-Contact Role - ëRole' value is ëAuthorizerí AND the status of the contact is ëActiveí AND status of the Account-Contact Role ëStatusí = ìActiveî.
-
-This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ëRole' = ìAuthorizer'.
-
-When the ëSend Authorization Emailí toggle (Yes/No) is set to ìYesî, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ëAuthorization Statusí should be set to ìAuthorization Request Sentî.
-
-Filters for Contact Recipients:
-
-+Audience 1: Authorizers:+
-Authorizer contacts related to the account.
-_Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî AND Contact ëStatusí = ìActiveî.
-
-!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
-
-+Audience 2: CSMs:+
-CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
-
-_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
-
-
-
-!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
-
-*Email template logic:*
-_Trigger_ - ëSend Authorization Emailí = ìYesî (toggle that exists on Case) where the Dynamics environment is Europe.
-
-This logic will go through a CI-J Journey.
-
-This can be triggered multiple times.
-
-+Sender and Reply To Details:+ 
-
-* DEV:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* DEV TEST:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* UAT:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* PROD:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
-** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
-** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
-** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
-Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
-
-_Subject:_
-
-!image-20250626-182806.png|width=501,height=65,alt="image-20250626-182806.png"!
-
-Subject line: Please authorise Critical Incident intervention {{CaseID}}
-
-_Body:_
-
-
-!image-20250626-182828.png|width=187,height=389,alt="image-20250626-182828.png"!
-
-+Text Version:+
-*Critical Incident case authorisation*
-
-Hi {{RecipientFullName}} _(Source Contact)_,
-
-Thank you for choosing TELUS Health for your Critical Incident intervention.
-
- Weíve received a request for Critical Incident services and are seeking authorisation to start coordinating support.
-
-Please reply back to this email with your approval for the Critical Incident services listed below.
-
-----
-
-*Incident information*
-
-*Customer* _(Source Case)_
-{{RootAccount}}
-{{ParentAccount}}
-{{Account}}
-
-*Case ID* _(Source Case)_
-{{CaseID}}
-
-*Incident reported on* _(Source Case)_
-{{CreatedOn}}
-
-*Incident date* _(Source Case)_
-{{IncidentDate}}
-
-*Incident category* _(Source Case)_
-{{IncidentCategory}}
-
-*Impacted Individuals (approximate)* _(Source Case)_
-{{ImpactedEmployeesTotal}}
-
-----
-
-*Contact information*
-
-*Reported by contact* _(Source Contact - Requested by)_
-{{CaseContactFullName}}
-
-*Phone number* _(Source Contact - Requested by)_
-{{CaseContactPhone}}
-
-----
-
-We are here to support you throughout this engagement, so please reach out to us if you have any questions.
-
-For more information or for extra support, please contact the CI Support Team, available 24 hours a day, 7 days a week.
-
-*CI support:* {{#if AccountIsCoOp}}0800 169 1920{{else}} {{EAPAccessNumber}}{{/if}}
-
-PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ëAuthorized byí field to allow the work on the critical incident can proceed.†Send Authorization Email to a Set of Authorizers - AU{color:#0747a6}*NARRATIVE:*{color}
-As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
-
-----
-
-{color:#0747a6}*SOLUTION NOTES:*{color}
-
-Must be built in CI-J
-Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
-
-----
-
-{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
-*GIVEN* - I am a CI Coordinator
-*WHEN* - a case has been created where ëCase Typeí = ìServiceî AND ëCase Sub-typeí = ìCritical Incidentî where the associated organization has an authorizer contact and the requestor is NOT the authorizer
-*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
-
-To do this, I should see a toggle called ëSend Authorization Emailí that should send a templated email to all contacts related to the organization where their Account-Contact Role - ëRole' value is ëAuthorizerí AND the status of the contact is ëActiveí AND status of the Account-Contact Role ëStatusí = ìActiveî.
-
-This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ëRole' = ìAuthorizer'.
-
-When the ëSend Authorization Emailí toggle (Yes/No) is set to ìYesî, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ëAuthorization Statusí should be set to ìAuthorization Request Sentî.
-
-Filters for Contact Recipients:
-
-+Audience 1: Authorizers:+
-Authorizer contacts related to the account.
-_Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî AND Contact ëStatusí = ìActiveî.
-
-!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
-
-+Audience 2: CSMs:+
-CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
-
-_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
-
-
-
-!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
-
-*Email template logic:*
-_Trigger_ - ëSend Authorization Emailí = ìYesî (toggle that exists on Case) where the Dynamics environment is Australia.
-
-This logic will go through a CI-J Journey.
-
-This can be triggered multiple times.
-
-+Sender and Reply To Details:+ 
-
-* DEV:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* DEV TEST:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* UAT:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* PROD:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
-** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
-** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
-** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
-Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
-
-_Subject:_
-
-!image-20250626-182137.png|width=501,height=60,alt="image-20250626-182137.png"!
-
-Subject line: Please authorise Critical Incident intervention {{CaseID}}
-
-_Body:_
-
-
-!image-20250626-182220.png|width=187,height=421,alt="image-20250626-182220.png"!
-
-+Text Version:+
-*Critical Incident case authorisation*
-
-Hi {{RecipientFullName}} _(Source Contact)_,
-
-Thank you for choosing TELUS Health for your Incident Management intervention.
-
- Weíve received a request for Incident Management services and are seeking authorisation to start coordinating support.
-
-Please reply back to this email with your approval for the Critical Incident services listed below.
-
-----
-
-*Incident information*
-
-*Customer* _(Source Case)_
-{{RootAccount}}
-{{ParentAccount}}
-{{Account}}
-
-*Case ID* _(Source Case)_
-{{CaseID}}
-
-*Incident reported on* _(Source Case)_
-{{CreatedOn}}
-
-*Incident date* _(Source Case)_
-{{IncidentDate}}
-
-*Incident type* _(Source Case)_
-{{NatureofIncident}}
-
-*Incident category* _(Source Case)_
-{{IncidentCategory}}
-
-*Impacted Individuals (approximate)* _(Source Case)_
-{{ImpactedEmployeesTotal}}
-
-----
-
-*Contact information*
-
-*Reported by contact* _(Source Contact - Requested by)_
-{{CaseContactFullName}}
-
-*Phone number* _(Source Contact - Requested by)_
-{{CaseContactPhone}}
-
-----
-
-We are here to support you throughout this engagement, so please reach out to us if you have any questions.
-
-For more information or for extra support, please contact the IM Support Team, available 24 hours a day, 7 days a week.
-
-*IM support:* {{EAPAccessNumber}}
-
-PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ëAuthorized byí field to allow the work on the critical incident can proceed.†Send Authorization Email to a Set of Authorizers -CA - FR{color:#0747a6}*NARRATIVE:*{color}
-As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
-
-----
-
-{color:#0747a6}*SOLUTION NOTES:*{color}
-
-Must be built in CI-J
-Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
-
-----
-
-{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
-*GIVEN* - I am a CI Coordinator
-*WHEN* - a case has been created where ëCase Typeí = ìServiceî AND ëCase Sub-typeí = ìCritical Incidentî where the associated organization has an authorizer contact and the requestor is NOT the authorizer
-*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
-
-To do this, I should see a toggle called ëSend Authorization Emailí that should send a templated email to all contacts related to the organization where their Account-Contact Role - ëRole' value is ëAuthorizerí AND the status of the contact is ëActiveí AND status of the Account-Contact Role ëStatusí = ìActiveî.
-
-This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ëRole' = ìAuthorizer'.
-
-When the ëSend Authorization Emailí toggle (Yes/No) is set to ìYesî, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ëAuthorization Statusí should be set to ìAuthorization Request Sentî.
-
-Filters for Contact Recipients:
-
-+Audience 1: Authorizers:+
-Authorizer contacts related to the account.
-_Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî AND Contact ëStatusí = ìActiveî.
-
-!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
-
-+Audience 2: CSMs:+
-CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
-
-_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
-
-
-
-!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
-
-*Email template logic:*
-_Trigger_ - ëSend Authorization Emailí = ìYesî (toggle that exists on Case) AND IF contact ëPreferred Language' = ìFrench - Canadaî OR ìFrench - Franceî where the Dynamics environment is the Canadian.
-
-This logic will go through a CI-J Journey.
-
-This can be triggered multiple times.
-
-+Sender and Reply To Details:+ 
-
-* DEV:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* DEV TEST:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* UAT:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* PROD:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
-** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
-** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
-** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
-Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
-
-_Subject:_
-
-!image-20250626-183548.png|width=361,height=48,alt="image-20250626-183548.png"!
-
-Subject line: Veuillez autoriser líIntervention Critique {{CaseID}}
-
-_Body:_
-
-
-!image-20250626-183656.png|width=171,height=357,alt="image-20250626-183656.png"!
-
-+Text Version:+
-*Critical Incident case authorization*
-
-Bonjour {{RecipientFullName}} _(Source Contact)_,
-
-Merci de faire appel aux services Intervention Critique TELUS SantÈ. 
-
-Nous avons reÁu une demande de services díIntervention Critique et souhaitons obtenir líautorisation afin de commencer ‡ coordonner le soutien.
-
-Veuillez rÈpondre ‡ ce courriel avec votre approbation pour líincident indiquÈ ci-dessous : 
-
-
-
-
-
-----
-
-*Renseignement sur líincident*
-
-*Client* _(Source Case)_
-{{RootAccount}}
-{{ParentAccount}}
-{{Account}}
-
-*NumÈro díincident* _(Source Case)_
-{{CaseID}}
-
-*Incident reportÈ le* _(Source Case)_
-{{CreatedOn}}
-
-*Date de l'incident* _(Source Case)_
-{{IncidentDate}}
-
-*CatÈgorie d'incident* _(Source Case)_
-{{IncidentCategory}}
-
-*Nombre de personnes touchÈes (environ)* _(Source Case)_
-{{ImpactedEmployeesTotal}}
-
-----
-
-*CoordonnÈes*
-
-*Demandeur* _(Source Contact - Requested by)_
-{{CaseContactFullName}}
-
-*NumÈro de tÈlÈphone* _(Source Contact - Requested by)_
-{{CaseContactPhone}}
-
-----
-
-Nous sommes l‡ pour aider tout au long de ce mandat, níhÈsitez donc pas ‡ communiquer avec nous si vous avez des questions.   
-
-Pour obtenir de plus amples renseignements ou du soutien supplÈmentaire, veuillez contacter l'Èquipe de soutien Intervention Critique, qui est ‡ votre disposition 25 heures sur 24, 7 jours sur 7. 
-
-*Soutien IC:* {{EAPAccessNumber}}
-
-
-{color:#ff5630}Translation to French required?{color}
-{color:#ff5630}Regional localization required?{color}
-{color:#ff5630}Marketing templates/content team approval required?{color}
-{color:#ff5630}Confirmed this is transactional.{color}
-
-PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ëAuthorized byí field to allow the work on the critical incident can proceed.†Authorization Confirmation Email{color:#0747a6}*NARRATIVE:*{color}
-
-As a CI Coordinator, I want an authorization confirmation email sent to the authorization to the authorizer for an organization once an authorization has been captured, so that the other authorizers know that they do not need to give their authorization.
-
-{color:#0747a6}*SOLUTION:*{color}
-
-Send via Customer Insights Journey, leveraging a custom trigger from the ëCaseí entity.*GIVEN* - I am a CI Coordinator
-*WHEN* - the following is true:
-- ëAuthorized byí contains a value
-- ëAuthorization Statusí = ìApprovedî OR ìDeclinedî
-- ëSend Authorization Email' = ìYesî
-*THEN -* The following email is sent to the following audience.
-
-+Audience 1: Authorizers:+
-Authorizer contacts related to the account.
-_Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî and Contact ëStatusí = ìActiveî.
-
-!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
-
-+Audience 2: CSMs:+
-CSM contacts within the Contract that is related to the organization (account) that is related to the Case. 
-
-_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
-
-!image (6).png|width=1052,height=587,alt="image (6).png"!
-
-_Template if Contact - ëPreferred Languageí = ìFrenchî_
-{color:#bf2600}French translation required{color}
-
-
-
-+Sender and Reply To Details:+ 
-
-* DEV:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* DEV TEST:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* UAT:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* PROD:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
-** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
-** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
-** Reply-to Canada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
-Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
-
-
-*Subject:* {{CaseID}} has been {{AuthorizationStatus}} by {{AuthorizedBy}}
-
-----
-
-
-Hi {{RecipientFullName}} _(Source Contact)_,
-
-Please note the below Critical Incident intervention has been {{Authorization Status}} by {{Authorized by}}.  No further action is required.
-
-----
-
-*Incident information*
-
-*Customer* _(Source Case)_
-{{RootAccount}}
-{{ParentAccount}}
-{{Account}}
-
-*Case ID* _(Source Case)_
-{{CaseID}}
-
-*Incident reported on* _(Source Case)_
-{{CreatedOn}}
-
-*Incident date* _(Source Case)_
-{{IncidentDate}}
-
-*Incident category* _(Source Case)_
-{{IncidentCategory}}
-
-*Incident description* _(Source Case)_
-{{Description}}
-
-*Number of individuals affected* _(Source Case)_
-{{ImpactedEmployeesTotal}}
-
-----
-
-*Contact information*
-
-*Reported by contact* _(Source Contact -  Requested by)_
-{{CaseContactFullName}}
-
-*Phone number* _(Source Contact -  Requested by)_
-{{CaseContactPhone}}
-
-----
-
-We are here to support you throughout this engagement, so please reach out to us if you have any questions.
-
-For more information or for extra support, please contact the CI Support Team, available 24 hours a day, 7 days a week.
-
-*CI support:* {{EAPAccessNumber}}
-
-If the Contact ëPreferred Languageí is ìFrenchîSend Authorization Email Tracking{color:#0747a6}*NARRATIVE:*{color}
-As a CI Coordinator, I want to track the number of times an authorization has been triggered and when it was sent, so that I can ensure there is an audit trail for authorization emails in case there was an audit or dispute.
-
-
-{color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
-
-*GIVEN* - I am a CI Coordinator
-*WHEN* - I click the ëSend Authorization Emailí button
-*THEN* - the following details are captured in a grid:
-
-*Section Name:* Authorization Email Sends:
-
-_Table Name:_ Authorization Email Send
-
-|*Field Name*|*Field Type*|*Validation/Logic*|
-|Email Sent†Time/ Heure d'envoi du courriel|Date and Time|Capture the current time when 'Send Authorization Email' Power Automate succeeds|
-|Send Status/ …tat de l'envoi|Option Set|Succeeded
-Failed
-_Based on Power Automate execution_|
-|Authorizer Recipients/ Destinataires autorisÈs|Text|Comma deliminated emails of all authorizer contacts that we're sent the authorization email|
-|CSM Recipients / Destinataires, gestionnaire du Service ‡ la clientËle|Text|Comma delaminated emails of all CSM contacts that we're sent the authorization email|
-
-If a contact does NOT have an email or Status = ìActiveî THEN they should not be captured in Authorization Recipients.  
-
-
-Placement of grid:
-
-!image-20250612-181538 (2).png|width=1393,height=650,alt="image-20250612-181538 (2).png"!†Prevent Work Order Assignment if Case 'Authorized by' field is not completed.{color:#0747a6}*NARRATIVE:*{color}
-As a CI Coordinator, I want to be notified if I have not selected an ëAuthorized by' contact for a case when there is a special contract that necessitates case authorization and be prevented from booking a provider, so that I can ensure I adhere to the special contract authorization process and do not book a case that hasnít been approved from the client.
-
-
-----
-
-{color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
-
-*GIVEN* - I am a CI Coordinator
-*WHEN* - I attempt to create a booking for a work order through the book button on the top of the work order:
-
-* The caseís organization has at least one contact with contact-account role = ëAuthorizerí
-* The ëAuthorized byí field on case is empty
-
-*THEN* -  I should see an error message with the following information:
-
-_This critical incident requires client authorizer approval.  You must capture the client contact that has authorized this critical incident by capturing a value in the caseís ëAuthorized byí field and set the 'Authorization Status to ìApprovedî._
-
-FrencH: Cette intervention critique nÈcessite l'approbation de l'autorisateur du client. Vous devez capturer le contact client qui a autorisÈ cette intervention critique en capturant une valeur dans le champ ´ AutorisÈ par ª de l'intervention et dÈfinir le ´ Statut d'autorisation ª ‡ ´ ApprouvÈ ª.
-
-
-+NOTE:+
-There are three booking processes that need to prevent booking:
-1. The ëBookí button within the Work Order
-2. ëCreate Bookingí from booking grid on Work Order
-3. Booking a work order through the schedule board
-
-
-+Approach for ëBookí button from Work Order & Create Booking from Booking Grid on Work Order:+
-On load of the work order form the above alert displays AND the error displays when the user attempts to click the ëBookí button on the work order/create booking from booking grid. 
-
-+Approach for Scheduling of Work Order on Schedule Board:+
-Work order does not display in list of ëunscheduled work orders' IF the related case does not have an ëAuthorized by' value.†Send Authorization Email to a Set of Authorizers - CA -  EN{color:#0747a6}*NARRATIVE:*{color}
-As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
-
-----
-
-{color:#0747a6}*SOLUTION NOTES:*{color}
-
-Must be built in CI-J
-Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
-
-----
-
-{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
-*GIVEN* - I am a CI Coordinator
-*WHEN* - a case has been created where ëCase Typeí = ìServiceî AND ëCase Sub-typeí = ìCritical Incidentî where the associated organization has an authorizer contact and the requestor is NOT the authorizer
-*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
-
-To do this, I should see a toggle called ëSend Authorization Emailí that should send a templated email to all contacts related to the organization where their Account-Contact Role - ëRole' value is ëAuthorizerí AND the status of the contact is ëActiveí AND status of the Account-Contact Role ëStatusí = ìActiveî.
-
-This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ëRole' = ìAuthorizer'.
-
-When the ëSend Authorization Emailí toggle (Yes/No) is set to ìYesî, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ëAuthorization Statusí should be set to ìAuthorization Request Sentî.
-
-Filters for Contact Recipients:
-
-+Audience 1: Authorizers:+
-Authorizer contacts related to the account.
-_Relationship Flow: Contact > Contact Account Role > Account > Case_
-Where Contacts related to the account for the case who have at least one Account-Contact Role with ëRoleí = ìAuthorizerî AND have a value in the Contact ëEmailí field AND Account-Contact Role ëStatusí = ìActiveî AND Contact ëStatusí = ìActiveî.
-
-!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
-
-+Audience 2: CSMs:+
-CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
-
-_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
-Where Customer Enablement Resource ëStatus' = ìActiveî AND Contact - ëEmailí contains data.
-
-
-
-!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
-
-*Email template logic:*
-_Trigger_ - ëSend Authorization Emailí = ìYesî (toggle that exists on Case) AND IF contact ëPreferred Language' IS NOT ìFrench - Canadaî OR ìFrench - Franceî where the Dynamics environment is Canada.
-
-This logic will go through a CI-J Journey.
-
-This can be triggered multiple times.
-
-+Sender and Reply To Details:+ 
-
-* DEV:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* DEV TEST:
-** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* UAT:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
-** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
-* PROD:
-** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
-** Sender FR: TELUS SantÈ Incident Critique†<[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
-** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
-** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
-** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
-Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
-
-_Subject:_
-
-!image-20250609-131420.png|width=551,height=83,alt="image-20250609-131420.png"!
-
-Subject line: Please authorize Critical Incident intervention {{CaseID}}
-
-_Body:_
-
-
-!image-20250609-131324.png|width=456,height=629,alt="image-20250609-131324.png"!
-
-+Text Version:+
-*Critical Incident case authorization*
-
-Hi {{RecipientFullName}} _(Source Contact)_,
-
-Weíve received a request for Critical Incident services and are seeking authorization to start coordinating support.
-
-Please reply back to this email with your approval for the Critical Incident services listed below.
-
-----
-
-*Incident information*
-
-*Customer* _(Source Case)_
-{{RootAccount}}
-{{ParentAccount}}
-{{Account}}
-
-*Case ID* _(Source Case)_
-{{CaseID}}
-
-*Incident reported on* _(Source Case)_
-{{CreatedOn}}
-
-*Incident date* _(Source Case)_
-{{IncidentDate}}
-
-*Incident category* _(Source Case)_
-{{IncidentCategory}}
-
-*Incident description* _(Source Case)_
-{{Description}}
-
-*Number of individuals affected* _(Source Case)_
-{{ImpactedEmployeesTotal}}
-
-----
-
-*Contact information*
-
-*Reported by contact* _(Source Contact - Requested by)_
-{{CaseContactFullName}}
-
-*Phone number* _(Source Contact - Requested by)_
-{{CaseContactPhone}}
-
-----
-
-We are here to support you throughout this engagement, so please reach out to us if you have any questions.
-
-For more information or for extra support, please contact the CI Support Team, available 24 hours a day, 7 days a week.
-
-*CI support:* {{EAPAccessNumber}}
-
-PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ëAuthorized byí field to allow the work on the critical incident can proceed.†TH365 | CI Schedule Board | Sort Order for Results Pane for Affiliate ProvidersSort Order for Referral Bookings
-
-* Sort by Travel Time Ascending 
-* Then By Price
-* Then by Start TimeI search for an Referral, results are sorted in the following manner:
-
-* Sort by Travel Time Ascending 
-* Then By Hourly Rate (Price Ascending)
-* Then by Start TimeTH365 | CI Schedule Board | Set Schedule Board Modality from Work OrderAs a CI Coordinator, I need to book providers against the correct modality specified in the work order so I ensure I am selecting the right provider for the job.
-
-When the book order is pressed on the Work Order, pass the Modality value from the Work Order to the schedule board, applying any associated logic with that Modality (ie. Onsite work orders need Travel Time and Distance calculated).
-
-Lock modality field on CI Schedule Board
-
-||*Modality Value on Work Order*||*Modality Value on New Schedule Board*||
-|In Person|In Person|
-|Telephonic|Telephone|
-|Online|Online|The modality field is set to a value on Work Order (In Person, Telephonic, Online)
-
-I select the Book button
-
-The Modality field value is passed to the New Schedule Board
-
-The Modality field is lockedTH365 | CI Schedule Board | Update Label References to Email to Communications in Work Order Referrals TabAs a CI Coordinator, I need clarity that I can send something other than an email in the Work Order Referrals tab, so I know what options are available to me to send out referrals.
-
-_Note: While this story changes labels, we need to ensure that SMS sends auto update statuses the way emails do currently._
-
-On Work Order Referrals table, Update Provider Response Option set values Email Pending and Email Sent to: 
-
-Communication Pending (Communication en attente)
-
-Communication Sent (Communication envoyÈe)
-
-!image-20250626-154641.png|width=671,height=632,alt="image-20250626-154641.png"!
-
-On Work Order Referrals Table Change label Email Triggered On to: 
-
-Communication Triggered On (Communication envoyÈe sur)
-
-!image-20250626-154807.png|width=1692,height=657,alt="image-20250626-154807.png"!
-
-Change ìProviders Selected for Sending Emailsî label on Referrals Tab of Work Order to:
-
-Providers selected for Sending Referral Communications (Prestataires sÈlectionnÈs pour líenvoi de courriels)
-
-!image-20250626-154845.png|width=1687,height=384,alt="image-20250626-154845.png"!
-
-Change Send Email on Work Order Referrals Table to Send Communication (Envoyer communication de renvoi)
-
-!image-20250627-145025.png|width=1756,height=486,alt="image-20250627-145025.png"!
-
-
-
-Change ìEmail Sent Onî to ìCommunication Sent Onî (Communication envoyÈe sur)
-
-!image-20250626-155102.png|width=1704,height=371,alt="image-20250626-155102.png"!I navigate to the Work Order Referrals Tab
-
-On Work Order Referrals table, I see Provider Response Option values Email Pending and Email Sent are changed to: 
-
-Communication Pending (Communication en attente)
-
-Communication Sent (Communication envoyÈe)
-
-On Work Order Referrals Table I see the label Email Triggered On is changed to: 
-
-Communication Triggered On (Communication envoyÈe sur)
-
-I see that the  ìProviders Selected for Sending Emailsî label on Referrals Tab of Work Order is changed to:
-
-Providers selected for Sending Referral Communications (Prestataires sÈlectionnÈs pour líenvoi de courriels)
-
-I see the Send Email is changed to Send Communication (Envoyer communication de renvoi)
-
-I see the  Work Order Referrals field ìEmail Sent Onî is changed to ìCommunication Sent Onî (Communication envoyÈe sur)TH365 | CI Schedule Board |  Resource ExceptionsNew Schedule Board must respect related Resource Preferences with respect to the account requesting CI Services.
-
-If provider is related to account with Resource Preference Type of Restricted = Resource should not appear in Results Pane
-
-Resource Preference Type Must Choose From exists = Only resources with Must Choose From should appearI select Book Appointment from a Work Order whose account has related Providers in Resource Preferences
-
-If the account has related Provider(s) in Resource Preferences of Type  Restricted, I do not see them in the results
-
-If the account has related Provider(s) in Resource Preferences of Type  Must Choose From, only those providers' with Type Must Choose From appear in the results.TH365 | CI Schedule Board | Sort Order for Results Pane for Internal ProvidersSort Order for Onsite:
-
-* Sort by Travel Time Ascending 
-* Then by Start Time
-
-Sort Order for Telephonic, Online
-
-* Start TimeI search for an Onsite booking, results are sorted in the following manner:
-
-* Sort by Travel Time Ascending 
-* Then by Start Time
-
-I search for an Telephonic or Online booking, results are sorted in the following manner:
-
-* Start TimeTH365| CI Schedule Board | French Language SupportAs a CI Coordinator, I need to view the schedule board in my preferred language so I can best understand the information I am viewing.
-
-French support is required for the CI Schedule Board. Must read member's localization language to determine whether to display the React Schedule Board in English or French.I set Language to French under Personal Options in Dynamics365
-
-The CI Schedule Board now appears, translated in FrenchTH365 | CI Schedule Board | Time Zone in Schedule Board must match Time Zone in Work OrderAs a CI Coordinator, I need to view the schedule board in the time zone of the requesting organization so I select the time that the org requested.
-
-Date/Time fields must be displayed in the Schedule Board in the Time Zone specified in the work order.I select the book button on a Work Order
-
-I see that the schedule board is displaying Provider availability in the time zone of the Work Order.TH365 | CI | Add fields and section to Contact TableAs a CI Coordinator, I need a place where I can view Provider details on the contact table so I can verify their ability to receive referrals.
-
-If Contact is of Type = Provider
-
-Create and shownew Section called Provider Details (D…TAILS DE LA RESSOURCE)
-
- on the left side, just under Personal Details:
-
-!image-20250608-212405.png|width=760,height=1036,alt="image-20250608-212405.png"!
-
-
-
-Move Bookable Resources into this section, display first in section.
-
-Add field New Referral Contact Method (MÈthode de communication pour les nouvelles rÈfÈrences) to Contact Table (Field locked)
-
-Field Values:
-
-Email / Courriel (default value)
-
-SMS / SMS
-
-Work-Flow / Flux de travaux
-
-Note: The option set should already exist as a Global Option Set (was created for Bookable Resource Table)
-
-Also add existing Mobile Phone field underneath New Referral Contact Method (Field locked)I open a Contact of Type = Provider
-
-I see the new section Provider Details under Personal Details with Bookable Resource subgrid, and fields New Referral Contact Method and Mobile Phone TH365 | New Schedule Board | Import & Copy Provider New Referral Contact Method field value from Provider Table to Contact TableAs the marketing team, I need info on the contact record so I can send communications to that contact. 
-
-Copy Provider New Referral Contact Method field value from Provider Table to Contact TableThe New Referral Contact Method field changes on Provider
-
-The New Referral Contact Method updates on the related Contact.TH365 | CI | New Schedule Board | Task to call Providers whose New Referral Contact Method = Work-FlowAs a CI Coordinator, I need a reminder to call Providers who are setup to receive referrals via Phone so that I can refer the right provider to the work order.
-
-When a Work Order Referral record is created
-
-AND the related Bookable Resource New Referral Contact Method = Work-Flow
-
-THEN  a task is created for the CI Coordinator *in the "My Assigned Tasks" and ìReferral Tasksî*  *view as follows:*
-
-Owner: Work Order Owner
-
-*Subject:*†Call Provider regarding suitability for Referral ñ Work Order <WO#>/Appeler le fournisseur pour dÈterminer s'il est admissible ‡ une demande de service ñ Ordre de travail <WO#>
-
-
-*Description:*†Provider <Provider Name> has been selected as a potential match for the referral on Work Order <WO#>. Please contact them to confirm availability and details. / Ressource <Provider Name> a ÈtÈ sÈlectionnÈ comme partenaire potentiel pour la rÈfÈrence sur le bon de travail <WO#>. Veuillez les contacter pour confirmer la disponibilitÈ et les dÈtails.
-
-* Work Order ID / NumÈro de l'ordre de travail: <WO#>
-* Referral Batch # / NumÈro de lot de rÈfÈrence: <Batch#>
-* Provider Name / Nom du fournisseur: <Provider Name>
-* Provider Contact / Contact du fournisseur: <Contact ? Primary Phone Number>
-* Case Priority / PrioritÈ du cas: <Case -->Priority>
-* Requested Service Date / Date de service demandÈe: <Requested Start Time>
-* Service Location / Lieu de service: <Work order ?> Location>
-* Modality / ModalitÈ: <Modality>When a Provider has a record under Providers Accepted for Sending EMails on a Work Order
-
-AND  Bookable Resource New Referral Contact Method = Work-Flow
-
-THEN the above task is created for the CI Coordinator *in the "My Assigned Tasks" and ìReferral Tasksî*  *view on the Work Order.*TH365 | New Schedule Board | Copy Provider Mobile Phone number from Provider Table to Contact TableAs the Comms team, I need contact info on the contact record so I can send them communications from D365 Marketing.
-
-If Provider Phone Number is of Phone Type = Cell and Send SMS = Yes, copy to Mobile Phone field on Contact Record of Provider.
-
-Need both an initial data load, followed a solution that moves this record across to the contact.I open a Provider with with a related Provider Phone Number which is of Phone Type = Cell and Send SMS = Yes
-
-I open the Providerís Contact record
-
-I see the mobile phone number is populated with the above Provider Phone NumberTH365 | CI | New Schedule Board | Behaviour of Search for Provider Type = AffiliateAs a CI Coordinator, I need to find a Provider who is available for a booking a client requested so I can assist the client with their request.
-
-If the Search button is selected when the Provider Type selector is set to Affiliate Providers, search Providers where Providers Employment Type = Contractor or Vendor, and Employment Status = Active with matching Resource Characteristic and Language from Work Order 
-
-Allow end users to select one or more providers, via the Refer button in the Action column. When the Refer button is pressed, hide the Refer button, and add the Provider as a new record in the Work Order Referrals table from the Work Order where the book button was pressed. -pop up a notification that says ìThe selected Provider has been added to the Referral Tab of the Work Order. Please navigate there to send a referral communication to the provider.î  (Les ressources sÈlectionnÈs ont ÈtÈ ajoutÈs ‡ l'onglet ´ Demande de service ª du bon de travail. Veuillez vous y rendre pour envoyer une communication de demande de service au ressource.) Once one or more providers are selected, a button should be available at the top of the results pane, labeled ìSelect Provider(s)î (SÈlectionner les Ressource(s)). Once pressed, a popup message should appear with a close button:-
-
--ìThe selected Providers have been added to the Referral Tab of the Work Order. Please navigate there to send a referral communication to the provider.î-
-
--(Les ressources sÈlectionnÈs ont ÈtÈ ajoutÈs ‡ l'onglet ´ Demande de service ª du bon de travail. Veuillez vous y rendre pour envoyer une communication de demande de service au ressource.)-
-
--Close button at bottom, which closes the entire schedule board.-
-
--Then the schedule board should close and- The selected providers should be populated in the ìProviders Selected for Sending Emailsî subgrid of the Work Order (Work Order Referrals Table) for CI Coordinators to continue processing.I create a Work Order
-
-I select the book appointment button
-
-The CI Schedule Board opens
-
-I toggle the Search Referral Providers checkbox
-
-I select search
-
-Only Providers whose Employment Type = Contractor or Vendor, and Employment Status = Active appear in the results pane.
-
-I select Refer on a Provider-one or more providers and press Select Provider(s)-
-
--I get the above pop up message and- The Provider is populated as a Work Order Referral record in the ìProviders Selected for Sending Emailsî subgrid. 
-
-Referral Name*
-
-{Provider Name}
-
-Provider Response
-
-Email Pending
-
-Bookable Resource*
-
-* +Bookable Resource+
-
-Work Order
-
-? Work Order
-
-Contact
-
-* +Provider Contact+
-
-Referral Round
-
-1
-
-Owner* (Work Order Owner)
-
-{color:#ffffff}Work Work {color}TH365 | CI | New Schedule Board Appointment Confirmation Book Button BehaviourWhen I click the Confirm Booking Button in the Appointment Confirmation Page, a booking should be created and related to the Work Order with the following populated:
-
-Start Time* (Start Time selected in new Schedule Board UI)
-
-End Time* (End Time selected in new Schedule Board UI)
-
-Duration* (Duration of time between Start Time and End Time)
-
-Capacity: 1
-
-Resource* (lookup to Bookable Resource selected)
-
-Booking Status*
-
-* +Scheduled+
-
-Resource Requirement (lookup to Resource Requirement)
-
-Create a new field called Travel Time (minutes): Decimal field (10 characters), populate travel time from Schedule Board here.I create a work order
-
-I select the Book Appointment button
-
-I select a provider and select book
-
-I select the book button
-
-A booking is created with the fields populated from the selection made in the schedule board.TH365 | CI | New Schedule Board | Updates to Appointment Confirmation PageAs a CI Coordinator, I need the right information in the confirmation page so I am able to verify I have chosen the correct provider for an intervention.
-
-When I click the Book Button in the action section of a Provider Time Slot, I should be taken to an Appointment Confirmation page with an updated booking summary:
-
-+*Booking Summary:*+
-
-(Root Account)(Account) with (avec) (Bookable Resource)
-
-(Resource Characteristic)
-
-{Modality}
-
-(Start Time - End Time}
-
-Address (Addresse) (Service Location Address) (only if onsite)I create a work order
-
-I select the Book Appointment button
-
-I select a provider and select book
-
-I see the following Booking Summary fields populated 
-
-+*Booking Summary:*+
-
-(Root Account)(Account) with (Bookable Resource)
-
-(Resource Characteristic)
-
-{Modality}
-
-(Start Time - End Time}
-
-Account Service Location Address (only if onsite)TH365 | CI | New Schedule Board | New Fields for Result PaneAs a CI Coordinator, I need to see relevant fields in the results pane to guide me to selecting the right provider for an intervention.
-
-Add and populate the following fields in the result pane:
-
-* Travel Time  (Temps de voyage) (blank where Modality = Tele, Online)
-* Distance (Distance) (should be blank where Modality = Tele, Online)
-
-Fields in order should be:
-
-* Name (Nom)
-* Start Time (YYYY-MM-DD hh:mm AM/PM)(example)
-
-!image-20250625-203446.png|width=196,height=115,alt="image-20250625-203446.png"!
-
-
-
-* Distance (only for onsite, blank for other modalities)
-* Travel Time (only for onsite, blank for other modalities)
-* Actions (actions)
-* Alerts (Alertes)
-
-For Referral Search, the fields should appear in this order:
-
-* Name
-* Distance (all modalities)
-* Travel Time
-* Hourly Rate [From Bookable Resource Price List](Taux horaire)
-* Actions (show Refer instead of Book)
-* AlertsI press the book button on a Work Order
-
-I see the following fields in order from left to right: 
-
-* Name
-* Start Time
-* Distance
-* Travel Time
-* Actions
-* Alerts
-
-I select ìSearch Referral Providersî
-
-I see the following fields in order from left to right: 
-
-* Name
-* Distance
-* Travel Time
-* Hourly Rate
-* Actions (show Refer instead of Book button)
-* AlertsTH365 | CI | New Schedule Board | New Book Button for Work OrderAs a CI Coordinator, I need a way to call the new Schedule Board UI so I can book a provider based on accurate availability in Dynamics365
-
-Create a new book button ìBook Interventionî (RÈserver l'intervention) on the Work Order that calls the React Schedule Board Form, passing along the booking details from the resource requirement. Hide the existing Work Order book button (which calls the default schedule board).
-
-In†CI app create a new Book Intervention button on the Work Order Form, and hide the existing Book button. Once the button is pressed, use the NavigateTo API to call the PCF Control form as a pop up window, passing booking parameters from the Work Orderís resource requirement.I create and populate a Work Order
-
-I select the Book Intervention button
-
-The New Schedule Board opens
-
-I donít see the OOTB Book ButtonSpanish | Care Plan Knowledge Articles | Spanish Knowledge ArticlesThis story will hold translated KB articles.†Spanish| Care Plan | Spanish Care PlansThis story will hold Spanish Care Plans.I change my language to Spanish in Personal Settings
-
-I now see Care Plan data in Spanish.TH365 | Spanish | Marketing EmailsThis story will hold Spanish translations for email.†CN Chat Experience: Quick Replies for SpanishEpic: CN Chat Experience
-
-Feature:† Quick Replies
-
-Priority: High
-
-Planed Release: Spanish Translation Release (FRNCH)
-
-*Description:*
-
-* 
-** Create the quick replies in Dynamics
-* Assign the quick replies to the Spanish Chat Workstream
-* Migrate quick replies from dev env to higher envs
-Data to load is attached to the story -*†CCS Agent Quick Replies (English and Spanish) V2.csv†TH365 | Spanish Language | Create New Attribute on Master Data tables to handle Spanish LanguageCreate new string field on all Master Data tables called ìName Spanishî, add to all Master Data default forms.
-
-The tables that need the field created are attached. 
-
-The schema name must follow the same as the French name. For instance, if the French Name is lwrk_name_fr, the Spanish attribute must be lwrk_name_es. 
-
-Sometimes the schema name for the French Name is not lwrk_name_fr but something different. For instance, the Category table has French Name as lwrk_title_fr. Than the Spanish Name should be created as lwrk_title_es. The Professional Designation Master table has the French Name as lwrk_description_fr. Than the Spanish Name should be created as lwrk_description_es.I open the default form of a Master Data table
-
-I see the Name Spanish fieldTH365 | Spanish Language | Marketing Emails Journey UpdatesThis story will hold Marketing Email Journey Updates. 
-
-USA based journeys will need branching logic to handle Spanish.†TH365 | Spanish | AssessmentsThis story will contain translations for all Assessments.I change my language to Spanish in Personal Settings
-
-I now see Assessments in Spanish.TH365 | US Region | Omnichannel | Install Spanish Language PackInstall Spanish Language Pack, in order to allow for Spanish Translations†TH365 | US Region | Omnichannel | Create Spanish WorkstreamAs a Spanish speaking (or bilingual) Care Navigator using the TMH CSW app, I need incoming Spanish chat work items to utilise the configured Spanish language workstream elements.†
-
-*Description*:†
-
-The purpose of this user story is to create a new workstream that will be used for the new Spanish Chat channel that is being created as part of [+#4114477+|https://morneaushepell.visualstudio.com/348cf2fe-d9c5-41e1-afb9-32c62ccf45dc/_workitems/edit/4114477].
-
-*Tasks:*
-
-* Create the workstream with the following details:
-** Name:†TMH | CN | Chat (Spanish)†|†Member Support
-** Type: Messaging
-** Work Distribution Mode: Push
-** Fallback queue:†TMH | CN | Chat†| Member Support
-
-*Assumptions:*
-
-* App team is able to dynamically switch the chat widget that is shown on the app when the user changes their language.†
-
-* Create a new workstream with the following details:
-
-* Name:†TMH | CN | Chat (Spanish)
-* Language: Spanish - Spain
-* Type: Messaging
-* Work Distribution Mode: Push
-* Capacity: Unit based - 50
-* Default skill matching algorithm: Closest Match
-* Fallback queue:†TMH | CN | Chat†| Member Support†TH365 | US Region | Omnichannel | Create Spanish Chat Channel**PLEASE NOTE:*†The stories noted in the assumption below must be completed before working on this story.†***
-
-
-
-As a French speaking TMH Member, I want the ability to utilise the chat widget that appears on the app entirely in the French language.
-
-
-
-*Description:*
-
-The purpose of this user story is to create a separate chat channel that will be used solely for French members to interact with the chat widget in the French language.
-
-
-
-*Tasks:*
-
-* Create a new chat channel in the Customer Service Admin Centre
-* Collect the Spanish label values that are to be used on the widget
-** Title:†*LifeWorks Member Support*
-** Subtitle:†*Our Care Navigators will be with you shortly*
-* Collect the theme colour
-* Collect the logo
-* Collect the automated messages
-1. Out of Operating Hours: *Our operating hours are, 7am-11pm Eastern Time, 7 days a week. You can still message us outside these hours, but you won't get a reply until we're online the next business day.*
-
-
-If you're in danger or need urgent mental health support, please call us immediately on +1 833-638-1946
-2. Agent assigned to conversation:†*Welcome to our member support chat, where you can reach our Care Navigator team 7 days a week, from 7am-11pm Eastern Time.*
-
-
-
-
-*Assumptions:*
-
-* This user story is to be completed after the creation of the Workstream, as described in the following User Story:
-** [+#4347108+|https://morneaushepell.visualstudio.com/348cf2fe-d9c5-41e1-afb9-32c62ccf45dc/_workitems/edit/4347108]†
-* App team is able to dynamically switch the chat widget that is shown on the app when the user changes their language.††
