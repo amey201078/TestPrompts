@@ -2356,3 +2356,767 @@ _Template if Contact - ‘Preferred Language’ = “French”_
 Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
 
 
+*Subject:* {{CaseID}} has been {{AuthorizationStatus}} by {{AuthorizedBy}}
+
+----
+
+
+Hi {{RecipientFullName}} _(Source Contact)_,
+
+Please note the below Critical Incident intervention has been {{Authorization Status}} by {{Authorized by}}.  No further action is required.
+
+----
+
+*Incident information*
+
+*Customer* _(Source Case)_
+{{RootAccount}}
+{{ParentAccount}}
+{{Account}}
+
+*Case ID* _(Source Case)_
+{{CaseID}}
+
+*Incident reported on* _(Source Case)_
+{{CreatedOn}}
+
+*Incident date* _(Source Case)_
+{{IncidentDate}}
+
+*Incident category* _(Source Case)_
+{{IncidentCategory}}
+
+*Incident description* _(Source Case)_
+{{Description}}
+
+*Number of individuals affected* _(Source Case)_
+{{ImpactedEmployeesTotal}}
+
+----
+
+*Contact information*
+
+*Reported by contact* _(Source Contact -  Requested by)_
+{{CaseContactFullName}}
+
+*Phone number* _(Source Contact -  Requested by)_
+{{CaseContactPhone}}
+
+----
+
+We are here to support you throughout this engagement, so please reach out to us if you have any questions.
+
+For more information or for extra support, please contact the CI Support Team, available 24 hours a day, 7 days a week.
+
+*CI support:* {{EAPAccessNumber}}
+
+If the Contact ‘Preferred Language’ is “French”
+Send Authorization Email Tracking
+{color:#0747a6}*NARRATIVE:*{color}
+As a CI Coordinator, I want to track the number of times an authorization has been triggered and when it was sent, so that I can ensure there is an audit trail for authorization emails in case there was an audit or dispute.
+
+
+{color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
+
+*GIVEN* - I am a CI Coordinator
+*WHEN* - I click the ‘Send Authorization Email’ button
+*THEN* - the following details are captured in a grid:
+
+*Section Name:* Authorization Email Sends:
+
+_Table Name:_ Authorization Email Send
+
+|*Field Name*|*Field Type*|*Validation/Logic*|
+|Email Sent Time/ Heure d'envoi du courriel|Date and Time|Capture the current time when 'Send Authorization Email' Power Automate succeeds|
+|Send Status/ État de l'envoi|Option Set|Succeeded
+Failed
+_Based on Power Automate execution_|
+|Authorizer Recipients/ Destinataires autorisés|Text|Comma deliminated emails of all authorizer contacts that we're sent the authorization email|
+|CSM Recipients / Destinataires, gestionnaire du Service à la clientèle|Text|Comma delaminated emails of all CSM contacts that we're sent the authorization email|
+
+If a contact does NOT have an email or Status = “Active” THEN they should not be captured in Authorization Recipients.  
+
+
+Placement of grid:
+
+!image-20250612-181538 (2).png|width=1393,height=650,alt="image-20250612-181538 (2).png"!
+ 
+Prevent Work Order Assignment if Case 'Authorized by' field is not completed.
+{color:#0747a6}*NARRATIVE:*{color}
+As a CI Coordinator, I want to be notified if I have not selected an ‘Authorized by' contact for a case when there is a special contract that necessitates case authorization and be prevented from booking a provider, so that I can ensure I adhere to the special contract authorization process and do not book a case that hasn’t been approved from the client.
+
+
+----
+
+{color:#0747a6}*ACCEPTANCE CRITERIA:*{color}
+
+*GIVEN* - I am a CI Coordinator
+*WHEN* - I attempt to create a booking for a work order through the book button on the top of the work order:
+
+* The case’s organization has at least one contact with contact-account role = ‘Authorizer’
+* The ‘Authorized by’ field on case is empty
+
+*THEN* -  I should see an error message with the following information:
+
+_This critical incident requires client authorizer approval.  You must capture the client contact that has authorized this critical incident by capturing a value in the case’s ‘Authorized by’ field and set the 'Authorization Status to “Approved”._
+
+FrencH: Cette intervention critique nécessite l'approbation de l'autorisateur du client. Vous devez capturer le contact client qui a autorisé cette intervention critique en capturant une valeur dans le champ « Autorisé par » de l'intervention et définir le « Statut d'autorisation » à « Approuvé ».
+
+
++NOTE:+
+There are three booking processes that need to prevent booking:
+1. The ‘Book’ button within the Work Order
+2. ‘Create Booking’ from booking grid on Work Order
+3. Booking a work order through the schedule board
+
+
++Approach for ‘Book’ button from Work Order & Create Booking from Booking Grid on Work Order:+
+On load of the work order form the above alert displays AND the error displays when the user attempts to click the ‘Book’ button on the work order/create booking from booking grid. 
+
++Approach for Scheduling of Work Order on Schedule Board:+
+Work order does not display in list of ‘unscheduled work orders' IF the related case does not have an ‘Authorized by' value.
+ 
+Send Authorization Email to a Set of Authorizers - CA -  EN
+{color:#0747a6}*NARRATIVE:*{color}
+As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
+
+----
+
+{color:#0747a6}*SOLUTION NOTES:*{color}
+
+Must be built in CI-J
+Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
+
+----
+
+{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
+*GIVEN* - I am a CI Coordinator
+*WHEN* - a case has been created where ‘Case Type’ = “Service” AND ‘Case Sub-type’ = “Critical Incident” where the associated organization has an authorizer contact and the requestor is NOT the authorizer
+*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
+
+To do this, I should see a toggle called ‘Send Authorization Email’ that should send a templated email to all contacts related to the organization where their Account-Contact Role - ‘Role' value is ‘Authorizer’ AND the status of the contact is ‘Active’ AND status of the Account-Contact Role ‘Status’ = “Active”.
+
+This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ‘Role' = “Authorizer'.
+
+When the ‘Send Authorization Email’ toggle (Yes/No) is set to “Yes”, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ‘Authorization Status’ should be set to “Authorization Request Sent”.
+
+Filters for Contact Recipients:
+
++Audience 1: Authorizers:+
+Authorizer contacts related to the account.
+_Relationship Flow: Contact > Contact Account Role > Account > Case_
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‘Role’ = “Authorizer” AND have a value in the Contact ‘Email’ field AND Account-Contact Role ‘Status’ = “Active” AND Contact ‘Status’ = “Active”.
+
+!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
+
++Audience 2: CSMs:+
+CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
+
+_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
+Where Customer Enablement Resource ‘Status' = “Active” AND Contact - ‘Email’ contains data.
+
+
+
+!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
+
+*Email template logic:*
+_Trigger_ - ‘Send Authorization Email’ = “Yes” (toggle that exists on Case) AND IF contact ‘Preferred Language' IS NOT “French - Canada” OR “French - France” where the Dynamics environment is Canada.
+
+This logic will go through a CI-J Journey.
+
+This can be triggered multiple times.
+
++Sender and Reply To Details:+ 
+
+* DEV:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* DEV TEST:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* UAT:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* PROD:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
+** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
+** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
+Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
+
+_Subject:_
+
+!image-20250609-131420.png|width=551,height=83,alt="image-20250609-131420.png"!
+
+Subject line: Please authorize Critical Incident intervention {{CaseID}}
+
+_Body:_
+
+
+!image-20250609-131324.png|width=456,height=629,alt="image-20250609-131324.png"!
+
++Text Version:+
+*Critical Incident case authorization*
+
+Hi {{RecipientFullName}} _(Source Contact)_,
+
+We’ve received a request for Critical Incident services and are seeking authorization to start coordinating support.
+
+Please reply back to this email with your approval for the Critical Incident services listed below.
+
+----
+
+*Incident information*
+
+*Customer* _(Source Case)_
+{{RootAccount}}
+{{ParentAccount}}
+{{Account}}
+
+*Case ID* _(Source Case)_
+{{CaseID}}
+
+*Incident reported on* _(Source Case)_
+{{CreatedOn}}
+
+*Incident date* _(Source Case)_
+{{IncidentDate}}
+
+*Incident category* _(Source Case)_
+{{IncidentCategory}}
+
+*Incident description* _(Source Case)_
+{{Description}}
+
+*Number of individuals affected* _(Source Case)_
+{{ImpactedEmployeesTotal}}
+
+----
+
+*Contact information*
+
+*Reported by contact* _(Source Contact - Requested by)_
+{{CaseContactFullName}}
+
+*Phone number* _(Source Contact - Requested by)_
+{{CaseContactPhone}}
+
+----
+
+We are here to support you throughout this engagement, so please reach out to us if you have any questions.
+
+For more information or for extra support, please contact the CI Support Team, available 24 hours a day, 7 days a week.
+
+*CI support:* {{EAPAccessNumber}}
+
+PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ‘Authorized by’ field to allow the work on the critical incident can proceed.
+ 
+TH365 | CI Schedule Board | Sort Order for Results Pane for Affiliate Providers
+Sort Order for Referral Bookings
+
+* Sort by Travel Time Ascending 
+* Then By Price
+* Then by Start Time
+I search for an Referral, results are sorted in the following manner:
+
+* Sort by Travel Time Ascending 
+* Then By Hourly Rate (Price Ascending)
+* Then by Start Time
+TH365 | CI Schedule Board | Set Schedule Board Modality from Work Order
+As a CI Coordinator, I need to book providers against the correct modality specified in the work order so I ensure I am selecting the right provider for the job.
+
+When the book order is pressed on the Work Order, pass the Modality value from the Work Order to the schedule board, applying any associated logic with that Modality (ie. Onsite work orders need Travel Time and Distance calculated).
+
+Lock modality field on CI Schedule Board
+
+||*Modality Value on Work Order*||*Modality Value on New Schedule Board*||
+|In Person|In Person|
+|Telephonic|Telephone|
+|Online|Online|
+The modality field is set to a value on Work Order (In Person, Telephonic, Online)
+
+I select the Book button
+
+The Modality field value is passed to the New Schedule Board
+
+The Modality field is locked
+TH365 | CI Schedule Board | Update Label References to Email to Communications in Work Order Referrals Tab
+As a CI Coordinator, I need clarity that I can send something other than an email in the Work Order Referrals tab, so I know what options are available to me to send out referrals.
+
+_Note: While this story changes labels, we need to ensure that SMS sends auto update statuses the way emails do currently._
+
+On Work Order Referrals table, Update Provider Response Option set values Email Pending and Email Sent to: 
+
+Communication Pending (Communication en attente)
+
+Communication Sent (Communication envoyée)
+
+!image-20250626-154641.png|width=671,height=632,alt="image-20250626-154641.png"!
+
+On Work Order Referrals Table Change label Email Triggered On to: 
+
+Communication Triggered On (Communication envoyée sur)
+
+!image-20250626-154807.png|width=1692,height=657,alt="image-20250626-154807.png"!
+
+Change “Providers Selected for Sending Emails” label on Referrals Tab of Work Order to:
+
+Providers selected for Sending Referral Communications (Prestataires sélectionnés pour l’envoi de courriels)
+
+!image-20250626-154845.png|width=1687,height=384,alt="image-20250626-154845.png"!
+
+Change Send Email on Work Order Referrals Table to Send Communication (Envoyer communication de renvoi)
+
+!image-20250627-145025.png|width=1756,height=486,alt="image-20250627-145025.png"!
+
+
+
+Change “Email Sent On” to “Communication Sent On” (Communication envoyée sur)
+
+!image-20250626-155102.png|width=1704,height=371,alt="image-20250626-155102.png"!
+I navigate to the Work Order Referrals Tab
+
+On Work Order Referrals table, I see Provider Response Option values Email Pending and Email Sent are changed to: 
+
+Communication Pending (Communication en attente)
+
+Communication Sent (Communication envoyée)
+
+On Work Order Referrals Table I see the label Email Triggered On is changed to: 
+
+Communication Triggered On (Communication envoyée sur)
+
+I see that the  “Providers Selected for Sending Emails” label on Referrals Tab of Work Order is changed to:
+
+Providers selected for Sending Referral Communications (Prestataires sélectionnés pour l’envoi de courriels)
+
+I see the Send Email is changed to Send Communication (Envoyer communication de renvoi)
+
+I see the  Work Order Referrals field “Email Sent On” is changed to “Communication Sent On” (Communication envoyée sur)
+TH365 | CI Schedule Board |  Resource Exceptions
+New Schedule Board must respect related Resource Preferences with respect to the account requesting CI Services.
+
+If provider is related to account with Resource Preference Type of Restricted = Resource should not appear in Results Pane
+
+Resource Preference Type Must Choose From exists = Only resources with Must Choose From should appear
+I select Book Appointment from a Work Order whose account has related Providers in Resource Preferences
+
+If the account has related Provider(s) in Resource Preferences of Type  Restricted, I do not see them in the results
+
+If the account has related Provider(s) in Resource Preferences of Type  Must Choose From, only those providers' with Type Must Choose From appear in the results.
+TH365 | CI Schedule Board | Sort Order for Results Pane for Internal Providers
+Sort Order for Onsite:
+
+* Sort by Travel Time Ascending 
+* Then by Start Time
+
+Sort Order for Telephonic, Online
+
+* Start Time
+I search for an Onsite booking, results are sorted in the following manner:
+
+* Sort by Travel Time Ascending 
+* Then by Start Time
+
+I search for an Telephonic or Online booking, results are sorted in the following manner:
+
+* Start Time
+TH365| CI Schedule Board | French Language Support
+As a CI Coordinator, I need to view the schedule board in my preferred language so I can best understand the information I am viewing.
+
+French support is required for the CI Schedule Board. Must read member's localization language to determine whether to display the React Schedule Board in English or French.
+I set Language to French under Personal Options in Dynamics365
+
+The CI Schedule Board now appears, translated in French
+TH365 | CI Schedule Board | Time Zone in Schedule Board must match Time Zone in Work Order
+As a CI Coordinator, I need to view the schedule board in the time zone of the requesting organization so I select the time that the org requested.
+
+Date/Time fields must be displayed in the Schedule Board in the Time Zone specified in the work order.
+I select the book button on a Work Order
+
+I see that the schedule board is displaying Provider availability in the time zone of the Work Order.
+TH365 | CI | Add fields and section to Contact Table
+As a CI Coordinator, I need a place where I can view Provider details on the contact table so I can verify their ability to receive referrals.
+
+If Contact is of Type = Provider
+
+Create and shownew Section called Provider Details (DÉTAILS DE LA RESSOURCE)
+
+ on the left side, just under Personal Details:
+
+!image-20250608-212405.png|width=760,height=1036,alt="image-20250608-212405.png"!
+
+
+
+Move Bookable Resources into this section, display first in section.
+
+Add field New Referral Contact Method (Méthode de communication pour les nouvelles références) to Contact Table (Field locked)
+
+Field Values:
+
+Email / Courriel (default value)
+
+SMS / SMS
+
+Work-Flow / Flux de travaux
+
+Note: The option set should already exist as a Global Option Set (was created for Bookable Resource Table)
+
+Also add existing Mobile Phone field underneath New Referral Contact Method (Field locked)
+I open a Contact of Type = Provider
+
+I see the new section Provider Details under Personal Details with Bookable Resource subgrid, and fields New Referral Contact Method and Mobile Phone 
+TH365 | New Schedule Board | Import & Copy Provider New Referral Contact Method field value from Provider Table to Contact Table
+As the marketing team, I need info on the contact record so I can send communications to that contact. 
+
+Copy Provider New Referral Contact Method field value from Provider Table to Contact Table
+The New Referral Contact Method field changes on Provider
+
+The New Referral Contact Method updates on the related Contact.
+TH365 | CI | New Schedule Board | Task to call Providers whose New Referral Contact Method = Work-Flow
+As a CI Coordinator, I need a reminder to call Providers who are setup to receive referrals via Phone so that I can refer the right provider to the work order.
+
+When a Work Order Referral record is created
+
+AND the related Bookable Resource New Referral Contact Method = Work-Flow
+
+THEN  a task is created for the CI Coordinator *in the "My Assigned Tasks" and “Referral Tasks”*  *view as follows:*
+
+Owner: Work Order Owner
+
+*Subject:* Call Provider regarding suitability for Referral – Work Order <WO#>/Appeler le fournisseur pour déterminer s'il est admissible à une demande de service – Ordre de travail <WO#>
+
+
+*Description:* Provider <Provider Name> has been selected as a potential match for the referral on Work Order <WO#>. Please contact them to confirm availability and details. / Ressource <Provider Name> a été sélectionné comme partenaire potentiel pour la référence sur le bon de travail <WO#>. Veuillez les contacter pour confirmer la disponibilité et les détails.
+
+* Work Order ID / Numéro de l'ordre de travail: <WO#>
+* Referral Batch # / Numéro de lot de référence: <Batch#>
+* Provider Name / Nom du fournisseur: <Provider Name>
+* Provider Contact / Contact du fournisseur: <Contact ? Primary Phone Number>
+* Case Priority / Priorité du cas: <Case -->Priority>
+* Requested Service Date / Date de service demandée: <Requested Start Time>
+* Service Location / Lieu de service: <Work order ?> Location>
+* Modality / Modalité: <Modality>
+When a Provider has a record under Providers Accepted for Sending EMails on a Work Order
+
+AND  Bookable Resource New Referral Contact Method = Work-Flow
+
+THEN the above task is created for the CI Coordinator *in the "My Assigned Tasks" and “Referral Tasks”*  *view on the Work Order.*
+TH365 | New Schedule Board | Copy Provider Mobile Phone number from Provider Table to Contact Table
+As the Comms team, I need contact info on the contact record so I can send them communications from D365 Marketing.
+
+If Provider Phone Number is of Phone Type = Cell and Send SMS = Yes, copy to Mobile Phone field on Contact Record of Provider.
+
+Need both an initial data load, followed a solution that moves this record across to the contact.
+I open a Provider with with a related Provider Phone Number which is of Phone Type = Cell and Send SMS = Yes
+
+I open the Provider’s Contact record
+
+I see the mobile phone number is populated with the above Provider Phone Number
+TH365 | CI | New Schedule Board | Behaviour of Search for Provider Type = Affiliate
+As a CI Coordinator, I need to find a Provider who is available for a booking a client requested so I can assist the client with their request.
+
+If the Search button is selected when the Provider Type selector is set to Affiliate Providers, search Providers where Providers Employment Type = Contractor or Vendor, and Employment Status = Active with matching Resource Characteristic and Language from Work Order 
+
+Allow end users to select one or more providers, via the Refer button in the Action column. When the Refer button is pressed, hide the Refer button, and add the Provider as a new record in the Work Order Referrals table from the Work Order where the book button was pressed. -pop up a notification that says “The selected Provider has been added to the Referral Tab of the Work Order. Please navigate there to send a referral communication to the provider.”  (Les ressources sélectionnés ont été ajoutés à l'onglet « Demande de service » du bon de travail. Veuillez vous y rendre pour envoyer une communication de demande de service au ressource.) Once one or more providers are selected, a button should be available at the top of the results pane, labeled “Select Provider(s)” (Sélectionner les Ressource(s)). Once pressed, a popup message should appear with a close button:-
+
+-“The selected Providers have been added to the Referral Tab of the Work Order. Please navigate there to send a referral communication to the provider.”-
+
+-(Les ressources sélectionnés ont été ajoutés à l'onglet « Demande de service » du bon de travail. Veuillez vous y rendre pour envoyer une communication de demande de service au ressource.)-
+
+-Close button at bottom, which closes the entire schedule board.-
+
+-Then the schedule board should close and- The selected providers should be populated in the “Providers Selected for Sending Emails” subgrid of the Work Order (Work Order Referrals Table) for CI Coordinators to continue processing.
+I create a Work Order
+
+I select the book appointment button
+
+The CI Schedule Board opens
+
+I toggle the Search Referral Providers checkbox
+
+I select search
+
+Only Providers whose Employment Type = Contractor or Vendor, and Employment Status = Active appear in the results pane.
+
+I select Refer on a Provider-one or more providers and press Select Provider(s)-
+
+-I get the above pop up message and- The Provider is populated as a Work Order Referral record in the “Providers Selected for Sending Emails” subgrid. 
+
+Referral Name*
+
+{Provider Name}
+
+Provider Response
+
+Email Pending
+
+Bookable Resource*
+
+* +Bookable Resource+
+
+Work Order
+
+? Work Order
+
+Contact
+
+* +Provider Contact+
+
+Referral Round
+
+1
+
+Owner* (Work Order Owner)
+
+{color:#ffffff}Work Work {color}
+TH365 | CI | New Schedule Board Appointment Confirmation Book Button Behaviour
+When I click the Confirm Booking Button in the Appointment Confirmation Page, a booking should be created and related to the Work Order with the following populated:
+
+Start Time* (Start Time selected in new Schedule Board UI)
+
+End Time* (End Time selected in new Schedule Board UI)
+
+Duration* (Duration of time between Start Time and End Time)
+
+Capacity: 1
+
+Resource* (lookup to Bookable Resource selected)
+
+Booking Status*
+
+* +Scheduled+
+
+Resource Requirement (lookup to Resource Requirement)
+
+Create a new field called Travel Time (minutes): Decimal field (10 characters), populate travel time from Schedule Board here.
+I create a work order
+
+I select the Book Appointment button
+
+I select a provider and select book
+
+I select the book button
+
+A booking is created with the fields populated from the selection made in the schedule board.
+TH365 | CI | New Schedule Board | Updates to Appointment Confirmation Page
+As a CI Coordinator, I need the right information in the confirmation page so I am able to verify I have chosen the correct provider for an intervention.
+
+When I click the Book Button in the action section of a Provider Time Slot, I should be taken to an Appointment Confirmation page with an updated booking summary:
+
++*Booking Summary:*+
+
+(Root Account)(Account) with (avec) (Bookable Resource)
+
+(Resource Characteristic)
+
+{Modality}
+
+(Start Time - End Time}
+
+Address (Addresse) (Service Location Address) (only if onsite)
+I create a work order
+
+I select the Book Appointment button
+
+I select a provider and select book
+
+I see the following Booking Summary fields populated 
+
++*Booking Summary:*+
+
+(Root Account)(Account) with (Bookable Resource)
+
+(Resource Characteristic)
+
+{Modality}
+
+(Start Time - End Time}
+
+Account Service Location Address (only if onsite)
+TH365 | CI | New Schedule Board | New Fields for Result Pane
+As a CI Coordinator, I need to see relevant fields in the results pane to guide me to selecting the right provider for an intervention.
+
+Add and populate the following fields in the result pane:
+
+* Travel Time  (Temps de voyage) (blank where Modality = Tele, Online)
+* Distance (Distance) (should be blank where Modality = Tele, Online)
+
+Fields in order should be:
+
+* Name (Nom)
+* Start Time (YYYY-MM-DD hh:mm AM/PM)(example)
+
+!image-20250625-203446.png|width=196,height=115,alt="image-20250625-203446.png"!
+
+
+
+* Distance (only for onsite, blank for other modalities)
+* Travel Time (only for onsite, blank for other modalities)
+* Actions (actions)
+* Alerts (Alertes)
+
+For Referral Search, the fields should appear in this order:
+
+* Name
+* Distance (all modalities)
+* Travel Time
+* Hourly Rate [From Bookable Resource Price List](Taux horaire)
+* Actions (show Refer instead of Book)
+* Alerts
+I press the book button on a Work Order
+
+I see the following fields in order from left to right: 
+
+* Name
+* Start Time
+* Distance
+* Travel Time
+* Actions
+* Alerts
+
+I select “Search Referral Providers”
+
+I see the following fields in order from left to right: 
+
+* Name
+* Distance
+* Travel Time
+* Hourly Rate
+* Actions (show Refer instead of Book button)
+* Alerts
+TH365 | CI | New Schedule Board | New Book Button for Work Order
+As a CI Coordinator, I need a way to call the new Schedule Board UI so I can book a provider based on accurate availability in Dynamics365
+
+Create a new book button “Book Intervention” (Réserver l'intervention) on the Work Order that calls the React Schedule Board Form, passing along the booking details from the resource requirement. Hide the existing Work Order book button (which calls the default schedule board).
+
+In CI app create a new Book Intervention button on the Work Order Form, and hide the existing Book button. Once the button is pressed, use the NavigateTo API to call the PCF Control form as a pop up window, passing booking parameters from the Work Order’s resource requirement.
+I create and populate a Work Order
+
+I select the Book Intervention button
+
+The New Schedule Board opens
+
+I don’t see the OOTB Book Button
+Spanish | Care Plan Knowledge Articles | Spanish Knowledge Articles
+This story will hold translated KB articles.
+ 
+Spanish| Care Plan | Spanish Care Plans
+This story will hold Spanish Care Plans.
+I change my language to Spanish in Personal Settings
+
+I now see Care Plan data in Spanish.
+TH365 | Spanish | Marketing Emails
+This story will hold Spanish translations for email.
+ 
+CN Chat Experience: Quick Replies for Spanish
+Epic: CN Chat Experience
+
+Feature:  Quick Replies
+
+Priority: High
+
+Planed Release: Spanish Translation Release (FRNCH)
+
+*Description:*
+
+* 
+** Create the quick replies in Dynamics
+* Assign the quick replies to the Spanish Chat Workstream
+* Migrate quick replies from dev env to higher envs
+Data to load is attached to the story -* CCS Agent Quick Replies (English and Spanish) V2.csv
+ 
+TH365 | Spanish Language | Create New Attribute on Master Data tables to handle Spanish Language
+Create new string field on all Master Data tables called “Name Spanish”, add to all Master Data default forms.
+
+The tables that need the field created are attached. 
+
+The schema name must follow the same as the French name. For instance, if the French Name is lwrk_name_fr, the Spanish attribute must be lwrk_name_es. 
+
+Sometimes the schema name for the French Name is not lwrk_name_fr but something different. For instance, the Category table has French Name as lwrk_title_fr. Than the Spanish Name should be created as lwrk_title_es. The Professional Designation Master table has the French Name as lwrk_description_fr. Than the Spanish Name should be created as lwrk_description_es.
+I open the default form of a Master Data table
+
+I see the Name Spanish field
+TH365 | Spanish Language | Marketing Emails Journey Updates
+This story will hold Marketing Email Journey Updates. 
+
+USA based journeys will need branching logic to handle Spanish.
+ 
+TH365 | Spanish | Assessments
+This story will contain translations for all Assessments.
+I change my language to Spanish in Personal Settings
+
+I now see Assessments in Spanish.
+TH365 | US Region | Omnichannel | Install Spanish Language Pack
+Install Spanish Language Pack, in order to allow for Spanish Translations
+ 
+TH365 | US Region | Omnichannel | Create Spanish Workstream
+As a Spanish speaking (or bilingual) Care Navigator using the TMH CSW app, I need incoming Spanish chat work items to utilise the configured Spanish language workstream elements. 
+
+*Description*: 
+
+The purpose of this user story is to create a new workstream that will be used for the new Spanish Chat channel that is being created as part of [+#4114477+|https://morneaushepell.visualstudio.com/348cf2fe-d9c5-41e1-afb9-32c62ccf45dc/_workitems/edit/4114477].
+
+*Tasks:*
+
+* Create the workstream with the following details:
+** Name: TMH | CN | Chat (Spanish) | Member Support
+** Type: Messaging
+** Work Distribution Mode: Push
+** Fallback queue: TMH | CN | Chat | Member Support
+
+*Assumptions:*
+
+* App team is able to dynamically switch the chat widget that is shown on the app when the user changes their language. 
+
+* Create a new workstream with the following details:
+
+* Name: TMH | CN | Chat (Spanish)
+* Language: Spanish - Spain
+* Type: Messaging
+* Work Distribution Mode: Push
+* Capacity: Unit based - 50
+* Default skill matching algorithm: Closest Match
+* Fallback queue: TMH | CN | Chat | Member Support
+ 
+TH365 | US Region | Omnichannel | Create Spanish Chat Channel
+**PLEASE NOTE:* The stories noted in the assumption below must be completed before working on this story. ***
+
+
+
+As a French speaking TMH Member, I want the ability to utilise the chat widget that appears on the app entirely in the French language.
+
+
+
+*Description:*
+
+The purpose of this user story is to create a separate chat channel that will be used solely for French members to interact with the chat widget in the French language.
+
+
+
+*Tasks:*
+
+* Create a new chat channel in the Customer Service Admin Centre
+* Collect the Spanish label values that are to be used on the widget
+** Title: *LifeWorks Member Support*
+** Subtitle: *Our Care Navigators will be with you shortly*
+* Collect the theme colour
+* Collect the logo
+* Collect the automated messages
+1. Out of Operating Hours: *Our operating hours are, 7am-11pm Eastern Time, 7 days a week. You can still message us outside these hours, but you won't get a reply until we're online the next business day.*
+
+
+If you're in danger or need urgent mental health support, please call us immediately on +1 833-638-1946
+2. Agent assigned to conversation: *Welcome to our member support chat, where you can reach our Care Navigator team 7 days a week, from 7am-11pm Eastern Time.*
+
+
+
+
+*Assumptions:*
+
+* This user story is to be completed after the creation of the Workstream, as described in the following User Story:
+** [+#4347108+|https://morneaushepell.visualstudio.com/348cf2fe-d9c5-41e1-afb9-32c62ccf45dc/_workitems/edit/4347108] 
+* App team is able to dynamically switch the chat widget that is shown on the app when the user changes their language. 
+ 
