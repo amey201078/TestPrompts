@@ -1836,3 +1836,523 @@ Please reply back to this email with your approval for the Critical Incident ser
 
 ----
 
+
+*Incident information*
+
+*Customer* _(Source Case)_
+{{RootAccount}}
+{{ParentAccount}}
+{{Account}}
+
+*Case ID* _(Source Case)_
+{{CaseID}}
+
+*Incident reported on* _(Source Case)_
+{{CreatedOn}}
+
+*Incident date* _(Source Case)_
+{{IncidentDate}}
+
+*Incident category* _(Source Case)_
+{{IncidentCategory}}
+
+*Impacted Individuals (approximate)* _(Source Case)_
+{{ImpactedEmployeesTotal}}
+
+----
+
+*Contact information*
+
+*Reported by contact* _(Source Contact - Requested by)_
+{{CaseContactFullName}}
+
+*Phone number* _(Source Contact - Requested by)_
+{{CaseContactPhone}}
+
+----
+
+We are here to support you throughout this engagement, so please reach out to us if you have any questions.
+
+For more information or for extra support, please contact the CI Support Team, available 24 hours a day, 7 days a week.
+
+*CI support:* {{EAPAccessNumber}}
+
+PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ‘Authorized by’ field to allow the work on the critical incident can proceed.
+ 
+Send Authorization Email to a Set of Authorizers - EU
+{color:#0747a6}*NARRATIVE:*{color}
+As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
+
+----
+
+{color:#0747a6}*SOLUTION NOTES:*{color}
+
+Must be built in CI-J
+Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
+
+----
+
+{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
+*GIVEN* - I am a CI Coordinator
+*WHEN* - a case has been created where ‘Case Type’ = “Service” AND ‘Case Sub-type’ = “Critical Incident” where the associated organization has an authorizer contact and the requestor is NOT the authorizer
+*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
+
+To do this, I should see a toggle called ‘Send Authorization Email’ that should send a templated email to all contacts related to the organization where their Account-Contact Role - ‘Role' value is ‘Authorizer’ AND the status of the contact is ‘Active’ AND status of the Account-Contact Role ‘Status’ = “Active”.
+
+This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ‘Role' = “Authorizer'.
+
+When the ‘Send Authorization Email’ toggle (Yes/No) is set to “Yes”, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ‘Authorization Status’ should be set to “Authorization Request Sent”.
+
+Filters for Contact Recipients:
+
++Audience 1: Authorizers:+
+Authorizer contacts related to the account.
+_Relationship Flow: Contact > Contact Account Role > Account > Case_
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‘Role’ = “Authorizer” AND have a value in the Contact ‘Email’ field AND Account-Contact Role ‘Status’ = “Active” AND Contact ‘Status’ = “Active”.
+
+!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
+
++Audience 2: CSMs:+
+CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
+
+_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
+Where Customer Enablement Resource ‘Status' = “Active” AND Contact - ‘Email’ contains data.
+
+
+
+!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
+
+*Email template logic:*
+_Trigger_ - ‘Send Authorization Email’ = “Yes” (toggle that exists on Case) where the Dynamics environment is Europe.
+
+This logic will go through a CI-J Journey.
+
+This can be triggered multiple times.
+
++Sender and Reply To Details:+ 
+
+* DEV:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* DEV TEST:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* UAT:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* PROD:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
+** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
+** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
+Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
+
+_Subject:_
+
+!image-20250626-182806.png|width=501,height=65,alt="image-20250626-182806.png"!
+
+Subject line: Please authorise Critical Incident intervention {{CaseID}}
+
+_Body:_
+
+
+!image-20250626-182828.png|width=187,height=389,alt="image-20250626-182828.png"!
+
++Text Version:+
+*Critical Incident case authorisation*
+
+Hi {{RecipientFullName}} _(Source Contact)_,
+
+Thank you for choosing TELUS Health for your Critical Incident intervention.
+
+ We’ve received a request for Critical Incident services and are seeking authorisation to start coordinating support.
+
+Please reply back to this email with your approval for the Critical Incident services listed below.
+
+----
+
+*Incident information*
+
+*Customer* _(Source Case)_
+{{RootAccount}}
+{{ParentAccount}}
+{{Account}}
+
+*Case ID* _(Source Case)_
+{{CaseID}}
+
+*Incident reported on* _(Source Case)_
+{{CreatedOn}}
+
+*Incident date* _(Source Case)_
+{{IncidentDate}}
+
+*Incident category* _(Source Case)_
+{{IncidentCategory}}
+
+*Impacted Individuals (approximate)* _(Source Case)_
+{{ImpactedEmployeesTotal}}
+
+----
+
+*Contact information*
+
+*Reported by contact* _(Source Contact - Requested by)_
+{{CaseContactFullName}}
+
+*Phone number* _(Source Contact - Requested by)_
+{{CaseContactPhone}}
+
+----
+
+We are here to support you throughout this engagement, so please reach out to us if you have any questions.
+
+For more information or for extra support, please contact the CI Support Team, available 24 hours a day, 7 days a week.
+
+*CI support:* {{#if AccountIsCoOp}}0800 169 1920{{else}} {{EAPAccessNumber}}{{/if}}
+
+PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ‘Authorized by’ field to allow the work on the critical incident can proceed.
+ 
+Send Authorization Email to a Set of Authorizers - AU
+{color:#0747a6}*NARRATIVE:*{color}
+As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
+
+----
+
+{color:#0747a6}*SOLUTION NOTES:*{color}
+
+Must be built in CI-J
+Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
+
+----
+
+{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
+*GIVEN* - I am a CI Coordinator
+*WHEN* - a case has been created where ‘Case Type’ = “Service” AND ‘Case Sub-type’ = “Critical Incident” where the associated organization has an authorizer contact and the requestor is NOT the authorizer
+*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
+
+To do this, I should see a toggle called ‘Send Authorization Email’ that should send a templated email to all contacts related to the organization where their Account-Contact Role - ‘Role' value is ‘Authorizer’ AND the status of the contact is ‘Active’ AND status of the Account-Contact Role ‘Status’ = “Active”.
+
+This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ‘Role' = “Authorizer'.
+
+When the ‘Send Authorization Email’ toggle (Yes/No) is set to “Yes”, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ‘Authorization Status’ should be set to “Authorization Request Sent”.
+
+Filters for Contact Recipients:
+
++Audience 1: Authorizers:+
+Authorizer contacts related to the account.
+_Relationship Flow: Contact > Contact Account Role > Account > Case_
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‘Role’ = “Authorizer” AND have a value in the Contact ‘Email’ field AND Account-Contact Role ‘Status’ = “Active” AND Contact ‘Status’ = “Active”.
+
+!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
+
++Audience 2: CSMs:+
+CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
+
+_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
+Where Customer Enablement Resource ‘Status' = “Active” AND Contact - ‘Email’ contains data.
+
+
+
+!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
+
+*Email template logic:*
+_Trigger_ - ‘Send Authorization Email’ = “Yes” (toggle that exists on Case) where the Dynamics environment is Australia.
+
+This logic will go through a CI-J Journey.
+
+This can be triggered multiple times.
+
++Sender and Reply To Details:+ 
+
+* DEV:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* DEV TEST:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* UAT:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* PROD:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
+** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
+** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
+Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
+
+_Subject:_
+
+!image-20250626-182137.png|width=501,height=60,alt="image-20250626-182137.png"!
+
+Subject line: Please authorise Critical Incident intervention {{CaseID}}
+
+_Body:_
+
+
+!image-20250626-182220.png|width=187,height=421,alt="image-20250626-182220.png"!
+
++Text Version:+
+*Critical Incident case authorisation*
+
+Hi {{RecipientFullName}} _(Source Contact)_,
+
+Thank you for choosing TELUS Health for your Incident Management intervention.
+
+ We’ve received a request for Incident Management services and are seeking authorisation to start coordinating support.
+
+Please reply back to this email with your approval for the Critical Incident services listed below.
+
+----
+
+*Incident information*
+
+*Customer* _(Source Case)_
+{{RootAccount}}
+{{ParentAccount}}
+{{Account}}
+
+*Case ID* _(Source Case)_
+{{CaseID}}
+
+*Incident reported on* _(Source Case)_
+{{CreatedOn}}
+
+*Incident date* _(Source Case)_
+{{IncidentDate}}
+
+*Incident type* _(Source Case)_
+{{NatureofIncident}}
+
+*Incident category* _(Source Case)_
+{{IncidentCategory}}
+
+*Impacted Individuals (approximate)* _(Source Case)_
+{{ImpactedEmployeesTotal}}
+
+----
+
+*Contact information*
+
+*Reported by contact* _(Source Contact - Requested by)_
+{{CaseContactFullName}}
+
+*Phone number* _(Source Contact - Requested by)_
+{{CaseContactPhone}}
+
+----
+
+We are here to support you throughout this engagement, so please reach out to us if you have any questions.
+
+For more information or for extra support, please contact the IM Support Team, available 24 hours a day, 7 days a week.
+
+*IM support:* {{EAPAccessNumber}}
+
+PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ‘Authorized by’ field to allow the work on the critical incident can proceed.
+ 
+Send Authorization Email to a Set of Authorizers -CA - FR
+{color:#0747a6}*NARRATIVE:*{color}
+As a CI Coordinator, I want to be able to trigger an email to authorizers for a special contracted organization when I receive a case request, so that I can quickly collect an approval to proceed with the case.
+
+----
+
+{color:#0747a6}*SOLUTION NOTES:*{color}
+
+Must be built in CI-J
+Will leverage custom triggers in CI-J.  Environment variables are required for supporting Power Automates.
+
+----
+
+{color:#0747a6}*ACCEPTANCE CRITERIA*{color}
+*GIVEN* - I am a CI Coordinator
+*WHEN* - a case has been created where ‘Case Type’ = “Service” AND ‘Case Sub-type’ = “Critical Incident” where the associated organization has an authorizer contact and the requestor is NOT the authorizer
+*THEN* - I want the ability to send an automated email to all active authorizers for the organization (account).
+
+To do this, I should see a toggle called ‘Send Authorization Email’ that should send a templated email to all contacts related to the organization where their Account-Contact Role - ‘Role' value is ‘Authorizer’ AND the status of the contact is ‘Active’ AND status of the Account-Contact Role ‘Status’ = “Active”.
+
+This toggle should be placed in the top of the communication section of the case and only displayed when the associated organization has at least one contact that has a Contact-Account Role with a ‘Role' = “Authorizer'.
+
+When the ‘Send Authorization Email’ toggle (Yes/No) is set to “Yes”, THEN the following email is sent to all related authorizer contacts and the CSMs that is responsible for the organization AND the ‘Authorization Status’ should be set to “Authorization Request Sent”.
+
+Filters for Contact Recipients:
+
++Audience 1: Authorizers:+
+Authorizer contacts related to the account.
+_Relationship Flow: Contact > Contact Account Role > Account > Case_
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‘Role’ = “Authorizer” AND have a value in the Contact ‘Email’ field AND Account-Contact Role ‘Status’ = “Active” AND Contact ‘Status’ = “Active”.
+
+!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
+
++Audience 2: CSMs:+
+CSM contacts within the Contract that is related to the organization (child account) that is related to the Case.  
+
+_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
+Where Customer Enablement Resource ‘Status' = “Active” AND Contact - ‘Email’ contains data.
+
+
+
+!image-20250530-151611 (1).png|width=1337,height=511,alt="image-20250530-151611 (1).png"!
+
+*Email template logic:*
+_Trigger_ - ‘Send Authorization Email’ = “Yes” (toggle that exists on Case) AND IF contact ‘Preferred Language' = “French - Canada” OR “French - France” where the Dynamics environment is the Canadian.
+
+This logic will go through a CI-J Journey.
+
+This can be triggered multiple times.
+
++Sender and Reply To Details:+ 
+
+* DEV:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* DEV TEST:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* UAT:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* PROD:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
+** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
+** Reply-toCanada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
+Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
+
+_Subject:_
+
+!image-20250626-183548.png|width=361,height=48,alt="image-20250626-183548.png"!
+
+Subject line: Veuillez autoriser l’Intervention Critique {{CaseID}}
+
+_Body:_
+
+
+!image-20250626-183656.png|width=171,height=357,alt="image-20250626-183656.png"!
+
++Text Version:+
+*Critical Incident case authorization*
+
+Bonjour {{RecipientFullName}} _(Source Contact)_,
+
+Merci de faire appel aux services Intervention Critique TELUS Santé. 
+
+Nous avons reçu une demande de services d’Intervention Critique et souhaitons obtenir l’autorisation afin de commencer à coordonner le soutien.
+
+Veuillez répondre à ce courriel avec votre approbation pour l’incident indiqué ci-dessous : 
+
+
+
+
+
+----
+
+*Renseignement sur l’incident*
+
+*Client* _(Source Case)_
+{{RootAccount}}
+{{ParentAccount}}
+{{Account}}
+
+*Numéro d’incident* _(Source Case)_
+{{CaseID}}
+
+*Incident reporté le* _(Source Case)_
+{{CreatedOn}}
+
+*Date de l'incident* _(Source Case)_
+{{IncidentDate}}
+
+*Catégorie d'incident* _(Source Case)_
+{{IncidentCategory}}
+
+*Nombre de personnes touchées (environ)* _(Source Case)_
+{{ImpactedEmployeesTotal}}
+
+----
+
+*Coordonnées*
+
+*Demandeur* _(Source Contact - Requested by)_
+{{CaseContactFullName}}
+
+*Numéro de téléphone* _(Source Contact - Requested by)_
+{{CaseContactPhone}}
+
+----
+
+Nous sommes là pour aider tout au long de ce mandat, n’hésitez donc pas à communiquer avec nous si vous avez des questions.   
+
+Pour obtenir de plus amples renseignements ou du soutien supplémentaire, veuillez contacter l'équipe de soutien Intervention Critique, qui est à votre disposition 25 heures sur 24, 7 jours sur 7. 
+
+*Soutien IC:* {{EAPAccessNumber}}
+
+
+{color:#ff5630}Translation to French required?{color}
+{color:#ff5630}Regional localization required?{color}
+{color:#ff5630}Marketing templates/content team approval required?{color}
+{color:#ff5630}Confirmed this is transactional.{color}
+
+PROCESS NOTE: The CI Coordinator will monitor a shared inbox to see when the approval from the authorizer is received so that they can then update the ‘Authorized by’ field to allow the work on the critical incident can proceed.
+ 
+Authorization Confirmation Email
+{color:#0747a6}*NARRATIVE:*{color}
+
+As a CI Coordinator, I want an authorization confirmation email sent to the authorization to the authorizer for an organization once an authorization has been captured, so that the other authorizers know that they do not need to give their authorization.
+
+{color:#0747a6}*SOLUTION:*{color}
+
+Send via Customer Insights Journey, leveraging a custom trigger from the ‘Case’ entity.
+*GIVEN* - I am a CI Coordinator
+*WHEN* - the following is true:
+- ‘Authorized by’ contains a value
+- ‘Authorization Status’ = “Approved” OR “Declined”
+- ‘Send Authorization Email' = “Yes”
+*THEN -* The following email is sent to the following audience.
+
++Audience 1: Authorizers:+
+Authorizer contacts related to the account.
+_Relationship Flow: Contact > Contact Account Role > Account > Case_
+Where Contacts related to the account for the case who have at least one Account-Contact Role with ‘Role’ = “Authorizer” AND have a value in the Contact ‘Email’ field AND Account-Contact Role ‘Status’ = “Active” and Contact ‘Status’ = “Active”.
+
+!Authorizer Contacts at Account.png|width=929,height=433,alt="Authorizer Contacts at Account.png"!
+
++Audience 2: CSMs:+
+CSM contacts within the Contract that is related to the organization (account) that is related to the Case. 
+
+_Relationship Flow: Contact > Customer Enablement Resource > Contract > Account > Case_
+Where Customer Enablement Resource ‘Status' = “Active” AND Contact - ‘Email’ contains data.
+
+!image (6).png|width=1052,height=587,alt="image (6).png"!
+
+_Template if Contact - ‘Preferred Language’ = “French”_
+{color:#bf2600}French translation required{color}
+
+
+
++Sender and Reply To Details:+ 
+
+* DEV:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-dev.telushealth.com|mailto:criticalincidents@appointment.365-dev.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* DEV TEST:
+** Sender: TELUS Health Critical Incident <[criticalincidents@appointment.365-devtest.telushealth.com|mailto:criticalincidents@appointment.365-devtest.telushealth.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* UAT:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment-uat.telushealth.com|mailto:criticalincidents@appointment-uat.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous-uat.telussante.com|mailto:incidentscritiques@rendezvous-uat.telussante.com]>
+** Reply-to: [dynamics365uat@lifeworks.com|mailto:dynamics365uat@lifeworks.com]
+* PROD:
+** Sender EN: TELUS Health Critical Incident <[criticalincidents@appointment.telushealth.com|mailto:criticalincidents@appointment.telushealth.com]>
+** Sender FR: TELUS Santé Incident Critique <[incidentscritiques@rendezvous.telussante.com|mailto:incidentscritiques@rendezvous.telussante.com]>
+** Reply-to AU: [aus_im@telushealth.com|mailto:aus_im@telushealth.com]
+** Reply-to EU: [ciservices-ukie@telushealth.com|mailto:ciservices-ukie@telushealth.com]
+** Reply-to Canada [ci-ca.serviceinbox@telushealth.com|mailto:ci-ca.serviceinbox@telushealth.com]
+Reply-to US: [ci-us.serviceinbox@telushealth.com|mailto:ci-us.serviceinbox@telushealth.com]
+
+
